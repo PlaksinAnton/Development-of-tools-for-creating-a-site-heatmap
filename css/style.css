@@ -663,4 +663,89 @@ template {
 .featured-products__title {
   margin-top: 129px;
   margin-bottom: 48px;
+}
+
+.leatest-products {
+  margin-bottom: 58px;
+}
+.leatest-products__container {
+  flex-direction: column;
+  align-items: center;
+}
+.leatest-products__title {
+  margin-bottom: 19px;
+}
+.leatest-products__filter {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 58px;
+}
+.leatest-products__new, .leatest-products__best, .leatest-products__featured, .leatest-products__special {
+  font-family: Lato;
+  font-size: 18px;
+  color: #151875;
+}
+.leatest-products__new {
+  color: #fb2e86;
+}
+.leatest-products__new, .leatest-products__best, .leatest-products__featured {
+  margin-right: 60px;
+}
+.leatest-products__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 120px;
+  -moz-column-gap: 46px;
+       column-gap: 46px;
+}
+.leatest-products__prices {
+  display: flex;
+}
+.leatest-products__card {
+  width: 360px;
+  height: 306px;
+}
+.leatest-products__card-down {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.leatest-products__card-image {
+  background: #f7f7f7;
+  height: 270px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.leatest-products__card-name {
+  font-family: Josefin Sans;
+  font-size: 16px;
+  color: #151875;
+  line-height: 19px;
+  padding-bottom: 4px;
+}
+.leatest-products__card-price {
+  font-family: Josefin Sans;
+  font-size: 14px;
+  color: #151875;
+  line-height: 16px;
+  margin-right: 9px;
+}
+.leatest-products__card-price--old {
+  font-size: 12px;
+  line-height: 14px;
+  -webkit-text-decoration-line: line-through;
+          text-decoration-line: line-through;
+  color: #FB2448;
+  margin-right: 0;
+}
+.leatest-products__line {
+  border: 2px solid #EEEFFB;
+  transform: matrix(1, 0.01, -0.01, 1, 0, 0);
+  width: 154px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }/*# sourceMappingURL=style.css.map */
