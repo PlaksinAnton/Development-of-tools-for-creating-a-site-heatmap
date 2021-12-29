@@ -873,6 +873,128 @@ template {
   color: #151875;
 }
 
+.trending-products__title {
+  margin-top: 132px;
+  margin-bottom: 39px;
+}
+.trending-products__container {
+  flex-direction: column;
+}
+.trending-products__up {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 39px;
+}
+.trending-products__chair {
+  display: flex;
+  flex-direction: column;
+  width: 270px;
+  min-height: 350px;
+  box-shadow: 0px 0px 25px 10px #F6F4FD;
+  padding: 12px;
+}
+.trending-products__chair-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #F5F6F8;
+  height: 244px;
+  margin-bottom: 15px;
+}
+.trending-products__chair-image--down {
+  height: 74px;
+  margin-bottom: 0;
+  margin-right: 9px;
+  width: 107px;
+}
+.trending-products__name {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 26px;
+  text-align: center;
+  color: #151875;
+  margin-bottom: 8px;
+}
+.trending-products__name--right {
+  margin-bottom: 5px;
+  line-height: 19px;
+}
+.trending-products__price {
+  text-align: center;
+}
+.trending-products__price--new {
+  font-family: Josefin Sans;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  color: #151875;
+  margin-right: 6px;
+}
+.trending-products__price--old {
+  font-family: Josefin Sans;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  -webkit-text-decoration-line: line-through;
+          text-decoration-line: line-through;
+  color: rgba(21, 24, 117, 0.3);
+}
+.trending-products__price--down {
+  color: #151875;
+}
+.trending-products__down {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 126px;
+}
+.trending-products__sale-first, .trending-products__sale-second {
+  width: 420px;
+  padding-top: 34px;
+  padding-left: 25px;
+  padding-right: 25px;
+  display: flex;
+  flex-direction: column;
+}
+.trending-products__sale-first {
+  background: #FFF6FB;
+}
+.trending-products__sale-second {
+  background: #EEEFFB;
+}
+.trending-products__list {
+  width: 267px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.trending-products__subtitle {
+  font-family: Josefin Sans;
+  font-size: 26px;
+  line-height: 30px;
+  color: #151875;
+}
+.trending-products__shop {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  color: #fb2e86;
+}
+.trending-products__img {
+  float: right;
+}
+.trending-products__li {
+  display: flex;
+}
+.trending-products__li--right {
+  padding: 15px 0;
+}
+
 .grid-default {
   background-color: #F6F5FF;
   height: 286px;
