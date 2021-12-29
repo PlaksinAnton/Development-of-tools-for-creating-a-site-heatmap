@@ -1,0 +1,84 @@
+.discount-item
+  &__title
+    margin-bottom: 19px
+  &__container
+    flex-direction: column
+    align-items: center
+  &__dot
+    display: flex
+    margin-right: 30px
+    &:after
+      content: ""
+      height: 5px
+      width: 5px
+      border-radius: 100%
+      display: block
+      background: rgba(251, 73, 151, 1)
+      margin-bottom: 5px
+      margin-top: auto
+      margin-left: 7px
+  &__margin
+    margin-right: 26px
+  &__name
+    font-family: Josefin Sans
+    font-size: 35px
+    color: #151875
+    line-height: 46.2px
+    letter-spacing: 0.015em
+    margin-bottom: 16px
+  &__subname
+    font-family: Josefin Sans
+    font-size: 21px
+    line-height: 132%
+    letter-spacing: 0.015em
+    color: #FB2E86
+    margin-bottom: 20px
+  &__content
+    position: relative
+    width: 100%
+  &__image
+    position: absolute
+    right: 0
+    top: 70px
+    margin-top: -100px
+    margin-right: -70px
+    z-index: -1
+  &__desc
+    font-size: 17px
+    letter-spacing: 0.02em
+    color: #B7BACB
+    max-width: 523px
+  &__list
+    max-width: 532px
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    grid-template-rows: repeat(2, 1fr)
+    grid-row-gap: 10px
+    margin-bottom: 37px
+  &__li
+    display: flex
+    font-family: Lato
+    font-style: normal
+    font-weight: normal
+    font-size: 16px
+    line-height: 30px
+    letter-spacing: 0.02em
+    color: #B8B8DC
+    &:before
+      content: ""
+      display: block
+      height: 11px
+      width: 16px
+      background-image: url("../../imgs/mark.svg")
+      background-size: 100%
+      margin-top: auto
+      margin-bottom: auto
+      margin-right: 6px
+  &__button
+    margin-bottom: 0px
+  &__filter
+    margin-bottom: 0
+  &__description
+    padding-top: 111px
+    padding-bottom: 106px
+    margin-bottom: 79px
