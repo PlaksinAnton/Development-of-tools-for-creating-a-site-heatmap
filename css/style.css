@@ -1163,6 +1163,101 @@ template {
   margin-bottom: 96px;
 }
 
+.leatest-blog__container {
+  flex-direction: column;
+}
+.leatest-blog__title {
+  margin-bottom: 80px;
+}
+.leatest-blog__cards {
+  margin-bottom: 115px;
+  display: flex;
+  justify-content: space-between;
+}
+.leatest-blog__card {
+  min-height: 493px;
+  max-width: 370px;
+  background: #FFFFFF;
+  box-shadow: 0px 8px 40px rgba(49, 32, 138, 0.05);
+  border-radius: 5px;
+}
+.leatest-blog__img-description {
+  display: flex;
+  font-family: Josefin Sans;
+  font-size: 14px;
+  line-height: 16px;
+  color: #151875;
+  padding-top: 19px;
+  padding-bottom: 15px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+.leatest-blog__write {
+  display: flex;
+  margin-right: 29px;
+}
+.leatest-blog__write::before {
+  content: "";
+  background-image: url(/imgs/pen.svg);
+  display: block;
+  height: 11px;
+  width: 11px;
+  margin-right: 8px;
+}
+.leatest-blog__date {
+  display: flex;
+}
+.leatest-blog__date::before {
+  content: "";
+  background-image: url(/imgs/calendar.svg);
+  display: block;
+  height: 11px;
+  width: 11px;
+  margin-right: 4px;
+}
+.leatest-blog__description {
+  padding-top: 15px;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+}
+.leatest-blog__name {
+  font-family: Josefin Sans;
+  font-size: 18px;
+  line-height: 21px;
+  color: #151875;
+  margin-bottom: 17px;
+  font-weight: bold;
+}
+.leatest-blog__name--middle {
+  color: #fb2e86;
+}
+.leatest-blog__text {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 30px;
+  color: #72718F;
+  max-width: 301px;
+  margin-bottom: 14px;
+}
+.leatest-blog__more {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 30px;
+  -webkit-text-decoration-line: underline;
+          text-decoration-line: underline;
+  color: #151875;
+}
+.leatest-blog__more--middle {
+  color: #fb2e86;
+}
+
 .grid-default {
   background-color: #F6F5FF;
   height: 286px;
