@@ -1131,6 +1131,32 @@ template {
   font-weight: normal;
 }
 
+.subscribe {
+  background-image: url(/imgs/subscribe-bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.subscribe__container {
+  padding-top: 174px;
+  padding-bottom: 103px;
+  flex-direction: column;
+  align-items: center;
+}
+.subscribe__title {
+  max-width: 574px;
+  font-family: Josefin Sans;
+  font-size: 35px;
+  line-height: 155%;
+  letter-spacing: 0.015em;
+  color: #151875;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 28px;
+}
+.subscribe__button {
+  margin-bottom: 0px;
+}
+
 .grid-default {
   background-color: #F6F5FF;
   height: 286px;
