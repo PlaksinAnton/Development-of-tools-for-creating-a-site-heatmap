@@ -1157,6 +1157,12 @@ template {
   margin-bottom: 0px;
 }
 
+.brends__img {
+  margin: auto;
+  margin-top: 96px;
+  margin-bottom: 96px;
+}
+
 .grid-default {
   background-color: #F6F5FF;
   height: 286px;
