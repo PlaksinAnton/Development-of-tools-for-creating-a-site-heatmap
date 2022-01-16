@@ -6,9 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>heat-map-test</title>
-  <!-- Стиль анимационного эффекта -->
-  <link rel="stylesheet" href="https://www.patrick-wied.at/static/heatmapjs/assets/css/commons.css">
-  <link rel="stylesheet" href="https://www.patrick-wied.at/static/heatmapjs/assets/css/example-commons.css">
   <link href="css/style.css" rel="stylesheet" type="text/css">
   <link href="css/style.css.map" rel="stylesheet" type="text/css">
   <!-- swiper -->
@@ -18,636 +15,646 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </head>
 
-<body class="heatmap" id="heatmap">
-  <header class="header">
-    <div class="header-up">
-      <div class="container header-up__container">
-        <div class="header-up__left">
-          <div class="header-email">
-            <img src="/imgs/post.svg" alt="post picture" class="email-pic">
-            mhhasanul@gmail.com
-          </div>
-          <div class="header-tel">
-            <img src="/imgs/tel.svg" alt="telephone picture" class="tel-pic">
-            (12345)67890
+<body>
+  <div id="heatmapContainerWrapper">
+    <div id="heatmapContainer">
+      <header class="header">
+        <div class="header-up">
+          <div class="container header-up__container">
+            <div class="header-up__left">
+              <div class="header-email">
+                <img src="/imgs/post.svg" alt="post picture" class="email-pic">
+                mhhasanul@gmail.com
+              </div>
+              <div class="header-tel">
+                <img src="/imgs/tel.svg" alt="telephone picture" class="tel-pic">
+                (12345)67890
+              </div>
+            </div>
+            <ul class="header-up__right">
+              <li>
+                <button class="header-button">
+                  <div class="header-button__text">English</div>
+                  <img src="/imgs/arrow.svg" alt="" class="arrow">
+                </button>
+              </li>
+              <li>
+                <button class="header-button">
+                  <div class="header-button__text">USD</div>
+                  <img src="/imgs/arrow.svg" alt="" class="arrow">
+                </button>
+              </li>
+              <li>
+                <button class="header-button">
+                  <div class="header-button__text">Login</div>
+                  <img src="/imgs/user.svg" alt="" class="user">
+                </button>
+              </li>
+              <li>
+                <button class="header-button">
+                  <div class="header-button__text">WishList</div>
+                  <img src="/imgs/heart.svg" alt="" class="heart">
+                </button>
+              </li>
+              <li>
+                <button class="header-button header-button__last">
+                  <img src="/imgs/basket.svg" alt="" class="basket">
+                </button>
+              </li>
+            </ul>
           </div>
         </div>
-        <ul class="header-up__right">
-          <li>
-            <button class="header-button">
-              <div class="header-button__text">English</div>
-              <img src="/imgs/arrow.svg" alt="" class="arrow">
-            </button>
-          </li>
-          <li>
-            <button class="header-button">
-              <div class="header-button__text">USD</div>
-              <img src="/imgs/arrow.svg" alt="" class="arrow">
-            </button>
-          </li>
-          <li>
-            <button class="header-button">
-              <div class="header-button__text">Login</div>
-              <img src="/imgs/user.svg" alt="" class="user">
-            </button>
-          </li>
-          <li>
-            <button class="header-button">
-              <div class="header-button__text">WishList</div>
-              <img src="/imgs/heart.svg" alt="" class="heart">
-            </button>
-          </li>
-          <li>
-            <button class="header-button header-button__last">
-              <img src="/imgs/basket.svg" alt="" class="basket">
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="header-down">
-      <div class="container header-down__container">
-        <div class="header-down__left">
-          <div class="header-logo">Hekto</div>
-          <ul class="navbar">
-            <li>
-              <a class="header-link header-link__red">
-                Home
-                <img src="/imgs/arrow-red.svg" alt="" class="arrow">
-              </a>
-            </li>
-            <li><a class="header-link" href="grid.html">Pages</a></li>
-            <li><a class="header-link" href="grid.html">Products</a></li>
-            <li><a class="header-link" href="grid.html">Blog</a></li>
-            <li><a class="header-link" href="grid.html">Shop</a></li>
-            <li><a class="header-link" href="grid.html">Contact</a></li>
+        <div class="header-down">
+          <div class="container header-down__container">
+            <div class="header-down__left">
+              <div class="header-logo">Hekto</div>
+              <ul class="navbar">
+                <li>
+                  <a class="header-link header-link__red">
+                    Home
+                    <img src="/imgs/arrow-red.svg" alt="" class="arrow">
+                  </a>
+                </li>
+                <li><a class="header-link" href="grid.html">Pages</a></li>
+                <li><a class="header-link" href="grid.html">Products</a></li>
+                <li><a class="header-link" href="grid.html">Blog</a></li>
+                <li><a class="header-link" href="grid.html">Shop</a></li>
+                <li><a class="header-link" href="grid.html">Contact</a></li>
+              </ul>
+            </div>
+            <form action="#" class="search">
+              <input type="text" class="search__input" placeholder="" />
+              <button class="search__button">
+                <img src="imgs/search.svg" alt="Icon: search" />
+              </button>
+            </form>
+          </div>
+        </div>
+      </header>
+      <section class="home-title">
+        <img src="/imgs/lamp.svg" alt="" class="home-title__lamp">
+        <img src="/imgs/sofa-header.png" alt="" class="home-title__sofa">
+        <img src="/imgs/sale.svg" alt="" class="home-title__sale">
+        <div class="container home-title__container">
+          <div class="home-title__pre-title">Best Furniture For Your Castle....</div>
+          <h1 class="home-title__title">New Furniture Collection
+            Trends in 2020</h1>
+          <div class="home-title__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est
+            adipiscing
+            in phasellus non in justo.</div>
+          <button class="home-title__button">Shop Now</button>
+        </div>
+      </section>
+      <section class="featured-products">
+        <div class="container featured-products__container">
+          <h3 class="title featured-products__title">Featured Products</h3>
+          <div class="featured-products__slider">
+            <!-- Slider main container -->
+            <div class="swiper">
+              <!-- Additional required wrapper -->
+              <div class="swiper-wrapper">
+                <!-- Slides -->
+                <div class="swiper-slide">
+                  <div class="swiper-slide__image">
+                    <img src="/imgs/chair-1.svg" alt="Chair" class="">
+                  </div>
+                  <div class="swiper-slide__description">
+                    <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
+                    <div class="swiper-slide__colors">
+                      <div class="swiper-slide__color swiper-slide__colors--green"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--pink"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+                    </div>
+                    <div class="swiper-slide__code">Code - Y523201</div>
+                    <div class="swiper-slide__price">$42.00</div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="swiper-slide__image">
+                    <img src="/imgs/chair-2.svg" alt="Chair" class="">
+                  </div>
+                  <div class="swiper-slide__description">
+                    <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
+                    <div class="swiper-slide__colors">
+                      <div class="swiper-slide__color swiper-slide__colors--green"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--pink"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+                    </div>
+                    <div class="swiper-slide__code">Code - Y523201</div>
+                    <div class="swiper-slide__price">$42.00</div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="swiper-slide__image">
+                    <img src="/imgs/chair-3.svg" alt="Chair" class="">
+                  </div>
+                  <div class="swiper-slide__description">
+                    <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
+                    <div class="swiper-slide__colors">
+                      <div class="swiper-slide__color swiper-slide__colors--green"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--pink"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+                    </div>
+                    <div class="swiper-slide__code">Code - Y523201</div>
+                    <div class="swiper-slide__price">$42.00</div>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="swiper-slide__image">
+                    <img src="/imgs/chair-4.svg" alt="Chair" class="">
+                  </div>
+                  <div class="swiper-slide__description">
+                    <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
+                    <div class="swiper-slide__colors">
+                      <div class="swiper-slide__color swiper-slide__colors--green"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--pink"></div>
+                      <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+                    </div>
+                    <div class="swiper-slide__code">Code - Y523201</div>
+                    <div class="swiper-slide__price">$42.00</div>
+                  </div>
+                </div>
+              </div>
+              <!-- If we need pagination -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="leatest-products">
+        <div class="container leatest-products__container">
+          <h3 class="title leatest-products__title">Leatest Products</h3>
+          <ul class="leatest-products__filter">
+            <li class="leatest-products__new">New Arrival</li>
+            <li class="leatest-products__best">Best Seller</li>
+            <li class="leatest-products__featured">Featured</li>
+            <li class="leatest-products__special">Special Offer</li>
           </ul>
-        </div>
-        <form action="#" class="search">
-          <input type="text" class="search__input" placeholder="" />
-          <button class="search__button">
-            <img src="imgs/search.svg" alt="Icon: search" />
-          </button>
-        </form>
-      </div>
-    </div>
-  </header>
-  <section class="home-title">
-    <img src="/imgs/lamp.svg" alt="" class="home-title__lamp">
-    <img src="/imgs/sofa-header.png" alt="" class="home-title__sofa">
-    <img src="/imgs/sale.svg" alt="" class="home-title__sale">
-    <div class="container home-title__container">
-      <div class="home-title__pre-title">Best Furniture For Your Castle....</div>
-      <h1 class="home-title__title">New Furniture Collection
-        Trends in 2020</h1>
-      <div class="home-title__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est
-        adipiscing
-        in phasellus non in justo.</div>
-      <button class="home-title__button">Shop Now</button>
-    </div>
-  </section>
-  <section class="featured-products">
-    <div class="container featured-products__container">
-      <h3 class="title featured-products__title">Featured Products</h3>
-      <div class="featured-products__slider">
-        <!-- Slider main container -->
-        <div class="swiper">
-          <!-- Additional required wrapper -->
-          <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide">
-              <div class="swiper-slide__image">
-                <img src="/imgs/chair-1.svg" alt="Chair" class="">
+          <div class="leatest-products__grid">
+            <div class="leatest-products__card">
+              <div class="leatest-products__card-image">
+                <img src="/imgs/sofa-1.svg" alt="Chair" class="">
               </div>
-              <div class="swiper-slide__description">
-                <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
-                <div class="swiper-slide__colors">
-                  <div class="swiper-slide__color swiper-slide__colors--green"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--pink"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+              <div class="leatest-products__card-down">
+                <div class="leatest-products__line"></div>
+                <span class="leatest-products__card-name">Comfort Handy Craft</span>
+                <div class="leatest-products__prices">
+                  <span class="leatest-products__card-price">$42.00</span>
+                  <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
                 </div>
-                <div class="swiper-slide__code">Code - Y523201</div>
-                <div class="swiper-slide__price">$42.00</div>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide__image">
-                <img src="/imgs/chair-2.svg" alt="Chair" class="">
+            <div class="leatest-products__card">
+              <div class="leatest-products__card-image" style="background: none">
+                <img src="/imgs/sofa-2.svg" alt="Sofa" class="">
               </div>
-              <div class="swiper-slide__description">
-                <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
-                <div class="swiper-slide__colors">
-                  <div class="swiper-slide__color swiper-slide__colors--green"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--pink"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+              <div class="leatest-products__card-down">
+                <div class="leatest-products__line"></div>
+                <span class="leatest-products__card-name">Comfort Handy Craft</span>
+                <div class="leatest-products__prices">
+                  <span class="leatest-products__card-price">$42.00</span>
+                  <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
                 </div>
-                <div class="swiper-slide__code">Code - Y523201</div>
-                <div class="swiper-slide__price">$42.00</div>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide__image">
-                <img src="/imgs/chair-3.svg" alt="Chair" class="">
+            <div class="leatest-products__card">
+              <div class="leatest-products__card-image">
+                <img src="/imgs/sofa-3.svg" alt="Sofa" class="">
               </div>
-              <div class="swiper-slide__description">
-                <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
-                <div class="swiper-slide__colors">
-                  <div class="swiper-slide__color swiper-slide__colors--green"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--pink"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+              <div class="leatest-products__card-down">
+                <div class="leatest-products__line"></div>
+                <span class="leatest-products__card-name">Comfort Handy Craft</span>
+                <div class="leatest-products__prices">
+                  <span class="leatest-products__card-price">$42.00</span>
+                  <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
                 </div>
-                <div class="swiper-slide__code">Code - Y523201</div>
-                <div class="swiper-slide__price">$42.00</div>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="swiper-slide__image">
-                <img src="/imgs/chair-4.svg" alt="Chair" class="">
+            <div class="leatest-products__card">
+              <div class="leatest-products__card-image">
+                <img src="/imgs/sofa-4.svg" alt="Sofa" class="">
               </div>
-              <div class="swiper-slide__description">
-                <h6 class="swiper-slide__title"><a href="product.html">Cantilever chair</a></h6>
-                <div class="swiper-slide__colors">
-                  <div class="swiper-slide__color swiper-slide__colors--green"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--pink"></div>
-                  <div class="swiper-slide__color swiper-slide__colors--blue"></div>
+              <div class="leatest-products__card-down">
+                <div class="leatest-products__line"></div>
+                <span class="leatest-products__card-name">Comfort Handy Craft</span>
+                <div class="leatest-products__prices">
+                  <span class="leatest-products__card-price">$42.00</span>
+                  <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
                 </div>
-                <div class="swiper-slide__code">Code - Y523201</div>
-                <div class="swiper-slide__price">$42.00</div>
+              </div>
+            </div>
+            <div class="leatest-products__card">
+              <div class="leatest-products__card-image">
+                <img src="/imgs/sofa-5.svg" alt="Sofa" class="">
+              </div>
+              <div class="leatest-products__card-down">
+                <span class="leatest-products__card-name">Comfort Handy Craft</span>
+                <div class="leatest-products__line"></div>
+                <div class="leatest-products__prices">
+                  <span class="leatest-products__card-price">$42.00</span>
+                  <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
+                </div>
+              </div>
+            </div>
+            <div class="leatest-products__card">
+              <div class="leatest-products__card-image">
+                <img src="/imgs/sofa-6.svg" alt="Sofa" class="">
+              </div>
+              <div class="leatest-products__card-down">
+                <div class="leatest-products__line"></div>
+                <span class="leatest-products__card-name">Comfort Handy Craft</span>
+                <div class="leatest-products__prices">
+                  <span class="leatest-products__card-price">$42.00</span>
+                  <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
+                </div>
               </div>
             </div>
           </div>
-          <!-- If we need pagination -->
-          <div class="swiper-pagination"></div>
         </div>
-      </div>
+      </section>
+      <section class="offer">
+        <div class="container offer__container">
+          <h3 class="title offer__title">What Shopex Offer!</h3>
+          <div class="offer__cards">
+            <div class="offer__card">
+              <div class="offer__card-image">
+                <img src="/imgs/free-delivery.svg" alt="">
+              </div>
+              <div class="offer__card-title">24/7 Support</div>
+              <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
+                gravida.</div>
+            </div>
+            <div class="offer__card">
+              <div class="offer__card-image">
+                <img src="/imgs/cashback.svg" alt="">
+              </div>
+              <div class="offer__card-title">24/7 Support</div>
+              <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
+                gravida.</div>
+            </div>
+            <div class="offer__card">
+              <div class="offer__card-image">
+                <img src="/imgs/premium-quality.svg" alt="">
+              </div>
+              <div class="offer__card-title">24/7 Support</div>
+              <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
+                gravida.</div>
+            </div>
+            <div class="offer__card">
+              <div class="offer__card-image">
+                <img src="/imgs/24-hours-support.svg" alt="">
+              </div>
+              <div class="offer__card-title">24/7 Support</div>
+              <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
+                gravida.</div>
+            </div>
+          </div>
+      </section>
+      <section class="unique-features">
+        <div class="container unique-features__container">
+          <div class="unique-features__img">
+            <img src="/imgs/sofa-unique.png" alt="">
+          </div>
+          <div class="unique-features__content">
+            <h3 class="unique-features__title title">Unique Features Of leatest &
+              Trending Poducts</h3>
+            <ul class="unique-features__list">
+              <li class="unique-features__li unique-features__li--first">All frames constructed with hardwood solids and
+                laminates</li>
+              <li class="unique-features__li unique-features__li--second">Reinforced with double wood dowels, glue,
+                screw
+                -
+                nails corner
+                blocks and machine nails</li>
+              <li class="unique-features__li unique-features__li--third">Arms, backs and seats are structurally
+                reinforced
+              </li>
+            </ul>
+            <div class="unique-features__button-block">
+              <button class="unique-features__button">Add to cart</button>
+              <div class="unique-features__description">
+                <span class="unique-features__name">B&B Italian Sofa</span>
+                <span class="unique-features__price">$32.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="trending-products">
+        <div class="container trending-products__container">
+          <h3 class="trending-products__title title">Trending Products</h3>
+          <div class="trending-products__up">
+            <div class="trending-products__chair">
+              <div class="trending-products__chair-image">
+                <img src="/imgs/trend-chair-1.png" alt="" class="">
+              </div>
+              <div class="trending-products__name">Cantilever chair</div>
+              <div class="trending-products__price">
+                <span class="trending-products__price--new">$26.00</span>
+                <span class="trending-products__price--old">$42.00</span>
+              </div>
+            </div>
+            <div class="trending-products__chair">
+              <div class="trending-products__chair-image">
+                <img src="/imgs/trend-chair-2.png" alt="" class="">
+              </div>
+              <div class="trending-products__name">Cantilever chair</div>
+              <div class="trending-products__price">
+                <span class="trending-products__price--new">$26.00</span>
+                <span class="trending-products__price--old">$42.00</span>
+              </div>
+            </div>
+            <div class="trending-products__chair">
+              <div class="trending-products__chair-image">
+                <img src="/imgs/trend-chair-3.png" alt="" class="">
+              </div>
+              <div class="trending-products__name">Cantilever chair</div>
+              <div class="trending-products__price">
+                <span class="trending-products__price--new">$26.00</span>
+                <span class="trending-products__price--old">$42.00</span>
+              </div>
+            </div>
+            <div class="trending-products__chair">
+              <div class="trending-products__chair-image">
+                <img src="/imgs/trend-chair-4.png" alt="" class="">
+              </div>
+              <div class="trending-products__name">Cantilever chair</div>
+              <div class="trending-products__price">
+                <span class="trending-products__price--new">$26.00</span>
+                <span class="trending-products__price--old">$42.00</span>
+              </div>
+            </div>
+          </div>
+          <div class="trending-products__down">
+            <div class="trending-products__sale-first">
+              <div class="trending-products__subtitle">23% off in all products</div>
+              <div class="trending-products__sale-down">
+                <a class="trending-products__shop">Shop Now</a>
+                <div class="trending-products__img">
+                  <img src="/imgs/clock.png" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="trending-products__sale-second">
+              <div class="trending-products__subtitle">23% off in all products</div>
+              <div class="trending-products__sale-down">
+                <a class="trending-products__shop">View Collection</a>
+                <div class="trending-products__img">
+                  <img src="/imgs/wardrobe.png" alt="">
+                </div>
+              </div>
+            </div>
+            <div class="trending-products__list">
+              <div class="trending-products__li">
+                <div class="trending-products__chair-image trending-products__chair-image--down">
+                  <img src="/imgs/trend-chair-5.png" alt="" class="">
+                </div>
+                <div class="trending-products__li--right">
+                  <div class="trending-products__name trending-products__name--right">Executive Seat chair</div>
+                  <span class="trending-products__price--old trending-products__price--down">$32.00</span>
+                </div>
+              </div>
+              <div class="trending-products__li">
+                <div class="trending-products__chair-image trending-products__chair-image--down">
+                  <img src="/imgs/trend-chair-6.png" alt="" class="">
+                </div>
+                <div class="trending-products__li--right">
+                  <div class="trending-products__name trending-products__name--right">Executive Seat chair</div>
+                  <span class="trending-products__price--old trending-products__price--down">$32.00</span>
+                </div>
+              </div>
+              <div class="trending-products__li">
+                <div class="trending-products__chair-image trending-products__chair-image--down">
+                  <img src="/imgs/trend-chair-7.png" alt="" class="">
+                </div>
+                <div class="trending-products__li--right">
+                  <div class="trending-products__name trending-products__name--right">Executive Seat chair</div>
+                  <span class="trending-products__price--old trending-products__price--down">$32.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="discount-item">
+        <div class="container discount-item__container">
+          <h3 class="discount-item__title title">Discount Item</h3>
+          <ul class="leatest-products__filter discount-item__filter">
+            <li class="leatest-products__new discount-item__dot">Wood Chair</li>
+            <li class="leatest-products__best discount-item__margin">Plastic Chair</li>
+            <li class="leatest-products__special">Sofa Colletion</li>
+          </ul>
+          <div class="discount-item__content">
+            <div class="discount-item__description">
+              <div class="discount-item__name">20% Discount Of All Products</div>
+              <div class="discount-item__subname">Eams Sofa Compact</div>
+              <div class="home-title__description discount-item__desc">Lorem ipsum dolor sit amet, consectetur
+                adipiscing elit. Eu eget
+                feugiat habitasse nec, bibendum condimentum.</div>
+              <div class="discount-item__list">
+                <div class="discount-item__li">Material expose like metals</div>
+                <div class="discount-item__li">Clear lines and geomatric figures</div>
+                <div class="discount-item__li">Simple neutral colours.</div>
+                <div class="discount-item__li">Material expose like metals</div>
+              </div>
+              <div class="home-title__button discount-item__button">Shop Now</div>
+            </div>
+            <div class="discount-item__image">
+              <img src="/imgs/discount-sofa.png" alt="">
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="top">
+        <div class="container top__container">
+          <h3 class="top__title title">Top Categories</h3>
+          <!-- Slider main container -->
+          <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide swiper-slide--top">
+                <div class="swiper-slide__image swiper-slide__image--top">
+                  <img src="/imgs/top-chair-1.png" alt="Chair" class="">
+                </div>
+                <div class="swiper-slide__description">
+                  <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
+                  <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
+                </div>
+              </div>
+              <div class="swiper-slide swiper-slide--top">
+                <div class="swiper-slide__image swiper-slide__image--top">
+                  <img src="/imgs/top-chair-2.png" alt="Chair" class="">
+                </div>
+                <div class="swiper-slide__description">
+                  <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
+                  <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
+                </div>
+              </div>
+              <div class="swiper-slide swiper-slide--top">
+                <div class="swiper-slide__image swiper-slide__image--top">
+                  <img src="/imgs/top-chair-3.png" alt="Chair" class="">
+                </div>
+                <div class="swiper-slide__description">
+                  <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
+                  <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
+                </div>
+              </div>
+              <div class="swiper-slide swiper-slide--top">
+                <div class="swiper-slide__image swiper-slide__image--top">
+                  <img src="/imgs/top-chair-4.png" alt="Chair" class="">
+                </div>
+                <div class="swiper-slide__description">
+                  <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
+                  <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
+                </div>
+              </div>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination swiper-pagination--top"></div>
+          </div>
+        </div>
+      </section>
+      <section class="subscribe">
+        <div class="container subscribe__container">
+          <div class="subscribe__title">Get Leatest Update By Subscribe
+            0ur Newslater</div>
+          <button class="home-title__button subscribe__button">Shop Now</button>
+        </div>
+      </section>
+      <section class="brends">
+        <div class="container brends__container">
+          <img src="imgs/main-brends.png" alt="Main brends" class="brends__img">
+        </div>
+      </section>
+      <section class="leatest-blog">
+        <div class="container leatest-blog__container">
+          <h3 class="leatest-blog__title title">Leatest Blog</h3>
+          <div class="leatest-blog__cards">
+            <div class="leatest-blog__card">
+              <div class="leatest-blog__img">
+                <img src="/imgs/home-1.png" alt="">
+                <div class="leatest-blog__img-description">
+                  <div class="leatest-blog__write">SaberAli</div>
+                  <div class="leatest-blog__date">21 August,2020</div>
+                </div>
+              </div>
+              <div class="leatest-blog__description">
+                <div class="leatest-blog__name">Top esssential Trends in 2021</div>
+                <div class="leatest-blog__text">More off this less hello samlande lied much
+                  over tightly circa horse taped mightly</div>
+                <a href="" class="leatest-blog__more">Read More</a>
+              </div>
+            </div>
+            <div class="leatest-blog__card">
+              <div class="leatest-blog__img">
+                <img src="/imgs/home-2.png" alt="">
+                <div class="leatest-blog__img-description">
+                  <div class="leatest-blog__write">Surfauxion</div>
+                  <div class="leatest-blog__date">21 August,2020</div>
+                </div>
+              </div>
+              <div class="leatest-blog__description">
+                <div class="leatest-blog__name leatest-blog__name--middle">Top esssential Trends in 2021</div>
+                <div class="leatest-blog__text">More off this less hello samlande lied much
+                  over tightly circa horse taped mightly</div>
+                <a href="" class="leatest-blog__more leatest-blog__more--middle">Read More</a>
+              </div>
+            </div>
+            <div class="leatest-blog__card">
+              <div class="leatest-blog__img">
+                <img src="/imgs/home-3.png" alt="">
+                <div class="leatest-blog__img-description">
+                  <div class="leatest-blog__write">SaberAli</div>
+                  <div class="leatest-blog__date">21 August,2020</div>
+                </div>
+              </div>
+              <div class="leatest-blog__description">
+                <div class="leatest-blog__name">Top esssential Trends in 2021</div>
+                <div class="leatest-blog__text">More off this less hello samlande lied much
+                  over tightly circa horse taped mightly</div>
+                <a href="" class="leatest-blog__more">Read More</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="footer">
+        <div class="footer-container">
+          <div class="footer__left">
+            <span class="hekto">Hekto</span>
+            <form action="#" class="footer-form">
+              <input type="text" placeholder="Enter Email Address" class="footer-input" />
+              <input type="button" value="Sign Up" class="footer-button" />
+            </form>
+            <!-- /.footer-form -->
+            <span class="footer-contact">Contact Info</span>
+            <span class="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
+          </div>
+          <!-- /.footer__left -->
+          <div class="footer__right">
+            <ul class="footer-item">
+              <li class="footer-item__main">Catagories</li>
+              <li class="footer-item__li">Laptops & Computers</li>
+              <li class="footer-item__li">Cameras & Photography</li>
+              <li class="footer-item__li">Smart Phones & Tablets</li>
+              <li class="footer-item__li">Video Games & Consoles</li>
+              <li class="footer-item__li">Waterproof Headphones</li>
+            </ul>
+            <!-- ./footer-item -->
+            <ul class="footer-item">
+              <li class="footer-item__main">Customer Care</li>
+              <li class="footer-item__li">My Account</li>
+              <li class="footer-item__li">Discount</li>
+              <li class="footer-item__li">Returns</li>
+              <li class="footer-item__li">Orders History</li>
+              <li class="footer-item__li">Order Tracking</li>
+            </ul>
+            <!-- ./footer-item -->
+            <ul class="footer-item">
+              <li class="footer-item__main">Pages</li>
+              <li class="footer-item__li">Blog</li>
+              <li class="footer-item__li">Browse the Shop</li>
+              <li class="footer-item__li">Category</li>
+              <li class="footer-item__li">Pre-Built Pages</li>
+              <li class="footer-item__li">Visual Composer Elements</li>
+              <li class="footer-item__li">WooCommerce Pages</li>
+            </ul>
+            <!-- ./footer-item -->
+          </div>
+          <!-- /.footer__right -->
+        </div>
+        <!-- /.footer-container -->
+        <div class="footer-reserved">
+          <div class="footer-reserved__container">
+            <span class="reserved">©Webecy - All Rights Reserved</span>
+            <div class="footer-icons">
+              <a href="#" class="footer-icons__links"><img src="imgs/facebook-pic.svg" alt="Icon facebook"
+                  class="facebook-pic" />
+              </a>
+              <a href="#" class="footer-icons__links"><img src="imgs/inst-pic.svg" alt="Icon instagram"
+                  class="inst-pic" />
+              </a>
+              <a href="#" class="footer-icons__links">
+                <img src="imgs/twitter-pic.svg" alt="Icon twitter" class="twit-pic" />
+              </a>
+            </div>
+            <!-- ./footer-icons -->
+          </div>
+          <!-- /.footer-reserved__container -->
+        </div>
+        <!-- /.footer-reserved -->
+      </footer>
+      <!-- /.footer -->
     </div>
-  </section>
-  <section class="leatest-products">
-    <div class="container leatest-products__container">
-      <h3 class="title leatest-products__title">Leatest Products</h3>
-      <ul class="leatest-products__filter">
-        <li class="leatest-products__new">New Arrival</li>
-        <li class="leatest-products__best">Best Seller</li>
-        <li class="leatest-products__featured">Featured</li>
-        <li class="leatest-products__special">Special Offer</li>
-      </ul>
-      <div class="leatest-products__grid">
-        <div class="leatest-products__card">
-          <div class="leatest-products__card-image">
-            <img src="/imgs/sofa-1.svg" alt="Chair" class="">
-          </div>
-          <div class="leatest-products__card-down">
-            <div class="leatest-products__line"></div>
-            <span class="leatest-products__card-name">Comfort Handy Craft</span>
-            <div class="leatest-products__prices">
-              <span class="leatest-products__card-price">$42.00</span>
-              <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
-            </div>
-          </div>
-        </div>
-        <div class="leatest-products__card">
-          <div class="leatest-products__card-image" style="background: none">
-            <img src="/imgs/sofa-2.svg" alt="Sofa" class="">
-          </div>
-          <div class="leatest-products__card-down">
-            <div class="leatest-products__line"></div>
-            <span class="leatest-products__card-name">Comfort Handy Craft</span>
-            <div class="leatest-products__prices">
-              <span class="leatest-products__card-price">$42.00</span>
-              <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
-            </div>
-          </div>
-        </div>
-        <div class="leatest-products__card">
-          <div class="leatest-products__card-image">
-            <img src="/imgs/sofa-3.svg" alt="Sofa" class="">
-          </div>
-          <div class="leatest-products__card-down">
-            <div class="leatest-products__line"></div>
-            <span class="leatest-products__card-name">Comfort Handy Craft</span>
-            <div class="leatest-products__prices">
-              <span class="leatest-products__card-price">$42.00</span>
-              <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
-            </div>
-          </div>
-        </div>
-        <div class="leatest-products__card">
-          <div class="leatest-products__card-image">
-            <img src="/imgs/sofa-4.svg" alt="Sofa" class="">
-          </div>
-          <div class="leatest-products__card-down">
-            <div class="leatest-products__line"></div>
-            <span class="leatest-products__card-name">Comfort Handy Craft</span>
-            <div class="leatest-products__prices">
-              <span class="leatest-products__card-price">$42.00</span>
-              <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
-            </div>
-          </div>
-        </div>
-        <div class="leatest-products__card">
-          <div class="leatest-products__card-image">
-            <img src="/imgs/sofa-5.svg" alt="Sofa" class="">
-          </div>
-          <div class="leatest-products__card-down">
-            <span class="leatest-products__card-name">Comfort Handy Craft</span>
-            <div class="leatest-products__line"></div>
-            <div class="leatest-products__prices">
-              <span class="leatest-products__card-price">$42.00</span>
-              <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
-            </div>
-          </div>
-        </div>
-        <div class="leatest-products__card">
-          <div class="leatest-products__card-image">
-            <img src="/imgs/sofa-6.svg" alt="Sofa" class="">
-          </div>
-          <div class="leatest-products__card-down">
-            <div class="leatest-products__line"></div>
-            <span class="leatest-products__card-name">Comfort Handy Craft</span>
-            <div class="leatest-products__prices">
-              <span class="leatest-products__card-price">$42.00</span>
-              <span class="leatest-products__card-price leatest-products__card-price--old">$65.00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="offer">
-    <div class="container offer__container">
-      <h3 class="title offer__title">What Shopex Offer!</h3>
-      <div class="offer__cards">
-        <div class="offer__card">
-          <div class="offer__card-image">
-            <img src="/imgs/free-delivery.svg" alt="">
-          </div>
-          <div class="offer__card-title">24/7 Support</div>
-          <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
-            gravida.</div>
-        </div>
-        <div class="offer__card">
-          <div class="offer__card-image">
-            <img src="/imgs/cashback.svg" alt="">
-          </div>
-          <div class="offer__card-title">24/7 Support</div>
-          <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
-            gravida.</div>
-        </div>
-        <div class="offer__card">
-          <div class="offer__card-image">
-            <img src="/imgs/premium-quality.svg" alt="">
-          </div>
-          <div class="offer__card-title">24/7 Support</div>
-          <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
-            gravida.</div>
-        </div>
-        <div class="offer__card">
-          <div class="offer__card-image">
-            <img src="/imgs/24-hours-support.svg" alt="">
-          </div>
-          <div class="offer__card-title">24/7 Support</div>
-          <div class="offer__card-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Massa purus
-            gravida.</div>
-        </div>
-      </div>
-  </section>
-  <section class="unique-features">
-    <div class="container unique-features__container">
-      <div class="unique-features__img">
-        <img src="/imgs/sofa-unique.png" alt="">
-      </div>
-      <div class="unique-features__content">
-        <h3 class="unique-features__title title">Unique Features Of leatest &
-          Trending Poducts</h3>
-        <ul class="unique-features__list">
-          <li class="unique-features__li unique-features__li--first">All frames constructed with hardwood solids and
-            laminates</li>
-          <li class="unique-features__li unique-features__li--second">Reinforced with double wood dowels, glue, screw -
-            nails corner
-            blocks and machine nails</li>
-          <li class="unique-features__li unique-features__li--third">Arms, backs and seats are structurally reinforced
-          </li>
-        </ul>
-        <div class="unique-features__button-block">
-          <button class="unique-features__button">Add to cart</button>
-          <div class="unique-features__description">
-            <span class="unique-features__name">B&B Italian Sofa</span>
-            <span class="unique-features__price">$32.00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="trending-products">
-    <div class="container trending-products__container">
-      <h3 class="trending-products__title title">Trending Products</h3>
-      <div class="trending-products__up">
-        <div class="trending-products__chair">
-          <div class="trending-products__chair-image">
-            <img src="/imgs/trend-chair-1.png" alt="" class="">
-          </div>
-          <div class="trending-products__name">Cantilever chair</div>
-          <div class="trending-products__price">
-            <span class="trending-products__price--new">$26.00</span>
-            <span class="trending-products__price--old">$42.00</span>
-          </div>
-        </div>
-        <div class="trending-products__chair">
-          <div class="trending-products__chair-image">
-            <img src="/imgs/trend-chair-2.png" alt="" class="">
-          </div>
-          <div class="trending-products__name">Cantilever chair</div>
-          <div class="trending-products__price">
-            <span class="trending-products__price--new">$26.00</span>
-            <span class="trending-products__price--old">$42.00</span>
-          </div>
-        </div>
-        <div class="trending-products__chair">
-          <div class="trending-products__chair-image">
-            <img src="/imgs/trend-chair-3.png" alt="" class="">
-          </div>
-          <div class="trending-products__name">Cantilever chair</div>
-          <div class="trending-products__price">
-            <span class="trending-products__price--new">$26.00</span>
-            <span class="trending-products__price--old">$42.00</span>
-          </div>
-        </div>
-        <div class="trending-products__chair">
-          <div class="trending-products__chair-image">
-            <img src="/imgs/trend-chair-4.png" alt="" class="">
-          </div>
-          <div class="trending-products__name">Cantilever chair</div>
-          <div class="trending-products__price">
-            <span class="trending-products__price--new">$26.00</span>
-            <span class="trending-products__price--old">$42.00</span>
-          </div>
-        </div>
-      </div>
-      <div class="trending-products__down">
-        <div class="trending-products__sale-first">
-          <div class="trending-products__subtitle">23% off in all products</div>
-          <div class="trending-products__sale-down">
-            <a class="trending-products__shop">Shop Now</a>
-            <div class="trending-products__img">
-              <img src="/imgs/clock.png" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="trending-products__sale-second">
-          <div class="trending-products__subtitle">23% off in all products</div>
-          <div class="trending-products__sale-down">
-            <a class="trending-products__shop">View Collection</a>
-            <div class="trending-products__img">
-              <img src="/imgs/wardrobe.png" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="trending-products__list">
-          <div class="trending-products__li">
-            <div class="trending-products__chair-image trending-products__chair-image--down">
-              <img src="/imgs/trend-chair-5.png" alt="" class="">
-            </div>
-            <div class="trending-products__li--right">
-              <div class="trending-products__name trending-products__name--right">Executive Seat chair</div>
-              <span class="trending-products__price--old trending-products__price--down">$32.00</span>
-            </div>
-          </div>
-          <div class="trending-products__li">
-            <div class="trending-products__chair-image trending-products__chair-image--down">
-              <img src="/imgs/trend-chair-6.png" alt="" class="">
-            </div>
-            <div class="trending-products__li--right">
-              <div class="trending-products__name trending-products__name--right">Executive Seat chair</div>
-              <span class="trending-products__price--old trending-products__price--down">$32.00</span>
-            </div>
-          </div>
-          <div class="trending-products__li">
-            <div class="trending-products__chair-image trending-products__chair-image--down">
-              <img src="/imgs/trend-chair-7.png" alt="" class="">
-            </div>
-            <div class="trending-products__li--right">
-              <div class="trending-products__name trending-products__name--right">Executive Seat chair</div>
-              <span class="trending-products__price--old trending-products__price--down">$32.00</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="discount-item">
-    <div class="container discount-item__container">
-      <h3 class="discount-item__title title">Discount Item</h3>
-      <ul class="leatest-products__filter discount-item__filter">
-        <li class="leatest-products__new discount-item__dot">Wood Chair</li>
-        <li class="leatest-products__best discount-item__margin">Plastic Chair</li>
-        <li class="leatest-products__special">Sofa Colletion</li>
-      </ul>
-      <div class="discount-item__content">
-        <div class="discount-item__description">
-          <div class="discount-item__name">20% Discount Of All Products</div>
-          <div class="discount-item__subname">Eams Sofa Compact</div>
-          <div class="home-title__description discount-item__desc">Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit. Eu eget
-            feugiat habitasse nec, bibendum condimentum.</div>
-          <div class="discount-item__list">
-            <div class="discount-item__li">Material expose like metals</div>
-            <div class="discount-item__li">Clear lines and geomatric figures</div>
-            <div class="discount-item__li">Simple neutral colours.</div>
-            <div class="discount-item__li">Material expose like metals</div>
-          </div>
-          <div class="home-title__button discount-item__button">Shop Now</div>
-        </div>
-        <div class="discount-item__image">
-          <img src="/imgs/discount-sofa.png" alt="">
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="top">
-    <div class="container top__container">
-      <h3 class="top__title title">Top Categories</h3>
-      <!-- Slider main container -->
-      <div class="swiper">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-          <!-- Slides -->
-          <div class="swiper-slide swiper-slide--top">
-            <div class="swiper-slide__image swiper-slide__image--top">
-              <img src="/imgs/top-chair-1.png" alt="Chair" class="">
-            </div>
-            <div class="swiper-slide__description">
-              <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
-              <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
-            </div>
-          </div>
-          <div class="swiper-slide swiper-slide--top">
-            <div class="swiper-slide__image swiper-slide__image--top">
-              <img src="/imgs/top-chair-2.png" alt="Chair" class="">
-            </div>
-            <div class="swiper-slide__description">
-              <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
-              <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
-            </div>
-          </div>
-          <div class="swiper-slide swiper-slide--top">
-            <div class="swiper-slide__image swiper-slide__image--top">
-              <img src="/imgs/top-chair-3.png" alt="Chair" class="">
-            </div>
-            <div class="swiper-slide__description">
-              <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
-              <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
-            </div>
-          </div>
-          <div class="swiper-slide swiper-slide--top">
-            <div class="swiper-slide__image swiper-slide__image--top">
-              <img src="/imgs/top-chair-4.png" alt="Chair" class="">
-            </div>
-            <div class="swiper-slide__description">
-              <h6 class="swiper-slide__title swiper-slide__title--top">Mini LCW Chair</h6>
-              <div class="swiper-slide__price swiper-slide__price--top">$56.00</div>
-            </div>
-          </div>
-        </div>
-        <!-- If we need pagination -->
-        <div class="swiper-pagination swiper-pagination--top"></div>
-      </div>
-    </div>
-  </section>
-  <section class="subscribe">
-    <div class="container subscribe__container">
-      <div class="subscribe__title">Get Leatest Update By Subscribe
-        0ur Newslater</div>
-      <button class="home-title__button subscribe__button">Shop Now</button>
-    </div>
-  </section>
-  <section class="brends">
-    <div class="container brends__container">
-      <img src="imgs/main-brends.png" alt="Main brends" class="brends__img">
-    </div>
-  </section>
-  <section class="leatest-blog">
-    <div class="container leatest-blog__container">
-      <h3 class="leatest-blog__title title">Leatest Blog</h3>
-      <div class="leatest-blog__cards">
-        <div class="leatest-blog__card">
-          <div class="leatest-blog__img">
-            <img src="/imgs/home-1.png" alt="">
-            <div class="leatest-blog__img-description">
-              <div class="leatest-blog__write">SaberAli</div>
-              <div class="leatest-blog__date">21 August,2020</div>
-            </div>
-          </div>
-          <div class="leatest-blog__description">
-            <div class="leatest-blog__name">Top esssential Trends in 2021</div>
-            <div class="leatest-blog__text">More off this less hello samlande lied much
-              over tightly circa horse taped mightly</div>
-            <a href="" class="leatest-blog__more">Read More</a>
-          </div>
-        </div>
-        <div class="leatest-blog__card">
-          <div class="leatest-blog__img">
-            <img src="/imgs/home-2.png" alt="">
-            <div class="leatest-blog__img-description">
-              <div class="leatest-blog__write">Surfauxion</div>
-              <div class="leatest-blog__date">21 August,2020</div>
-            </div>
-          </div>
-          <div class="leatest-blog__description">
-            <div class="leatest-blog__name leatest-blog__name--middle">Top esssential Trends in 2021</div>
-            <div class="leatest-blog__text">More off this less hello samlande lied much
-              over tightly circa horse taped mightly</div>
-            <a href="" class="leatest-blog__more leatest-blog__more--middle">Read More</a>
-          </div>
-        </div>
-        <div class="leatest-blog__card">
-          <div class="leatest-blog__img">
-            <img src="/imgs/home-3.png" alt="">
-            <div class="leatest-blog__img-description">
-              <div class="leatest-blog__write">SaberAli</div>
-              <div class="leatest-blog__date">21 August,2020</div>
-            </div>
-          </div>
-          <div class="leatest-blog__description">
-            <div class="leatest-blog__name">Top esssential Trends in 2021</div>
-            <div class="leatest-blog__text">More off this less hello samlande lied much
-              over tightly circa horse taped mightly</div>
-            <a href="" class="leatest-blog__more">Read More</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer__left">
-        <span class="hekto">Hekto</span>
-        <form action="#" class="footer-form">
-          <input type="text" placeholder="Enter Email Address" class="footer-input" />
-          <input type="button" value="Sign Up" class="footer-button" />
-        </form>
-        <!-- /.footer-form -->
-        <span class="footer-contact">Contact Info</span>
-        <span class="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
-      </div>
-      <!-- /.footer__left -->
-      <div class="footer__right">
-        <ul class="footer-item">
-          <li class="footer-item__main">Catagories</li>
-          <li class="footer-item__li">Laptops & Computers</li>
-          <li class="footer-item__li">Cameras & Photography</li>
-          <li class="footer-item__li">Smart Phones & Tablets</li>
-          <li class="footer-item__li">Video Games & Consoles</li>
-          <li class="footer-item__li">Waterproof Headphones</li>
-        </ul>
-        <!-- ./footer-item -->
-        <ul class="footer-item">
-          <li class="footer-item__main">Customer Care</li>
-          <li class="footer-item__li">My Account</li>
-          <li class="footer-item__li">Discount</li>
-          <li class="footer-item__li">Returns</li>
-          <li class="footer-item__li">Orders History</li>
-          <li class="footer-item__li">Order Tracking</li>
-        </ul>
-        <!-- ./footer-item -->
-        <ul class="footer-item">
-          <li class="footer-item__main">Pages</li>
-          <li class="footer-item__li">Blog</li>
-          <li class="footer-item__li">Browse the Shop</li>
-          <li class="footer-item__li">Category</li>
-          <li class="footer-item__li">Pre-Built Pages</li>
-          <li class="footer-item__li">Visual Composer Elements</li>
-          <li class="footer-item__li">WooCommerce Pages</li>
-        </ul>
-        <!-- ./footer-item -->
-      </div>
-      <!-- /.footer__right -->
-    </div>
-    <!-- /.footer-container -->
-    <div class="footer-reserved">
-      <div class="footer-reserved__container">
-        <span class="reserved">©Webecy - All Rights Reserved</span>
-        <div class="footer-icons">
-          <a href="#" class="footer-icons__links"><img src="imgs/facebook-pic.svg" alt="Icon facebook"
-              class="facebook-pic" />
-          </a>
-          <a href="#" class="footer-icons__links"><img src="imgs/inst-pic.svg" alt="Icon instagram" class="inst-pic" />
-          </a>
-          <a href="#" class="footer-icons__links">
-            <img src="imgs/twitter-pic.svg" alt="Icon twitter" class="twit-pic" />
-          </a>
-        </div>
-        <!-- ./footer-icons -->
-      </div>
-      <!-- /.footer-reserved__container -->
-    </div>
-    <!-- /.footer-reserved -->
-  </footer>
-  <!-- /.footer -->
+    <!-- /.heatmapContainer -->
+  </div>
+  <!-- /.heatmapContainerWrapper -->
   <!-- swiper -->
   <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/swiper.js"></script>
   <script src="node_modules/heatmap.js/build/heatmap.js"></script>
-  <script src="js/heatmap-object.js"></script>
+  <script src="js/heatmap.js"></script>
 </body>
 
 </html>
