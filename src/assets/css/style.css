@@ -1079,7 +1079,7 @@ template {
   display: block;
   height: 11px;
   width: 16px;
-  background-image: url("../../imgs/mark.svg");
+  background-image: url("../imgs/mark.svg");
   background-size: 100%;
   margin-top: auto;
   margin-bottom: auto;
@@ -1132,7 +1132,7 @@ template {
 }
 
 .subscribe {
-  background-image: url(/imgs/subscribe-bg.png);
+  background-image: url(../imgs/subscribe-bg.png);
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -1198,7 +1198,7 @@ template {
 }
 .leatest-blog__write::before {
   content: "";
-  background-image: url(/imgs/pen.svg);
+  background-image: url(../imgs/pen.svg);
   display: block;
   height: 11px;
   width: 11px;
@@ -1209,7 +1209,7 @@ template {
 }
 .leatest-blog__date::before {
   content: "";
-  background-image: url(/imgs/calendar.svg);
+  background-image: url(../imgs/calendar.svg);
   display: block;
   height: 11px;
   width: 11px;
