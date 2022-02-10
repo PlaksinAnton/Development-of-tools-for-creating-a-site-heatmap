@@ -1,11 +1,10 @@
-
-import Index from './components/Index.jsx';
+import HomePage from './components/HomePage.jsx';
 
 import './assets/css/style.css';
 
 function App() {
   return (
-    <Index/>
+    <HomePage />
   );
 }
 
