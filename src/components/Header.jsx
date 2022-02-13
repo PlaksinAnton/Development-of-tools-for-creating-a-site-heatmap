@@ -6,9 +6,10 @@ import user from "../assets/imgs/user.svg";
 import heart from "../assets/imgs/heart.svg";
 import basket from "../assets/imgs/basket.svg";
 import arrowRed from "../assets/imgs/arrow-red.svg";
-import search from "../assets/imgs/search.svg"
+import search from "../assets/imgs/search.svg";
+import { Link } from 'react-router-dom';
 
-const Example = (props) => {
+const Header = (props) => {
     return (
         <header className="header">
             <div className="header-up">
@@ -62,16 +63,16 @@ const Example = (props) => {
                         <div className="header-logo">Hekto</div>
                         <ul className="navbar">
                             <li>
-                                <a className="header-link header-link__red">
+                                <Link className="header-link header-link__red" to="/">
                                     Home
                                     <img src={arrowRed} alt="" className="arrow" />
-                                </a>
+                                </Link>
                             </li>
-                            <li><a className="header-link" href="grid.html">Pages</a></li>
-                            <li><a className="header-link" href="grid.html">Products</a></li>
-                            <li><a className="header-link" href="grid.html">Blog</a></li>
-                            <li><a className="header-link" href="grid.html">Shop</a></li>
-                            <li><a className="header-link" href="grid.html">Contact</a></li>
+                            <li><Link className="header-link" to="/grid">Pages</Link></li>
+                            <li><Link className="header-link" to="/product">Products</Link></li>
+                            <li><Link className="header-link" to="/">Blog</Link></li>
+                            <li><Link className="header-link" to="/">Shop</Link></li>
+                            <li><Link className="header-link" to="/">Contact</Link></li>
                         </ul>
                     </div>
                     <form action="#" className="search">
@@ -83,6 +84,7 @@ const Example = (props) => {
                 </div>
             </div>
         </header>
+
     )
 }
-export default Example;
+export default Header;
