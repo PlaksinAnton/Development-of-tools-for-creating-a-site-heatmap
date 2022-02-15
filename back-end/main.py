@@ -9,17 +9,17 @@ app.config["DEBUG"] = True
 with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
 
-# sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
-#  `x` INTEGER UNSIGNED NOT NULL,
-#  `y` INTEGER UNSIGNED NOT NULL,
-#  `value` INTEGER UNSIGNED NOT NULL,
-#  PRIMARY KEY (`x`, `y`)
-# )''')
-# db.commit()
+sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
+ `x` INTEGER UNSIGNED NOT NULL,
+ `y` INTEGER UNSIGNED NOT NULL,
+ `value` INTEGER UNSINED NOT NULL,
+ PRIMARY KEY (`x`, `y`)
+)''')
+db.commit()
 
-
-for value in sql.execute("SELECT * FROM 'tb_clicks'"):
-    print(value)
+# Посмотреть содержимое бд:
+# for value in sql.execute("SELECT * FROM 'tb_clicks'"):
+#     print(value)
 
 
 @app.route('/login', methods=['post'])
