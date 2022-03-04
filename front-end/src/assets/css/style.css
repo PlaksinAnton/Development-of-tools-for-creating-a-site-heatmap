@@ -1917,3 +1917,13 @@ template {
   margin: auto;
   margin-bottom: 79px;
 }/*# sourceMappingURL=style.css.map */
+
+.victorypie {
+  height: 600px;
+  display: flex;
+}
+.graphs-container {
+  max-width: 1177px;
+  margin: auto;
+
+}

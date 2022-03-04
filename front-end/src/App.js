@@ -5,8 +5,6 @@ import { Routes, Route } from 'react-router-dom';
 import { HomePage } from "./pages/HomePage";
 import { Grid } from "./pages/Grid";
 import { Product } from "./pages/Product";
-import ReactDOM from 'react-dom';
-import * as V from 'victory';
 
 import './assets/css/style.css';
 import {GraphicPage} from "./pages/GraphicPage";
