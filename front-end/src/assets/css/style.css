@@ -588,6 +588,7 @@ template {
 .swiper {
   width: 1168px;
   height: 418px;
+  margin-bottom: 50px;
 }
 .swiper-wrapper {
   height: 418px;
@@ -1102,10 +1103,6 @@ template {
 }
 .top__container {
   flex-direction: column;
-}
-
-.swiper {
-  margin-bottom: 125px;
 }
 .swiper-slide__image--top {
   border-radius: 100%;
@@ -1917,3 +1914,13 @@ template {
   margin: auto;
   margin-bottom: 79px;
 }/*# sourceMappingURL=style.css.map */
+
+.victorypie {
+  height: 600px;
+  display: flex;
+}
+.graphs-container {
+  max-width: 1177px;
+  margin: auto;
+
+}
