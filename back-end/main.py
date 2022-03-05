@@ -10,11 +10,11 @@ with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
 
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
- `x` INTEGER UNSIGNED NOT NULL,
- `y` INTEGER UNSIGNED NOT NULL,
- `value` INTEGER UNSINED NOT NULL,
- PRIMARY KEY (`x`, `y`)
-)''')
+    `x` INTEGER UNSIGNED NOT NULL,
+    `y` INTEGER UNSIGNED NOT NULL,
+    `value` INTEGER UNSINED NOT NULL,
+    PRIMARY KEY (`x`, `y`)
+    )''')
 db.commit()
 
 # Посмотреть содержимое бд:
@@ -56,6 +56,8 @@ def get_data():
     select = '''SELECT * FROM tb_clicks'''
     sql.execute(select)
     result = sql.fetchall()
+    if result is None:
+        return 'пустая БД'
     data_sample = '''{ "data": [ '''
     str_sample = '''{"x":%s, "y": %s, "value":%s},'''
     for st in result:
@@ -66,6 +68,7 @@ def get_data():
     print(data)
     print(type(data))
     return json.dumps(data)
+
 
 
 if __name__ == "__main__":
