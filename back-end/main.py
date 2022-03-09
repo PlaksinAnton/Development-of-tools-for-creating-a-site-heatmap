@@ -10,11 +10,11 @@ with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
 
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
- `x` INTEGER UNSIGNED NOT NULL,
- `y` INTEGER UNSIGNED NOT NULL,
- `value` INTEGER UNSINED NOT NULL,
- PRIMARY KEY (`x`, `y`)
-)''')
+    `x` INTEGER UNSIGNED NOT NULL,
+    `y` INTEGER UNSIGNED NOT NULL,
+    `value` INTEGER UNSINED NOT NULL,
+    PRIMARY KEY (`x`, `y`)
+    )''')
 db.commit()
 
 # Посмотреть содержимое бд:
@@ -22,8 +22,8 @@ db.commit()
 #     print(value)
 
 
-@app.route('/login', methods=['post'])
-def get_data():
+@app.route('/send_data', methods=['post'])
+def send_data():
     data = request.get_json(force=True)
     new_data = []
     for str in data['data']:
@@ -49,6 +49,26 @@ def get_data():
         sql.executemany(insert, new_data) # добавляем данные
         db.commit()
     return "OK"
+
+
+@app.route('/get_data')
+def get_data():
+    select = '''SELECT * FROM tb_clicks'''
+    sql.execute(select)
+    result = sql.fetchall()
+    if result is None:
+        return 'пустая БД'
+    data_sample = '''{ "data": [ '''
+    str_sample = '''{"x":%s, "y": %s, "value":%s},'''
+    for st in result:
+        s = str_sample % st
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + " ] }"
+    data = json.loads(data_sample)
+    print(data)
+    print(type(data))
+    return json.dumps(data)
+
 
 
 if __name__ == "__main__":
