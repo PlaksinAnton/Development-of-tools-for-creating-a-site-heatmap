@@ -8,6 +8,18 @@ import basket from "../assets/imgs/basket.svg";
 import arrowRed from "../assets/imgs/arrow-red.svg";
 import search from "../assets/imgs/search.svg";
 import { Link } from 'react-router-dom';
+import axios from "axios";
+
+
+const testHui = async () => {
+    const json = {
+        test: 'test'
+    }
+    await axios.post(`http://127.0.0.1:5000/login`, json)
+        .then(response => {
+            console.log(response)
+        })
+}
 
 const Header = (props) => {
     return (
@@ -44,7 +56,7 @@ const Header = (props) => {
                             </button>
                         </li>
                         <li>
-                            <button className="header-button">
+                            <button className="header-button" onClick={testHui}>
                                 <div className="header-button__text">WishList</div>
                                 <img src={heart} alt="" className="heart" />
                             </button>

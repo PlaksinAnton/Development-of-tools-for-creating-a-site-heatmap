@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   VictoryPie,
   VictoryChart,
@@ -6,6 +6,37 @@ import {
   VictoryTheme,
   VictoryLine,
 } from "victory";
+import axios from "axios";
+
+const [dataForGraph, setDataForGraph] = useState('')
+//const [dataArr, setDataArr] = useState('')
+
+useEffect(() =>{
+    axios.get(`http://127.0.0.1:5000/login`, 'test: test')
+        .then(response => {
+            setDataForGraph(response.data.dataForGraph)
+            console.log(response)
+        }).catch(error => {
+            console.log(error)
+    })
+})
+
+const dataArr = []
+for(let i=0;i<dataForGraph.lenght; i++) {
+    //к нужному виду
+}
+
+/*
+const testHui = async () => {
+    const json = {
+        test: 'test'
+    }
+    await axios.post(`http://127.0.0.1:5000/login`, json)
+        .then(response => {
+            console.log(response)
+        })
+}
+*/
 
 class App extends React.Component {
   render() {
@@ -15,11 +46,7 @@ class App extends React.Component {
           <div class="victorypie">
             <VictoryPie
               colorScale={["tomato", "orange", "gold"]}
-              data={[
-                { x: "Header", y: 25 },
-                { x: "Footer", y: 40 },
-                { x: "Sections", y: 55 },
-              ]}
+              data={dataArr}
             />
             <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
               <VictoryBar
