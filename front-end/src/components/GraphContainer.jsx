@@ -12,11 +12,11 @@ const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
   //const [dataArr, setDataArr] = useState('')
 
-  useEffect(() => {
-    axios("http://127.0.0.1:5000/get_data")
+  useEffect(async () => {
+    !dataForGraph && axios("http://127.0.0.1:5000/get_data")
       .then((response) => {
         setDataForGraph(response.data.data);
-        //console.log(response.data.data);
+        console.log(response.data.data);
       })
       .catch((error) => {
         console.log(error);
