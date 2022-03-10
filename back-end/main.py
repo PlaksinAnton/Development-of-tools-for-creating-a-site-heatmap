@@ -1,10 +1,12 @@
 import sqlite3
 import flask
 from flask import request
+from flask_cors import CORS
 import json
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+CORS(app)
 
 with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
