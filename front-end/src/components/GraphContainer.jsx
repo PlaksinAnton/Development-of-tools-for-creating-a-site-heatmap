@@ -13,29 +13,20 @@ const App = function (props) {
   //const [dataArr, setDataArr] = useState('')
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/get_data")
+    axios("http://127.0.0.1:5000/get_data")
       .then((response) => {
-        // setDataForGraph(response.data.dataForGraph);
-        console.log(response);
+        setDataForGraph(response.data.data);
+        //console.log(response.data.data);
       })
       .catch((error) => {
         console.log(error);
       });
   });
-
   const dataArr = [];
   // for (let i = 0; i < dataForGraph.lenght; i++) {
   //   к нужному виду
   // }
 
-  const testHui = async () => {
-    const json = {
-      test: "test",
-    };
-    await axios.post(`http://127.0.0.1:5000/login`, json).then((response) => {
-      console.log(response);
-    });
-  };
   return (
     <section class="graphs">
       <div class="graphs-container">
@@ -44,11 +35,7 @@ const App = function (props) {
           <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
             <VictoryBar
               style={{ data: { fill: "#c43a31" } }}
-              data={[
-                { x: "Header", y: 25 },
-                { x: "Footer", y: 40 },
-                { x: "Sections", y: 55 },
-              ]}
+              data={Object.values(dataForGraph)}
             />
           </VictoryChart>
           <VictoryChart theme={VictoryTheme.material}>
@@ -57,13 +44,7 @@ const App = function (props) {
                 data: { stroke: "#c43a31" },
                 parent: { border: "1px solid #ccc" },
               }}
-              data={[
-                { x: 1, y: 2 },
-                { x: 2, y: 3 },
-                { x: 3, y: 5 },
-                { x: 4, y: 4 },
-                { x: 5, y: 7 },
-              ]}
+              data={Object.values(dataForGraph)}
             />
           </VictoryChart>
         </div>
