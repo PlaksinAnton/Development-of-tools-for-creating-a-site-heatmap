@@ -1,12 +1,12 @@
 import sqlite3
 import flask
 from flask import request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import json
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-CORS(app)
+#CORS(app)
 
 with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
@@ -25,6 +25,7 @@ db.commit()
 
 
 @app.route('/send_data', methods=['post'])
+@cross_origin()
 def send_data():
     data = request.get_json(force=True)
     new_data = []
@@ -54,6 +55,7 @@ def send_data():
 
 
 @app.route('/get_data')
+@cross_origin()
 def get_data():
     select = '''SELECT * FROM tb_clicks'''
     sql.execute(select)
