@@ -23,6 +23,9 @@ function GraphicPage() {
             sendData(heatmapClicks);
             // get information about users
             const date = new Date;
+            if (!sessionStorage.getItem('startTime')) {
+                sessionStorage.setItem('startTime', Date.now());
+            }
             let computerInfo = detect.parse(navigator.userAgent);
             const enterTime = sessionStorage.getItem('startTime');
             let currentTime = Date.now();
