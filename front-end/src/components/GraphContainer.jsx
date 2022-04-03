@@ -26,7 +26,6 @@ const App = function (props) {
   // for (let i = 0; i < dataForGraph.lenght; i++) {
   //   к нужному виду
   // }
-
   return (
     <section class="graphs">
       <div class="graphs-container">
