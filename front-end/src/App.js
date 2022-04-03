@@ -7,7 +7,7 @@ import { Grid } from "./pages/Grid";
 import { Product } from "./pages/Product";
 
 import './assets/css/style.css';
-import {GraphicPage} from "./pages/GraphicPage";
+import { GraphicPage } from "./pages/GraphicPage";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/grid" element={<Grid />} />
         <Route path="/product" element={<Product />} />
-          <Route path="/admin" element={<GraphicPage />} />
+        <Route path="/admin" element={<GraphicPage />} />
       </Routes>
       <Footer />
     </>
