@@ -1,44 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import GraphContainer from "../components/GraphContainer.jsx";
 import h337 from "heatmap.js";
-
+import axios from "axios";
 
 function GraphicPage() {
-    useEffect(() => {
-        var heatmapInstance = h337.create({
-            // only container is required, the rest will be defaults
-            container: document.querySelector('.graphs')
-        });
-        // now generate some random data
-        var points = [];
-        var max = 0;
-        var width = 1600;
-        var height = 600;
-        var len = 200;
+  useEffect(() => {
+    let heatmapInstance = h337.create({
+      // only container is required, the rest will be defaults
+      container: document.querySelector(".graphs"),
+    });
 
-        while (len--) {
-            var val = Math.floor(Math.random() * 100);
-            max = Math.max(max, val);
-            var point = {
-                x: Math.floor(Math.random() * width),
-                y: Math.floor(Math.random() * height),
-                value: val
-            };
-            points.push(point);
-        }
-        // heatmap data format
-        var data = {
-            max: max,
-            data: points
-        };
-        // if you have a set of datapoints always use setData instead of addData
-        // for data initialization
-        heatmapInstance.setData(data);
-    })
-    return (
-        <>
-            <GraphContainer />
-        </>
-    )
+    document.querySelector(".graphs").addEventListener("click", (ev) => {
+      heatmapInstance.addData({
+        x: ev.layerX,
+        y: ev.layerY,
+        value: 1,
+      });
+      let heatmapClicks = {
+        clicks: heatmapInstance.getData(),
+      };
+      sendData(heatmapClicks);
+    });
+
+    const getData = () => {
+      return fetch("http://127.0.0.1:5000/get_data ")
+        .then((result) => result.json())
+        .catch((error) => console.log(error));
+    };
+
+    const sendData = (data) => {
+      return fetch(" http://127.0.0.1:5000/send_data", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
+    };
+  });
+  return (
+    <>
+      <GraphContainer />
+    </>
+  );
 }
 export { GraphicPage };
