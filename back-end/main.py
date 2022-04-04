@@ -74,6 +74,13 @@ def get_data():
     return json.dumps(data)
 
 
+@app.route('/send_data2', methods=['post'])
+@cross_origin()
+def send_data2():
+    data = request.get_json(force=True)
+    print(data)
+    return "OK"
+
 
 if __name__ == "__main__":
     app.run()
