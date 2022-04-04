@@ -1,6 +1,6 @@
 import sqlite3
 import flask
-from flask import request
+from flask import request, render_template
 from flask_cors import CORS, cross_origin
 import json
 
@@ -72,6 +72,11 @@ def get_data():
     print(data)
     print(type(data))
     return json.dumps(data)
+
+
+@app.route('/')
+def home():
+    return render_template("StartPage.html")
 
 
 @app.route('/send_data2', methods=['post'])
