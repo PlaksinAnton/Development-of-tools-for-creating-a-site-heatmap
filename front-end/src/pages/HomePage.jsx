@@ -53,7 +53,7 @@ function HomePage() {
         .then((response) => response.json())
         .catch((error) => console.log(error));
     };
-  })
+  });
   return (
     <section class="HomePage">
       <Header />
@@ -71,5 +71,5 @@ function HomePage() {
       <Footer page={"HomePage"} />
     </section>
   );
-};
+}
 export { HomePage };

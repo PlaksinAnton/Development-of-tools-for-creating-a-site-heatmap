@@ -2208,3 +2208,14 @@ template {
   text-align: center;
   font-weight: 600;
 }
+
+.main-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2b2bf5;
+}
+.admin-text__about {
+  font-size: 20px;
+  font-weight: bold;
+  color: darkred;
+}

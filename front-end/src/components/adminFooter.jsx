@@ -10,7 +10,8 @@ const AdminFooter = (props) => {
             инструментария по созданию тепловой карты сайта"
           </p>
           <p class="text admin-text__who">
-            Руководитель проекта - Иванов Фёдор Ильич
+            Руководитель проекта -{" "}
+            <span className="main-text">Иванов Фёдор Ильич</span>
           </p>
           <p class="text admin-text__who-create">
             Данный сайт был создан frontend - разработчиками{" "}
