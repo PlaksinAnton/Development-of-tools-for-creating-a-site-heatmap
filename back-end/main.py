@@ -39,6 +39,7 @@ db.commit()
 @cross_origin()
 def send_data():
     data = request.get_json(force=True)
+    i = 0  # флаг
     x = data['coordinats']['x']
     y = data['coordinats']['y']
     m = data['minutes']
@@ -57,6 +58,7 @@ def send_data():
     if result:  # если есть, то запоминаем индекс
         br = result[0]
     else:  # если нет, то вписываем и запоминаем индекс
+        i = 1  # флаг
         insert_br = 'INSERT INTO tb_browser VALUES(?)'
         l = browser,
         sql.execute(insert_br, l)  # добавляем данные
@@ -74,6 +76,7 @@ def send_data():
     if result:  # если есть, то запоминаем индекс
         gt = result[0]
     else:  # если нет, то вписываем и запоминаем индекс
+        i = 1  # флаг
         insert_gt = 'INSERT INTO tb_gadget_type VALUES(?)'
         l = gadget_type,
         sql.execute(insert_gt, l)  # добавляем данные
@@ -81,12 +84,26 @@ def send_data():
         sql.execute(select_gt % gadget_type)
         gt = sql.fetchone()[0]
 
+    if i == 0:
+        select = '''
+                SELECT value FROM tb_clicks
+                WHERE x = "%s" AND y = "%s" AND time = "%s" AND browser_id = "%s" AND gadgetType_id = "%s"'''
+        sql.execute(select % (x, y, time, br, gt))  # смотрю есть ли совпадающая запись в списке
+        result = sql.fetchone()
+        if result:  # если да,
+            update = '''
+                    UPDATE tb_clicks SET value = "%s"
+                    WHERE x = "%s" AND y = "%s" AND time = "%s" AND browser_id = "%s" AND gadgetType_id = "%s"'''
+            sql.execute(update % (result[0] + 1, x, y, time, br, gt))  # то обновляем количество кликов
+            db.commit()
+            for value in sql.execute("SELECT * FROM 'tb_clicks'"):
+                print(value)
+            return "OK"
 
     insert = '''INSERT INTO tb_clicks (x,y,value,time,browser_id,gadgetType_id) VALUES (?,?,?,?,?,?)'''
     sql.execute(insert, (x, y, 1, time, br, gt))  # добавляем данные
     db.commit()
 
-    ins = (x, y, 1, time, br)
     for value in sql.execute("SELECT * FROM 'tb_clicks'"):
         print(value)
     return "OK"
