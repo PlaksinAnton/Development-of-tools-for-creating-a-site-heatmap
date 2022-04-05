@@ -2,8 +2,49 @@ import React from 'react';
 import facebookPic from "../assets/imgs/facebook-pic.svg";
 import instPic from "../assets/imgs/inst-pic.svg";
 import twitterPic from "../assets/imgs/twitter-pic.svg";
+import h337 from "heatmap.js";
 
 const Footer = (props) => {
+    let dataPoint1 = {
+        x: 50,
+        y: 50,
+        value: 100
+    };
+    let dataPoint2 = {
+        x: 10,
+        y: 10,
+        value: 10
+    };
+    let dataPoint3 = {
+        x: 400,
+        y: 400,
+        value: 20
+    };
+    let dataPoint4 = {
+        x: 1000,
+        y: 1000,
+        value: 100
+    };
+    let dataPoints = [dataPoint1, dataPoint2, dataPoint3, dataPoint4];
+    var data = {
+        max: 100,
+        min: 0,
+        data: dataPoints,
+    };
+    // let view = true
+    function viewHeatMap() {
+        let heatmapInstance = h337.create({
+            // only container is required, the rest will be defaults
+            container: document.querySelector(".graphs"),
+        })
+        // if (view) {
+        heatmapInstance.setData(data);
+        // }
+        // if (!view) {
+        //     heatmapInstance._renderer.canvas.remove()
+        // }
+        // view = !view
+    }
     return (
         <footer className="footer">
             <div className="footer-container">
@@ -15,6 +56,7 @@ const Footer = (props) => {
                     </form>
                     <span className="footer-contact">Contact Info</span>
                     <span className="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
+                    <button className="footer-heatmapButton footer-button" onClick={viewHeatMap}>View heat map</button>
                 </div>
                 <div className="footer__right">
                     <ul className="footer-item">
