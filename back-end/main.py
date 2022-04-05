@@ -18,7 +18,6 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `time` INTEGER UNSIGNED NOT NULL,
     `browser_id` INTEGER UNSIGNED NOT NULL,
     `gadgetType_id` INTEGER UNSIGNED NOT NULL,
-    PRIMARY KEY (`x`, `y`)
     )''')
 db.commit()
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
@@ -142,7 +141,7 @@ def send_data():
 @app.route('/get_data')
 @cross_origin()
 def get_data():
-    select = '''SELECT * FROM tb_clicks'''
+    select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
     sql.execute(select)
     result = sql.fetchall()
     if result is None:
@@ -155,7 +154,7 @@ def get_data():
     data_sample = data_sample[:-1] + " ] }"
     data = json.loads(data_sample)
     print(data)
-    print(type(data))
+    #print(type(data))
     return json.dumps(data)
 
 @app.route('/')
