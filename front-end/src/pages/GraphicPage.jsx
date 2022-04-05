@@ -5,8 +5,9 @@ import detect from "detect.js";
 import axios from "axios";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { getPosition } from "../components/Clicks";
+import { getPosition } from "../Clicks";
 import AdminHeader from "../components/adminHeader.jsx";
+import AdminFooter from "../components/adminFooter";
 
 function GraphicPage() {
   useEffect(() => {
@@ -96,7 +97,7 @@ function GraphicPage() {
     <>
       <AdminHeader />
       <GraphContainer />
-      <Footer />
+      <AdminFooter />
     </>
   );
 }
