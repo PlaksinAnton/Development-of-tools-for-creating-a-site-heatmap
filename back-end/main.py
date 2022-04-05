@@ -18,6 +18,7 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `browser_id` TINYINT UNSIGNED NOT NULL,
     `gadgetType_id` TINYINT  UNSIGNED NOT NULL
     )''')
+
 db.commit()
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
     `browser` CHARACTER NOT NULL
