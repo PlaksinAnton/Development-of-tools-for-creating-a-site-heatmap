@@ -430,12 +430,15 @@ template {
   margin-right: 88px;
   font-weight: bold;
   color: #0d0e43;
+  text-decoration: none;
 }
 
 .header-email,
 .header-tel {
   display: flex;
   align-items: center;
+  color: #F1F1F1;
+  text-decoration: none;
 }
 
 .header-email {
@@ -449,6 +452,11 @@ template {
   align-items: center;
   padding: 0;
   margin-right: 20px;
+  text-decoration: none;
+}
+
+.header-select {
+  margin-right: 16px;
 }
 
 .header-button__last {
@@ -457,6 +465,13 @@ template {
 
 .header-button__text {
   margin-right: 4px;
+  color: #F1F1F1;
+  background: transparent;
+  border: none;
+}
+
+.header-button__text:hover {
+  cursor: pointer;
 }
 
 .header-link {
@@ -543,6 +558,10 @@ template {
   line-height: 20px;
   color: black;
   padding-right: 61px;
+}
+
+.search__input:focus-visible {
+  outline: none;
 }
 
 .search__button {
@@ -2145,20 +2164,23 @@ template {
   margin-top: 20px;
 }
 
-.admin-header  {
+.admin-header {
   margin: auto;
   padding: 15px;
 }
+
 .admin-container {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .admin-text {
   display: flex;
   flex-direction: column;
   text-align: center;
 }
+
 .admin-text__first {
   font-weight: bold;
   font-size: 30px;
@@ -2167,6 +2189,7 @@ template {
   margin-bottom: 20px;
   padding: 0;
 }
+
 .admin-text__second {
   font-weight: bold;
   font-size: 35px;
@@ -2187,13 +2210,16 @@ template {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
+
 .admin-button__main {
   display: block;
   box-sizing: border-box;
@@ -2214,6 +2240,7 @@ template {
   font-weight: bold;
   color: #2b2bf5;
 }
+
 .admin-text__about {
   font-size: 20px;
   font-weight: bold;

@@ -25,33 +25,37 @@ const Header = (props) => {
       <div className="header-up">
         <div className="container header-up__container">
           <div className="header-up__left">
-            <div className="header-email">
+            <a href="mailto: mhhasanul@gmail.com" className="header-email">
               <img src={post} alt="post picture" className="email-pic" />
               mhhasanul@gmail.com
-            </div>
-            <div className="header-tel">
+            </a>
+            <a href="tel: +1234567890" className="header-tel">
               <img src={tel} alt="telephone picture" className="tel-pic" />
               (12345)67890
-            </div>
+            </a>
           </div>
           <ul className="header-up__right">
             <li>
-              <button className="header-button">
-                <div className="header-button__text">English</div>
-                <img src={arrow} alt="" className="arrow" />
-              </button>
+              <div className="header-select">
+                <select className="header-button__text" name="language">
+                  <option value="eng">English</option>
+                  <option value="rus">Russian</option>
+                </select>
+              </div>
             </li>
             <li>
-              <button className="header-button">
-                <div className="header-button__text">USD</div>
-                <img src={arrow} alt="" className="arrow" />
-              </button>
+              <div className="header-select">
+                <select className="header-button__text" name="currency">
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                </select>
+              </div>
             </li>
             <li>
-              <button className="header-button">
+              <Link className="header-button" to="/admin">
                 <div className="header-button__text">Login</div>
                 <img src={user} alt="" className="user" />
-              </button>
+              </Link>
             </li>
             <li>
               <button className="header-button">
@@ -70,12 +74,12 @@ const Header = (props) => {
       <div className="header-down">
         <div className="container header-down__container">
           <div className="header-down__left">
-            <div className="header-logo">Hekto</div>
+            <Link className="header-logo" to="/">Hekto</Link>
             <ul className="navbar">
               <li>
                 <Link className="header-link header-link__red" to="/">
                   Home
-                  <img src={arrowRed} alt="" className="arrow" />
+                  {/* <img src={arrowRed} alt="" className="arrow" /> */}
                 </Link>
               </li>
               <li>
@@ -103,11 +107,11 @@ const Header = (props) => {
                   Contact
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link className="header-link" to="/admin">
                   Graphics
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           <form action="#" className="search">
@@ -118,7 +122,7 @@ const Header = (props) => {
           </form>
         </div>
       </div>
-    </header>
+    </header >
   );
 };
 export default Header;
