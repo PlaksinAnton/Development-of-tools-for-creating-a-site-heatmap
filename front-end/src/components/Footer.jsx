@@ -4,6 +4,7 @@ import instPic from "../assets/imgs/inst-pic.svg";
 import twitterPic from "../assets/imgs/twitter-pic.svg";
 import h337 from "heatmap.js";
 
+
 const Footer = (props) => {
     let dataPoint1 = {
         x: 50,
@@ -33,18 +34,25 @@ const Footer = (props) => {
     };
     // let view = true
     function viewHeatMap() {
+        let name = "." + props.page
         let heatmapInstance = h337.create({
             // only container is required, the rest will be defaults
-            container: document.querySelector(".graphs"),
+            container: document.querySelector(name),
         })
         // if (view) {
+        // здесь будет getdata
         heatmapInstance.setData(data);
         // }
         // if (!view) {
         //     heatmapInstance._renderer.canvas.remove()
         // }
         // view = !view
-    }
+    };
+    const getData = () => {
+        return fetch("http://127.0.0.1:5000/get_data ")
+            .then((result) => result.json())
+            .catch((error) => console.log(error));
+    };
     return (
         <footer className="footer">
             <div className="footer-container">
@@ -56,7 +64,7 @@ const Footer = (props) => {
                     </form>
                     <span className="footer-contact">Contact Info</span>
                     <span className="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
-                    <button className="footer-heatmapButton footer-button" onClick={viewHeatMap}>View heat map</button>
+                    <button className="footer-button" onClick={viewHeatMap}>View heat map</button>
                 </div>
                 <div className="footer__right">
                     <ul className="footer-item">
