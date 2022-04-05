@@ -19,10 +19,9 @@ function GraphicPage() {
         y: ev.layerY,
         value: 1,
       });
-      let heatmapClicks = {
-        clicks: heatmapInstance.getData(),
-      };
-      sendData(heatmapClicks);
+      // let heatmapClicks = {
+      //   clicks: heatmapInstance.getData(),
+      // };
       // get information about users
       const date = new Date();
       if (!sessionStorage.getItem("startTime")) {
@@ -32,23 +31,25 @@ function GraphicPage() {
       const enterTime = sessionStorage.getItem("startTime");
       let currentTime = Date.now();
       let spentTime = (currentTime - enterTime) / 1000;
+      let coordinats = getPosition(ev);
       let user = {
         date: date.toLocaleString(),
         browser: computerInfo.browser.name,
         gadget: computerInfo.device.name,
         gadgetType: computerInfo.device.type,
         os: computerInfo.os.name,
-        computerInfo: navigator.userAgent,
+        // computerInfo: navigator.userAgent,
         minutes: Math.floor(spentTime / 60),
         seconds: Math.floor(spentTime % 60),
+        coordinats: getPosition(ev),
       };
       console.log(user);
+      sendData(user);
     });
 
-    document.addEventListener("mousemove", (e) => {
-      let coordinats = getPosition(e);
-      console.log(`x: ${coordinats.x}, y: ${coordinats.y}`);
-    });
+    // document.addEventListener("click", (e) => {
+    //   let coordinats = getPosition(e);
+    // });
 
     const getData = () => {
       return fetch("http://127.0.0.1:5000/get_data ")
@@ -57,7 +58,7 @@ function GraphicPage() {
     };
 
     const sendData = (data) => {
-      return fetch(" http://127.0.0.1:5000/send_data", {
+      return fetch(" http://127.0.0.1:5000/send_data2", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
