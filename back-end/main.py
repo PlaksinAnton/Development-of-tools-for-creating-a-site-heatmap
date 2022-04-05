@@ -6,7 +6,6 @@ import json
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-# CORS(app)
 
 with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
@@ -15,9 +14,9 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `x` INTEGER UNSIGNED NOT NULL,
     `y` INTEGER UNSIGNED NOT NULL,
     `value` INTEGER UNSIGNED NOT NULL,
-    `time` INTEGER UNSIGNED NOT NULL,
-    `browser_id` INTEGER UNSIGNED NOT NULL,
-    `gadgetType_id` INTEGER UNSIGNED NOT NULL
+    `time` TINYINT UNSIGNED NOT NULL,
+    `browser_id` TINYINT UNSIGNED NOT NULL,
+    `gadgetType_id` TINYINT  UNSIGNED NOT NULL
     )''')
 db.commit()
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
@@ -32,6 +31,9 @@ db.commit()
 # Посмотреть содержимое бд:
 # for value in sql.execute("SELECT rowid, x, y, value FROM 'tb_clicks'"):
 #    print(value)
+@app.route('/')
+def home():
+    return render_template("StartPage.html")
 
 
 @app.route('/send_data', methods=['post'])
@@ -108,6 +110,60 @@ def send_data():
     return "OK"
 
 
+@app.route('/get_data')
+@cross_origin()
+def get_data():
+    select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
+    sql.execute(select)
+    result = sql.fetchall()
+    if result is None:
+        return 'пустая БД'
+    data_sample = '''{ "data": [ '''
+    str_sample = '''{"x":%s, "y": %s, "value":%s},'''
+    for st in result:
+        s = str_sample % st
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + " ] }"
+    data = json.loads(data_sample)
+    print(data)
+    #print(type(data))
+    return json.dumps(data)
+
+
+@app.route('/get_data/browser_gist')
+@cross_origin()
+def browser_gist():
+    select = '''SELECT b.browser, SUM(a.value) 
+            FROM tb_clicks AS a INNER JOIN tb_browser AS b 
+            ON a.browser_id = b.rowid GROUP BY browser_id'''
+    sql.execute(select)
+    result = sql.fetchall()
+    data_sample = '''{ "data": [ '''
+    str_sample = '''{"browser":"%s", "value": %s},'''
+    for st in result:
+        s = str_sample % st
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + " ] }"
+    data = json.loads(data_sample)
+    print(data)
+    return json.dumps(data)
+
+
+@app.route('/send_data2', methods=['post'])
+@cross_origin()
+def send_data2():
+    data = request.get_json(force=True)
+    print(data)
+    return "OK"
+
+
+if __name__ == "__main__":
+    app.run()
+
+# for value in sql.execute("SELECT * FROM'tb_clicks'"):
+#   print(value)
+
+
 # @app.route('/send_data', methods=['post'])
 # @cross_origin()
 # def send_data():
@@ -136,46 +192,3 @@ def send_data():
 #         sql.executemany(insert, new_data) # добавляем данные
 #         db.commit()
 #     return "OK"
-
-
-@app.route('/get_data')
-@cross_origin()
-def get_data():
-    select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
-    sql.execute(select)
-    result = sql.fetchall()
-    if result is None:
-        return 'пустая БД'
-    data_sample = '''{ "data": [ '''
-    str_sample = '''{"x":%s, "y": %s, "value":%s},'''
-    for st in result:
-        s = str_sample % st
-        data_sample = data_sample + s
-    data_sample = data_sample[:-1] + " ] }"
-    data = json.loads(data_sample)
-    print(data)
-    #print(type(data))
-    return json.dumps(data)
-
-@app.route('/')
-def home():
-    return render_template("StartPage.html")
-
-
-@app.route('/send_data2', methods=['post'])
-@cross_origin()
-def send_data2():
-    data = request.get_json(force=True)
-    print(data)
-    return "OK"
-
-
-if __name__ == "__main__":
-    app.run()
-
-
-# sql.execute("INSERT INTO tb_clicks (x,y,value) VALUES (5,5,1)")
-# db.commit()
-
-# for value in sql.execute("SELECT * FROM'tb_clicks'"):
-#   print(value)
