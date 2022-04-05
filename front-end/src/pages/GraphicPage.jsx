@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import GraphContainer from "../components/GraphContainer.jsx";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import AdminHeader from "../components/adminHeader.jsx";
 
 import detect from "detect.js";
 import axios from "axios";
@@ -46,7 +47,7 @@ const GraphicPage = (props) => {
   })
   return (
     <>
-      <Header />
+      <AdminHeader />
       <GraphContainer />
       <Footer page="graphs" />
     </>

@@ -6,7 +6,7 @@ import json
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-#CORS(app)
+# CORS(app)
 
 with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
@@ -14,44 +14,112 @@ with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `x` INTEGER UNSIGNED NOT NULL,
     `y` INTEGER UNSIGNED NOT NULL,
-    `value` INTEGER UNSINED NOT NULL,
+    `value` INTEGER UNSIGNED NOT NULL,
+    `time` INTEGER UNSIGNED NOT NULL,
+    `browser_id` INTEGER UNSIGNED NOT NULL,
+    `gadgetType_id` INTEGER UNSIGNED NOT NULL,
     PRIMARY KEY (`x`, `y`)
+    )''')
+db.commit()
+sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
+    `browser` CHARACTER NOT NULL
+    )''')
+db.commit()
+sql.execute('''CREATE TABLE IF NOT EXISTS `tb_gadget_type` (
+    `gadgetType` CHARACTER NOT NULL
     )''')
 db.commit()
 
 # Посмотреть содержимое бд:
-# for value in sql.execute("SELECT * FROM 'tb_clicks'"):
-#     print(value)
+# for value in sql.execute("SELECT rowid, x, y, value FROM 'tb_clicks'"):
+#    print(value)
 
 
 @app.route('/send_data', methods=['post'])
 @cross_origin()
 def send_data():
     data = request.get_json(force=True)
-    new_data = []
-    for str in data['data']:
-        x = str['x']
-        y = str['y']
-        v = str['value']
-        select = '''
-                    SELECT value FROM tb_clicks
-                    WHERE x = "%s" and y = "%s"'''
-        sql.execute(select % (x, y)) # проверяем существует ли запись об пиксиле x y
-        result = sql.fetchone()
-        if result: # если да,
-            update = '''
-                        UPDATE tb_clicks SET value = "%s"
-                        WHERE x = "%s" AND y = "%s"'''
-            sql.execute(update % (result[0] + v, x, y)) # то обновляем количество кликов
-            db.commit()
-        else: # если нет,
-            ins = (x, y, v)
-            new_data.append(ins) # то сохраняем данные в массив
-    if new_data:
-        insert = 'INSERT INTO tb_clicks (x,y,value) VALUES (?,?,?)'
-        sql.executemany(insert, new_data) # добавляем данные
+    x = data['coordinats']['x']
+    y = data['coordinats']['y']
+    m = data['minutes']
+    if m < 2: time = 2
+    elif m < 5: time = 50
+    elif m < 10: time = 10
+    elif m < 15: time = 15
+    else: time = 20
+    browser = data['browser']
+
+    select_br = '''
+            SELECT rowid FROM tb_browser
+            WHERE browser = "%s"'''
+    sql.execute(select_br % browser)  # смотрю есть ли совпадающий браузер в списке
+    result = sql.fetchone()
+    if result:  # если есть, то запоминаем индекс
+        br = result[0]
+    else:  # если нет, то вписываем и запоминаем индекс
+        insert_br = 'INSERT INTO tb_browser VALUES(?)'
+        l = browser,
+        sql.execute(insert_br, l)  # добавляем данные
         db.commit()
+        sql.execute(select_br % browser)
+        res = sql.fetchone()
+        br = res[0]
+
+    gadget_type = data['gadgetType']
+    select_gt = '''
+            SELECT rowid FROM tb_gadget_type
+            WHERE gadgetType = "%s"'''
+    sql.execute(select_gt % gadget_type)  # смотрю есть ли совпадающий тип устройства в списке
+    result = sql.fetchone()
+    if result:  # если есть, то запоминаем индекс
+        gt = result[0]
+    else:  # если нет, то вписываем и запоминаем индекс
+        insert_gt = 'INSERT INTO tb_gadget_type VALUES(?)'
+        l = gadget_type,
+        sql.execute(insert_gt, l)  # добавляем данные
+        db.commit()
+        sql.execute(select_gt % gadget_type)
+        gt = sql.fetchone()[0]
+
+
+    insert = '''INSERT INTO tb_clicks (x,y,value,time,browser_id,gadgetType_id) VALUES (?,?,?,?,?,?)'''
+    sql.execute(insert, (x, y, 1, time, br, gt))  # добавляем данные
+    db.commit()
+
+    ins = (x, y, 1, time, br)
+    for value in sql.execute("SELECT * FROM 'tb_clicks'"):
+        print(value)
     return "OK"
+
+
+# @app.route('/send_data', methods=['post'])
+# @cross_origin()
+# def send_data():
+#     data = request.get_json(force=True)
+#     new_data = []
+#     for str in data['data']:
+#         x = str['x']
+#         y = str['y']
+#         v = str['value']
+#         select = '''
+#                     SELECT value FROM tb_clicks
+#                     WHERE x = "%s" and y = "%s"'''
+#         sql.execute(select % (x, y)) # проверяем существует ли запись об пиксиле x y
+#         result = sql.fetchone()
+#         if result: # если да,
+#             update = '''
+#                         UPDATE tb_clicks SET value = "%s"
+#                         WHERE x = "%s" AND y = "%s"'''
+#             sql.execute(update % (result[0] + v, x, y)) # то обновляем количество кликов
+#             db.commit()
+#         else: # если нет,
+#             ins = (x, y, v)
+#             new_data.append(ins) # то сохраняем данные в массив
+#     if new_data:
+#         insert = 'INSERT INTO tb_clicks (x,y,value) VALUES (?,?,?)'
+#         sql.executemany(insert, new_data) # добавляем данные
+#         db.commit()
+#     return "OK"
 
 
 @app.route('/get_data')
