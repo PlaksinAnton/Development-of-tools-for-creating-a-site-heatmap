@@ -3,9 +3,9 @@ import projectMIEM from "../assets/imgs/project-miem.png";
 
 const AdminHeader = (props) => {
   return (
-    <section class="admin-footer">
-      <div className="admin-container">
-        <div className="admin-text">
+    <section class="admin-header">
+      <div class="admin-container">
+        <div class="admin-text">
           <p class="admin-text__first">
             Добро пожаловать на страницу администратора вашего сайта!
           </p>
@@ -15,9 +15,11 @@ const AdminHeader = (props) => {
           </p>
         </div>
         {/*<img src={projectMIEM} alt="Miem picture" className="admin-image" />*/}
-        <div className="admin-button">
+        <div class="admin-button">
           <form action="/">
-            <button class="admin-button__main">Назад на главную страницу сайта!</button>
+            <button class="admin-button__main">
+              Назад на главную страницу сайта!
+            </button>
           </form>
         </div>
       </div>

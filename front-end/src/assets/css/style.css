@@ -2145,7 +2145,7 @@ template {
   margin-top: 20px;
 }
 
-.admin-footer {
+.admin-header  {
   margin: auto;
   padding: 15px;
 }
@@ -2175,6 +2175,7 @@ template {
   margin-bottom: 20px;
 }
 
+.admin-header,
 .admin-footer {
   background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
   background-size: 400% 400%;
