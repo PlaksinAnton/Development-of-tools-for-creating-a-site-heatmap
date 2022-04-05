@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GraphContainer from "../components/GraphContainer.jsx";
-import h337 from "heatmap.js";
+// import h337 from "heatmap.js";
 import detect from "detect.js";
 import axios from "axios";
 import Footer from "../components/Footer";
@@ -9,16 +9,42 @@ import { getPosition } from "../components/Clicks";
 
 function GraphicPage() {
   useEffect(() => {
-    let heatmapInstance = h337.create({
-      // only container is required, the rest will be defaults
-      container: document.querySelector(".graphs"),
-    });
+    //   let dataPoint1 = {
+    //     x: 50,
+    //     y: 50,
+    //     value: 100
+    //   };
+    //   let dataPoint2 = {
+    //     x: 10,
+    //     y: 10,
+    //     value: 10
+    //   };
+    //   let dataPoint3 = {
+    //     x: 400,
+    //     y: 400,
+    //     value: 20
+    //   };
+    //   let dataPoint4 = {
+    //     x: 1000,
+    //     y: 1000,
+    //     value: 100
+    //   };
+    //   let dataPoints = [dataPoint1, dataPoint2, dataPoint3, dataPoint4];
+    //   var data = {
+    //     max: 100,
+    //     min: 0,
+    //     data: dataPoints,
+    //   };
+    //   let heatmapInstance = h337.create({
+    //     // only container is required, the rest will be defaults
+    //     container: document.querySelector(".graphs"),
+    //   });
     document.querySelector(".graphs").addEventListener("click", (ev) => {
-      heatmapInstance.addData({
-        x: ev.layerX,
-        y: ev.layerY,
-        value: 1,
-      });
+      // heatmapInstance.addData({
+      //   x: ev.layerX,
+      //   y: ev.layerY,
+      //   value: 1,
+      // });
       // let heatmapClicks = {
       //   clicks: heatmapInstance.getData(),
       // };
@@ -46,10 +72,6 @@ function GraphicPage() {
       console.log(user);
       sendData(user);
     });
-
-    // document.addEventListener("click", (e) => {
-    //   let coordinats = getPosition(e);
-    // });
 
     const getData = () => {
       return fetch("http://127.0.0.1:5000/get_data ")
