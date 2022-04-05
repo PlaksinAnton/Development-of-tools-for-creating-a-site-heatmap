@@ -17,7 +17,7 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `value` INTEGER UNSIGNED NOT NULL,
     `time` INTEGER UNSIGNED NOT NULL,
     `browser_id` INTEGER UNSIGNED NOT NULL,
-    `gadgetType_id` INTEGER UNSIGNED NOT NULL,
+    `gadgetType_id` INTEGER UNSIGNED NOT NULL
     )''')
 db.commit()
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
@@ -43,7 +43,7 @@ def send_data():
     y = data['coordinats']['y']
     m = data['minutes']
     if m < 2: time = 2
-    elif m < 5: time = 50
+    elif m < 5: time = 5
     elif m < 10: time = 10
     elif m < 15: time = 15
     else: time = 20
