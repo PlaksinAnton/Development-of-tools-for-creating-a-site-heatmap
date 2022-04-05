@@ -15,7 +15,7 @@ const AdminFooter = (props) => {
           </p>
           <p class="text admin-text__who-create">
             Данный сайт был создан frontend - разработчиками{" "}
-            <span class="main-text">Даниилом Холодовым</span>и{" "}
+            <span class="main-text">Даниилом Холодовым </span>и{" "}
             <span className="main-text">Анастасией Сюракшиной</span>
           </p>
           <p class="text admin-text__designer">

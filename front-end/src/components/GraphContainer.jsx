@@ -13,22 +13,24 @@ const App = function (props) {
   //const [dataArr, setDataArr] = useState('')
 
   useEffect(async () => {
-    !dataForGraph && axios("http://127.0.0.1:5000/get_data")
-      .then((response) => {
-        setDataForGraph(response.data.data);
-        console.log(response.data.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    !dataForGraph &&
+      axios("http://127.0.0.1:5000/get_data")
+        .then((response) => {
+          setDataForGraph(response.data.data);
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   });
-  const dataArr = [];
-  // for (let i = 0; i < dataForGraph.lenght; i++) {
-  //   к нужному виду
-  // }
   return (
     <section class="graphs">
       <div class="graphs-container">
+        <div className="button-container">
+          <button className="data-button">
+            Получить данные из базы данных!
+          </button>
+        </div>
         <div class="victorypie">
           <VictoryPie colorScale={["tomato", "orange", "gold"]} />
           <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
