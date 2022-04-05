@@ -64,7 +64,7 @@ const Footer = (props) => {
                     </form>
                     <span className="footer-contact">Contact Info</span>
                     <span className="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
-                    <button className="footer-button" onClick={viewHeatMap}>View heat map</button>
+                    <button className="footer-heatmapButton footer-button" onClick={viewHeatMap}>View heat map</button>
                 </div>
                 <div className="footer__right">
                     <ul className="footer-item">

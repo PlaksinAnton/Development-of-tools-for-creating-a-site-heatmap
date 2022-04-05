@@ -1,5 +1,5 @@
 import React from "react";
-import projectMIEM from "../assets/imgs/project-miem.png";
+// import projectMIEM from "../assets/imgs/project-miem.png";
 
 const AdminHeader = (props) => {
   return (

@@ -50,7 +50,7 @@ function Grid() {
       <Header />
       <GridDefault name="Shop Grid Default" />
       <MainItems />
-      <Footer page={"grid-page"} />
+      <Footer page="grid-page" />
     </section>
   );
 };
