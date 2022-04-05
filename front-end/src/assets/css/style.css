@@ -2144,3 +2144,66 @@ template {
 .footer-heatmapButton {
   margin-top: 20px;
 }
+
+.admin-footer {
+  margin: auto;
+  padding: 15px;
+}
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.admin-text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.admin-text__first {
+  font-weight: bold;
+  font-size: 30px;
+  color: #2b2bf5;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+.admin-text__second {
+  font-weight: bold;
+  font-size: 35px;
+  color: #7e33e0;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.admin-footer {
+  background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.admin-button__main {
+  display: block;
+  box-sizing: border-box;
+  padding: 0 25px;
+  height: 42px;
+  line-height: 38px;
+  border: 1px solid #F18230;
+  border-radius: 25px;
+  font-size: 14px;
+  color: #FFFFFF;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%), #F18230;
+  text-align: center;
+  font-weight: 600;
+}

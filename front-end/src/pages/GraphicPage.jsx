@@ -6,6 +6,7 @@ import axios from "axios";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { getPosition } from "../components/Clicks";
+import AdminHeader from "../components/adminHeader.jsx";
 
 function GraphicPage() {
   useEffect(() => {
@@ -93,7 +94,7 @@ function GraphicPage() {
   });
   return (
     <>
-      <Header />
+      <AdminHeader />
       <GraphContainer />
       <Footer />
     </>
