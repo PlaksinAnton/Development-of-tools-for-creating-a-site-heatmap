@@ -70,6 +70,7 @@ function GraphicPage() {
         minutes: Math.floor(spentTime / 60),
         seconds: Math.floor(spentTime % 60),
         coordinats: getPosition(ev),
+        page: "admin"
       };
       console.log(user);
       sendData(user);

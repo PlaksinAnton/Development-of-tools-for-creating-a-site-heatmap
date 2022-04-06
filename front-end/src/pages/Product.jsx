@@ -54,7 +54,7 @@ const Product = (props) => {
       <Playwood />
       <Description />
       <Related />
-      <Footer page={"productPage"} />
+      <Footer page="productPage" />
     </section>
   );
 };
