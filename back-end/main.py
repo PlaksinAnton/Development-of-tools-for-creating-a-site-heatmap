@@ -3,6 +3,8 @@ import flask
 from flask import request, render_template
 from flask_cors import CORS, cross_origin
 import json
+import time
+import os
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -87,6 +89,7 @@ def send_data():
         browser_id = browser_id[0]
 
     gadget_type = data['gadgetType']
+
     select_gt = '''
             SELECT rowid FROM tb_gadget_type
             WHERE gadget_type = "%s"'''
