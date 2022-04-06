@@ -13,7 +13,7 @@ const Footer = (props) => {
     // console.log(dataPoints)
   };
   const getData = () => {
-    axios.get(`http://127.0.0.1:5000/get_data`).then((response) => {
+    axios.get(`http://127.0.0.1:5000/get/all_data`).then((response) => {
       let dataPoints = response.data.data
       var data = {
         max: 15,
