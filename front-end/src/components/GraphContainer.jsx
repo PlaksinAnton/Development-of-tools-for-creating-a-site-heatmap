@@ -14,15 +14,16 @@ const App = function (props) {
 
   useEffect(async () => {
     !dataForGraph &&
-      axios("http://127.0.0.1:5000/get/browser_gist")
+      axios("http://127.0.0.1:5000/get/br_gist")
         .then((response) => {
           let data = []
           for (let i = 0; i < response.data.data.length; i++) {
             data.push({ x: i + 1, y: response.data.data[i].value, label: response.data.data[i].browser })
           }
-          const dataNew = { data }
-          setDataForGraph(dataNew);
-          console.log(dataNew)
+          //const dataNew = { data } лишнее действие вроде
+
+          setDataForGraph(data);
+          console.log(data)
         })
         .catch((error) => {
           console.log(error);
