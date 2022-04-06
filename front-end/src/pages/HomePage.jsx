@@ -39,7 +39,6 @@ function HomePage() {
         coordinats: getPosition(ev),
         page: "home",
       };
-      console.log(user);
       sendData(user);
     });
     const sendData = (data) => {

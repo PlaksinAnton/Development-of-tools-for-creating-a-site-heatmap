@@ -123,6 +123,7 @@ def send_data():
 @app.route('/get_data')
 @cross_origin()
 def get_data():
+    lock.acquire(True)
     select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
     sql.execute(select)
     result = sql.fetchall()
@@ -137,6 +138,7 @@ def get_data():
     data = json.loads(data_sample)
     print(data)
     #print(type(data))
+    lock.release()
     return json.dumps(data)
 
 
