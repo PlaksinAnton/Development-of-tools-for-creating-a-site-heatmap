@@ -1,9 +1,10 @@
 { "date": "04.04.2022, 21:28:38",
-  "browser": "Edge",
+  "browser": "Chrome2",
   "gadget": "Nexus 5",
   "gadgetType": "Mobile",
   "os": "Android 6",
-  "minutes": 14,
+  "minutes": 1,
   "seconds": 7,
-  "coordinats": {"x": 340, "y": 235}
+  "coordinats": {"x": 340, "y": 235},
+  "page": "home"
 }
