@@ -40,6 +40,7 @@ function HomePage() {
         page: "home",
       };
       sendData(user);
+      console.log(user);
     });
     const sendData = (data) => {
       return fetch(" http://127.0.0.1:5000/send_data", {
