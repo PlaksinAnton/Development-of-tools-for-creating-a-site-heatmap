@@ -1,44 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import facebookPic from "../assets/imgs/facebook-pic.svg";
 import instPic from "../assets/imgs/inst-pic.svg";
 import twitterPic from "../assets/imgs/twitter-pic.svg";
 import h337 from "heatmap.js";
 import axios from "axios";
 
-function getData() {
-  React.useEffect(() => {
-    let dataPoints;
-    axios.get("http://127.0.0.1:5000/get_data").then((response) => {
-      dataPoints = response.data.data;
-      console.log(dataPoints);
-      return dataPoints;
-    });
-  });
-}
-
-function viewHeatMap(page) {
-  let dataPointsLocal = getData;
-  let name = "." + page;
-  let config = {
-    container: document.getElementById(name),
-  };
-  let data = {
-    max: 100,
-    min: 0,
-    data: dataPointsLocal,
-  };
-  // let heatMapInstance = h337.create(config);
-  // heatMapInstance.setData(data);
-}
-
 const Footer = (props) => {
-  // let view = true
-  // const getData = () => {
-  //   return fetch("http://127.0.0.1:5000/get_data ")
-  //     .then((result) => console.log(result))
-  //     .catch((error) => console.log(error));
-  // };
-
+  // useState({heatMapInstance: []});
+  React.useEffect(() => {
+    axios.get(`http://127.0.0.1:5000/get_data`).then((response) => {
+      let dataPoints = response.data.data;
+      let name = "." + props.page;
+      let config = {
+        container: document.querySelector(name),
+      };
+      let data = {
+        max: 100,
+        min: 0,
+        data: dataPoints,
+      };
+      let heatMapInstance = h337.create(config);
+      heatMapInstance.setData(data);
+    });
+  }, []);
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -58,7 +42,7 @@ const Footer = (props) => {
           </span>
           <button
             className="footer-heatmapButton footer-button"
-            onClick={viewHeatMap(props.page)}
+            // onClick={viewHeatMap}
           >
             View heat map
           </button>

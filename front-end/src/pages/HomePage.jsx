@@ -55,7 +55,7 @@ function HomePage() {
     };
   });
   return (
-    <section class="HomePage">
+    <section class="HomePage" id="HomePage">
       <Header />
       <HomeTitle />
       <FeaturedProducts />
