@@ -20,7 +20,7 @@ const App = function (props) {
           for (let i = 0; i < response.data.data.length; i++) {
             data.push({ x: i + 1, y: response.data.data[i].value, label: response.data.data[i].browser })
           }
-          dataNew = { data }
+          const dataNew = { data }
           setDataForGraph(dataNew);
           console.log(dataNew)
         })
@@ -63,7 +63,7 @@ const App = function (props) {
             //     { x: 5, y: 5, label: "E" },
             //   ]
             // }
-            data={Object.values(dataForGraph)}
+            data={dataForGraph}
             events={[
               {
                 target: "data",
