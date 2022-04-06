@@ -159,11 +159,16 @@ def get_data(address):
         select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
         str_sample = '''{"x":%s, "y": %s, "value":%s},'''
 
-    elif address == 'browser_gist':
+    elif address == 'br_gist':
         select = '''SELECT b.browser, SUM(a.value) 
                     FROM tb_clicks AS a INNER JOIN tb_browser AS b 
                     ON a.browser_id = b.rowid GROUP BY browser_id'''
         str_sample = '''{"browser":"%s", "value": %s},'''
+    elif address == 'gt_gist':
+        select = '''SELECT b.gadget_type, SUM(a.value) 
+                            FROM tb_clicks AS a INNER JOIN tb_gadget_type AS b 
+                            ON a.type_id = b.rowid GROUP BY type_id'''
+        str_sample = '''{"gadgetType":"%s", "value": %s},'''
 
     sql.execute(select)
     result = sql.fetchall()
