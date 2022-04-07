@@ -215,7 +215,6 @@ def get_heatmap_(address):
     str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
     sql.execute(select1)
     result = sql.fetchall()
-
     data_sample = '''{"data": ['''
     for i in result:
         data_sample = data_sample + '{"' + i[1] + '": ['
