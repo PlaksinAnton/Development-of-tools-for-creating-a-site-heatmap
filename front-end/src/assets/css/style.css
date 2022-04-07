@@ -2152,6 +2152,7 @@ template {
 .victorypie {
   height: 600px;
   display: flex;
+
 }
 
 .graphs-container {
@@ -2159,7 +2160,10 @@ template {
   flex-direction: column;
   display: flex;
   margin: 20px auto auto;
+}
 
+.graphs {
+  max-height: 900px;
 }
 
 .footer-heatmapButton {
