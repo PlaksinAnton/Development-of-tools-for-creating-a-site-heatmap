@@ -277,7 +277,9 @@ const App = function (props) {
             <button class="graphs-button" onClick={viewGridPage}>Grid Page</button>
             <button class="graphs-button" onClick={viewProductPage}>Product Page</button>
           </div>
-          <iframe class="heatmap-home" id="heatmap-home" height="1000px" src="http://localhost:3000/"></iframe>
+          <div class="heatmap-pic">
+            <iframe class="heatmap-home" id="heatmap-home" src="http://localhost:3000/"></iframe>
+          </div>
         </div>
       </div>
     </section >
