@@ -270,15 +270,15 @@ const App = function (props) {
             <p>Зависимость количества кликов от устройства</p>
           </div>
         </div>
-      </div>
-      <div class="heatmap-display">
-        <div class="graphs-buttons">
-          <button class="graphs-button" onClick={viewHeatMap}>Включить Heatmap</button>
-          <button class="graphs-button" onClick={viewHomePage}>Home Page</button>
-          <button class="graphs-button" onClick={viewGridPage}>Grid Page</button>
-          <button class="graphs-button" onClick={viewProductPage}>Product Page</button>
+        <div class="heatmap-display">
+          <div class="graphs-buttons">
+            <button class="graphs-button" onClick={viewHeatMap}>Включить Heatmap</button>
+            <button class="graphs-button" onClick={viewHomePage}>Home Page</button>
+            <button class="graphs-button" onClick={viewGridPage}>Grid Page</button>
+            <button class="graphs-button" onClick={viewProductPage}>Product Page</button>
+          </div>
+          <iframe class="heatmap-home" id="heatmap-home" height="1000px" src="http://localhost:3000/"></iframe>
         </div>
-        <iframe class="heatmap-home" id="heatmap-home" height="1000px" src="http://localhost:3000/"></iframe>
       </div>
     </section >
   );
