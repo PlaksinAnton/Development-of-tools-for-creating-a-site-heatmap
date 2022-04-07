@@ -5,25 +5,30 @@ import {
   VictoryBar,
   VictoryTheme,
   VictoryLine,
+  VictoryScatter,
 } from "victory";
 import axios from "axios";
 
 const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
-  const [dataArr, setDataArr] = useState('')
+  const [dataArr, setDataArr] = useState("");
 
   useEffect(async () => {
     !dataForGraph &&
-      axios("http://127.0.0.1:5000/get/br_gist")
+      axios("http://127.0.0.1:5000/get_gist/browser ")
         .then((response) => {
-          let data = []
+          let data = [];
           for (let i = 0; i < response.data.data.length; i++) {
-            data.push({ x: i + 1, y: response.data.data[i].value, label: response.data.data[i].browser })
+            data.push({
+              x: i + 1,
+              y: response.data.data[i].value,
+              label: response.data.data[i].browser,
+            });
           }
           //const dataNew = { data } лишнее действие вроде
 
           setDataForGraph(data);
-          console.log(data)
+          console.log(data);
         })
         .catch((error) => {
           console.log(error);
@@ -54,34 +59,44 @@ const App = function (props) {
               data={Object.values(dataForGraph)}
             />
           </VictoryChart> */}
-          <VictoryBar
-            // data={
-            //   [
-            //     { x: 1, y: 2, label: "A" },
-            //     { x: 2, y: 4, label: "B" },
-            //     { x: 3, y: 7, label: "C" },
-            //     { x: 4, y: 3, label: "D" },
-            //     { x: 5, y: 5, label: "E" },
-            //   ]
-            // }
-            data={dataForGraph}
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onClick: () => {
-                    return [{
-                      target: "labels",
-                      mutation: (props) => {
-                        return props.text === "clicked" ?
-                          null : { text: "clicked" }
-                      }
-                    }];
-                  }
-                }
-              }
-            ]}
-          />
+          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+            <VictoryBar
+              style={{
+                data: { fill: "#DCE775" },
+                width: "40px",
+              }}
+              // data={
+              //   [
+              //     { x: 1, y: 2, label: "A" },
+              //     { x: 2, y: 4, label: "B" },
+              //     { x: 3, y: 7, label: "C" },
+              //     { x: 4, y: 3, label: "D" },
+              //     { x: 5, y: 5, label: "E" },
+              //   ]
+              // }
+              data={dataForGraph}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: "labels",
+                          mutation: (props) => {
+                            return props.text === "clicked"
+                              ? null
+                              : { text: "clicked" };
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
+            />
+            <VictoryScatter data={dataForGraph} />
+          </VictoryChart>
         </div>
       </div>
     </section>
