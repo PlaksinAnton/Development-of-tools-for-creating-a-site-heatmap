@@ -139,16 +139,16 @@ def send_data():
             sql.execute(update % (result[1] + 1, result[0]))  # то обновляем количество кликов
             db.commit()
 
-            for value in sql.execute("SELECT * FROM 'tb_clicks'"):
-                print(value)
+            # for value in sql.execute("SELECT * FROM 'tb_clicks'"):
+            #     print(value)
             return "OK"
 
     insert = '''INSERT INTO tb_clicks (x,y,value,time,browser_id,type_id,page_id) VALUES (?,?,?,?,?,?,?)'''
     sql.execute(insert, (x, y, 1, time, browser_id, type_id, page_id))  # добавляем новые данные
     db.commit()
 
-    for value in sql.execute("SELECT * FROM 'tb_clicks'"):
-        print(value)
+    #  for value in sql.execute("SELECT * FROM 'tb_clicks'"):
+    #      print(value)
     return "OK"
 
 
@@ -204,8 +204,15 @@ def get_heatmap_(address):
                     FROM tb_clicks
                     WHERE browser_id = %s
                     GROUP BY x, y, browser_id'''
-        str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
 
+    elif address == 'gadget_type':
+        select1 = 'SELECT rowid, gadget_type FROM tb_gadget_type'
+        select2 = '''SELECT x, y, SUM(value) 
+                            FROM tb_clicks
+                            WHERE type_id = %s
+                            GROUP BY x, y, type_id'''
+
+    str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
     sql.execute(select1)
     result = sql.fetchall()
 
@@ -219,6 +226,25 @@ def get_heatmap_(address):
             data_sample += s
         data_sample = data_sample[:-1] + "]}, "
     data_sample = data_sample[:-2] + "]}"
+    data = json.loads(data_sample)
+    return json.dumps(data)
+
+@app.route('/get_graph/time')
+@cross_origin()
+def get_graph():
+    select = '''SELECT time, SUM(value) 
+                FROM tb_clicks GROUP BY time'''
+    str_sample = ''' {"time":%s, "value": %s},'''
+    sql.execute(select)
+    result = sql.fetchall()
+    data_sample = '''{"data": ['''
+    sum = 0
+    for st in result:
+        tup = (st[0], st[1]+sum)
+        sum = tup[1]
+        s = str_sample % tup
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + "]}"
     data = json.loads(data_sample)
     return json.dumps(data)
 
