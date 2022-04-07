@@ -8,25 +8,25 @@ import axios from "axios";
 
 const Footer = (props) => {
   // const [dataForHeatMap, setDataForHeatMap] = React.useState()
-  function viewHeatMap() {
-    getData();
-    // console.log(dataPoints)
-  };
-  const getData = () => {
-    axios.get(`http://127.0.0.1:5000/get/all_data`).then((response) => {
-      let dataPoints = response.data.data
-      var data = {
-        max: 15,
-        min: 0,
-        data: dataPoints,
-      };
-      let name = "." + props.page
-      let heatmapInstance = h337.create({
-        container: document.querySelector(name),
-      })
-      heatmapInstance.setData(data);
-    })
-  }
+  // function viewHeatMap() {
+  //   getData();
+  //   // console.log(dataPoints)
+  // };
+  // const getData = () => {
+  //   axios.get(`http://127.0.0.1:5000/get_heatmap`).then((response) => {
+  //     let dataPoints = response.data.data
+  //     var data = {
+  //       max: 15,
+  //       min: 0,
+  //       data: dataPoints,
+  //     };
+  //     let name = "." + props.page
+  //     let heatmapInstance = h337.create({
+  //       container: document.querySelector(name),
+  //     })
+  //     heatmapInstance.setData(data);
+  //   })
+  // }
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -38,7 +38,7 @@ const Footer = (props) => {
           </form>
           <span className="footer-contact">Contact Info</span>
           <span className="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
-          <button className="footer-button footer-heatmapButton" onClick={viewHeatMap}>View heat map</button>
+          {/* <button className="footer-button footer-heatmapButton" onClick={viewHeatMap}>View heat map</button> */}
         </div>
         <div className="footer__right">
           <ul className="footer-item">
