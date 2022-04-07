@@ -33,6 +33,7 @@ import h337 from "heatmap.js";
 const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
   const [dataForHeatmap, setDataForHeatmap] = useState("");
+  const [dataForTime, setDataForTime] = useState("");
   function viewHeatMap() {
     getData();
     var data = {
@@ -96,7 +97,7 @@ const App = function (props) {
 
   useEffect(async () => {
     !dataForGraph &&
-      axios("http://127.0.0.1:5000/get_gist/browser ")
+      axios("http://127.0.0.1:5000//get_gist/browser")
         .then((response) => {
           let data = [];
           for (let i = 0; i < response.data.data.length; i++) {
@@ -122,10 +123,29 @@ const App = function (props) {
             data.push({
               x: i + 1,
               y: response.data.data[i].value,
-              label: response.data.data[i].browser,
+              label: response.data.data[i].gadgetType,
             });
           }
           setDataForDevices(data);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  });
+  useEffect(async () => {
+    !dataForTime &&
+      axios("http://127.0.0.1:5000/get_graph/time")
+        .then((response) => {
+          let data = [];
+          for (let i = 0; i < response.data.data.length; i++) {
+            data.push({
+              x: i + 1,
+              y: response.data.data[i].value,
+              label: response.data.data[i].time,
+            });
+          }
+          setDataForTime(data);
           console.log(data);
         })
         .catch((error) => {
@@ -153,65 +173,12 @@ const App = function (props) {
         {/*  </button>*/}
         {/*</div>*/}
         <div class="victorypie">
-          <VictoryBar
-            data={dataForGraph}
-            events={[
-              {
-                target: "data",
-                eventHandlers: {
-                  onClick: () => {
-                    return [
-                      {
-                        target: "labels",
-                        mutation: (props) => {
-                          return props.text === "clicked"
-                            ? null
-                            : { text: "clicked" };
-                        },
-                      },
-                    ];
-                  },
-                },
-              },
-            ]}
-          />
-          {/* <VictoryPie colorScale={["tomato", "orange", "gold"]} />
-          <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
-            <VictoryBar
-              style={{ data: { fill: "#c43a31" } }}
-              data={Object.values(dataForGraph)}
-            />
-          </VictoryChart>
-          <VictoryChart theme={VictoryTheme.material}>
-            <VictoryLine
-              style={{
-                data: { stroke: "#c43a31" },
-                parent: { border: "1px solid #ccc" },
-              }}
-              data={Object.values(dataForGraph)}
-            />
-          </VictoryChart> */}
-          <VictoryChart
-            horizontal
-            domainPadding={{ x: 8 }}
-            // style={{
-            //   width: "100px",
-            // }}
-          >
+          <VictoryChart horizontal domainPadding={{ x: 8 }}>
             <VictoryBar
               style={{
                 data: { fill: "#DCE775" },
                 width: "40px",
               }}
-              // data={
-              //   [
-              //     { x: 1, y: 2, label: "A" },
-              //     { x: 2, y: 4, label: "B" },
-              //     { x: 3, y: 7, label: "C" },
-              //     { x: 4, y: 3, label: "D" },
-              //     { x: 5, y: 5, label: "E" },
-              //   ]
-              // }
               data={dataForGraph}
               events={[
                 {
@@ -244,15 +211,6 @@ const App = function (props) {
                 data: { fill: "gold" },
                 width: "20px",
               }}
-              // data={
-              //   [
-              //     { x: 1, y: 2, label: "A" },
-              //     { x: 2, y: 4, label: "B" },
-              //     { x: 3, y: 7, label: "C" },
-              //     { x: 4, y: 3, label: "D" },
-              //     { x: 5, y: 5, label: "E" },
-              //   ]
-              // }
               data={dateForDevices}
               events={[
                 {
@@ -278,6 +236,40 @@ const App = function (props) {
           </VictoryChart>
           <div className="graph-description">
             <p>Зависимость количества кликов от устройства</p>
+          </div>
+          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+            <VictoryBar
+              style={{
+                data: { fill: "gold" },
+                width: "20px",
+              }}
+              data={dataForTime}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: "labels",
+                          mutation: (props) => {
+                            return props.text === "clicked"
+                              ? null
+                              : { text: "clicked" };
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
+            />
+            <VictoryScatter data={dataForTime} />
+          </VictoryChart>
+          <div className="graph-description">
+            <p>
+              Зависимость количества кликов от времени, проведённом на сайте
+            </p>
           </div>
         </div>
         <div class="heatmap-display">
