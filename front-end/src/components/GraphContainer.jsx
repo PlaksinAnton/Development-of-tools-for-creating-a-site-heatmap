@@ -34,55 +34,62 @@ const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
   const [dataForHeatmap, setDataForHeatmap] = useState("");
   function viewHeatMap() {
-    getData()
+    getData();
     var data = {
       max: 15,
       min: 0,
       data: dataForHeatmap,
     };
-    var myFrame = document.getElementById('heatmap-home');
-    let name = myFrame.getAttribute('src');
+    var myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
     let heatmapInstance;
     if (name == "http://localhost:3000/") {
       heatmapInstance = h337.create({
-        container: document.querySelector(".heatmap-home").contentDocument.querySelector(".HomePage"),
-      })
-    }
-    else if (name == "http://localhost:3000/grid") {
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".HomePage"),
+      });
+    } else if (name == "http://localhost:3000/grid") {
       heatmapInstance = h337.create({
-        container: document.querySelector(".heatmap-home").contentDocument.querySelector(".grid-page"),
-      })
-    }
-    else if (name == "http://localhost:3000/product") {
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".grid-page"),
+      });
+    } else if (name == "http://localhost:3000/product") {
       heatmapInstance = h337.create({
-        container: document.querySelector(".heatmap-home").contentDocument.querySelector(".productPage"),
-      })
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".productPage"),
+      });
     }
     heatmapInstance.setData(data);
-  };
+  }
 
   function viewGridPage() {
-    var myFrame = document.getElementById('heatmap-home');
-    myFrame.setAttribute('src', 'http://localhost:3000/grid');
+    var myFrame = document.getElementById("heatmap-home");
+    myFrame.setAttribute("src", "http://localhost:3000/grid");
   }
   function viewHomePage() {
-    var myFrame = document.getElementById('heatmap-home');
-    myFrame.setAttribute('src', 'http://localhost:3000/');
+    var myFrame = document.getElementById("heatmap-home");
+    myFrame.setAttribute("src", "http://localhost:3000/");
   }
   function viewProductPage() {
-    var myFrame = document.getElementById('heatmap-home');
-    myFrame.setAttribute('src', 'http://localhost:3000/product');
+    var myFrame = document.getElementById("heatmap-home");
+    myFrame.setAttribute("src", "http://localhost:3000/product");
   }
 
   const getData = () => {
     !dataForHeatmap &&
-      axios.get(`http://127.0.0.1:5000/get_heatmap`).then((response) => {
-        let dataPoints = response.data.data
-        setDataForHeatmap(dataPoints);
-      }).catch((error) => {
-        console.log(error);
-      });
-  }
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap`)
+        .then((response) => {
+          let dataPoints = response.data.data;
+          setDataForHeatmap(dataPoints);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
 
   const [dateForDevices, setDataForDevices] = useState("");
   const [dataArr, setDataArr] = useState("");
@@ -129,14 +136,14 @@ const App = function (props) {
     !dataForHeatmap &&
       axios("http://127.0.0.1:5000/get_heatmap ")
         .then((response) => {
-          let dataPoints = response.data.data
-          console.log(dataPoints)
+          let dataPoints = response.data.data;
+          console.log(dataPoints);
           setDataForHeatmap(dataPoints);
         })
         .catch((error) => {
           console.log(error);
         });
-  })
+  });
   return (
     <section class="graphs">
       <div class="graphs-container">
@@ -153,16 +160,19 @@ const App = function (props) {
                 target: "data",
                 eventHandlers: {
                   onClick: () => {
-                    return [{
-                      target: "labels",
-                      mutation: (props) => {
-                        return props.text === "clicked" ?
-                          null : { text: "clicked" }
-                      }
-                    }];
-                  }
-                }
-              }
+                    return [
+                      {
+                        target: "labels",
+                        mutation: (props) => {
+                          return props.text === "clicked"
+                            ? null
+                            : { text: "clicked" };
+                        },
+                      },
+                    ];
+                  },
+                },
+              },
             ]}
           />
           {/* <VictoryPie colorScale={["tomato", "orange", "gold"]} />
@@ -184,9 +194,9 @@ const App = function (props) {
           <VictoryChart
             horizontal
             domainPadding={{ x: 8 }}
-          // style={{
-          //   width: "100px",
-          // }}
+            // style={{
+            //   width: "100px",
+            // }}
           >
             <VictoryBar
               style={{
@@ -272,17 +282,30 @@ const App = function (props) {
         </div>
         <div class="heatmap-display">
           <div class="graphs-buttons">
-            <button class="graphs-button" onClick={viewHeatMap}>Включить Heatmap</button>
-            <button class="graphs-button" onClick={viewHomePage}>Home Page</button>
-            <button class="graphs-button" onClick={viewGridPage}>Grid Page</button>
-            <button class="graphs-button" onClick={viewProductPage}>Product Page</button>
+            <button class="graphs-button" onClick={viewHeatMap}>
+              Включить Heatmap
+            </button>
+            <button class="graphs-button" onClick={viewHomePage}>
+              Home Page
+            </button>
+            <button class="graphs-button" onClick={viewGridPage}>
+              Grid Page
+            </button>
+            <button class="graphs-button" onClick={viewProductPage}>
+              Product Page
+            </button>
           </div>
           <div class="heatmap-pic">
-            <iframe class="heatmap-home" id="heatmap-home" src="http://localhost:3000/"></iframe>
+            <iframe
+              class="heatmap-home"
+              id="heatmap-home"
+              src="http://localhost:3000/"
+              height="1000px"
+            ></iframe>
           </div>
         </div>
       </div>
-    </section >
+    </section>
   );
 };
 export default App;

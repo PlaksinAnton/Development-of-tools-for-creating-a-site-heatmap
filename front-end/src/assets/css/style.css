@@ -2169,6 +2169,7 @@ template {
   justify-content: center;
   width: 100%;
   background-color: #3b3b9d53;
+  z-index: 99;
 }
 
 .graphs-button {
@@ -2310,12 +2311,10 @@ template {
 
 .heatmap-home {
   width: 100vw;
-  height: 125vh;
   transform: scale(0.75, 0.75)
 }
 
 .heatmap-pic {
   margin-top: -80px;
   margin-bottom: -150px;
-  z-index: -1;
 }
