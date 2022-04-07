@@ -59,11 +59,11 @@ const App = function (props) {
   return (
     <section class="graphs">
       <div class="graphs-container">
-        <div className="button-container">
-          <button className="data-button">
-            Получить данные из базы данных!
-          </button>
-        </div>
+        {/*<div className="button-container">*/}
+        {/*  <button className="data-button">*/}
+        {/*    Получить данные из базы данных!*/}
+        {/*  </button>*/}
+        {/*</div>*/}
         <div class="victorypie">
           {/* <VictoryPie colorScale={["tomato", "orange", "gold"]} />
           <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
@@ -81,7 +81,13 @@ const App = function (props) {
               data={Object.values(dataForGraph)}
             />
           </VictoryChart> */}
-          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+          <VictoryChart
+            horizontal
+            domainPadding={{ x: 8 }}
+            // style={{
+            //   width: "100px",
+            // }}
+          >
             <VictoryBar
               style={{
                 data: { fill: "#DCE775" },
@@ -119,11 +125,14 @@ const App = function (props) {
             />
             <VictoryScatter data={dataForGraph} />
           </VictoryChart>
+          <div class="graph-description">
+            <p>Зависимость количества кликов от типа браузера</p>
+          </div>
           <VictoryChart horizontal domainPadding={{ x: 8 }}>
             <VictoryBar
               style={{
                 data: { fill: "gold" },
-                width: "40px",
+                width: "20px",
               }}
               // data={
               //   [
@@ -157,6 +166,9 @@ const App = function (props) {
             />
             <VictoryScatter data={dateForDevices} />
           </VictoryChart>
+          <div className="graph-description">
+            <p>Зависимость количества кликов от устройства</p>
+          </div>
         </div>
       </div>
     </section>
