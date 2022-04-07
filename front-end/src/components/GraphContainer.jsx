@@ -16,6 +16,8 @@ const App = function (props) {
   const [dataForHeatmap, setDataForHeatmap] = useState("");
   const [dataForTime, setDataForTime] = useState("");
   const [dataForDevices, setDataForDevices] = useState("");
+  const [dataForBrowser, setDataForBrowser] = useState("");
+
   useEffect(async () => {
     !dataForGraph && !dataForDevices && !dataForTime &&
       axios.all(
@@ -29,27 +31,27 @@ const App = function (props) {
             let firstData = [];
             for (let i = 0; i < firstResponse.data.data.length; i++) {
               firstData.push({
-                x: i + 1,
+                x: firstResponse.data.data[i].browser,
                 y: firstResponse.data.data[i].value,
-                label: firstResponse.data.data[i].browser,
+                // label: firstResponse.data.data[i].browser,
               });
             }
             setDataForGraph(firstData);
             let secondData = [];
             for (let i = 0; i < secondResponse.data.data.length; i++) {
               secondData.push({
-                x: i + 1,
+                x: secondResponse.data.data[i].gadgetType,
                 y: secondResponse.data.data[i].value,
-                label: secondResponse.data.data[i].gadgetType,
+                // label: secondResponse.data.data[i].gadgetType,
               });
             }
             setDataForDevices(secondData);
             let thirdData = [];
             for (let i = 0; i < thirdResponse.data.data.length; i++) {
               thirdData.push({
-                x: i + 1,
+                x: thirdResponse.data.data[i].time + " мин",
                 y: thirdResponse.data.data[i].value,
-                label: thirdResponse.data.data[i].time,
+                // label: thirdResponse.data.data[i].time + "мин",
               });
             }
             setDataForTime(thirdData);
@@ -70,13 +72,67 @@ const App = function (props) {
         });
   };
 
+  const getDataBrowser = () => {
+    !dataForBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
   function viewHeatMap() {
     getData();
-    var data = {
+    let data = {
       max: 15,
       min: 0,
       data: dataForHeatmap,
     };
+    var myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".HomePage"),
+      });
+    } else if (name == "http://localhost:3000/grid") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".grid-page"),
+      });
+    } else if (name == "http://localhost:3000/product") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".productPage"),
+      });
+    }
+    heatmapInstance.setData(data);
+  }
+
+  function viewBrowser() {
+    getDataBrowser();
+    let dataBrowser = [];
+    for (let i = 0; i < dataForBrowser.length; i++) {
+      for (let key in dataForBrowser[i]) {
+        if (key.indexOf("Chrome") + 1) {
+          dataBrowser = dataBrowser.concat(dataBrowser, dataForBrowser[i][key])
+        }
+      }
+    }
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataBrowser,
+    };
+    console.log(dataBrowser)
     var myFrame = document.getElementById("heatmap-home");
     let name = myFrame.getAttribute("src");
     let heatmapInstance;
@@ -124,11 +180,14 @@ const App = function (props) {
         {/*  </button>*/}
         {/*</div>*/}
         <div class="victorypie">
-          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+          <div class="graph-description">
+            <p>Зависимость количества кликов от типа браузера</p>
+          </div>
+          <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
             <VictoryBar
+              barWidth={20}
               style={{
                 data: { fill: "#DCE775" },
-                width: "40px",
               }}
               data={dataForGraph}
               events={[
@@ -153,14 +212,14 @@ const App = function (props) {
             />
             <VictoryScatter data={dataForGraph} />
           </VictoryChart>
-          <div class="graph-description">
-            <p>Зависимость количества кликов от типа браузера</p>
+          <div className="graph-description">
+            <p>Зависимость количества кликов от типа устройства</p>
           </div>
-          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+          <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
             <VictoryBar
+              barWidth={20}
               style={{
                 data: { fill: "gold" },
-                width: "20px",
               }}
               data={dataForDevices}
               events={[
@@ -186,13 +245,15 @@ const App = function (props) {
             <VictoryScatter data={dataForDevices} />
           </VictoryChart>
           <div className="graph-description">
-            <p>Зависимость количества кликов от устройства</p>
+            <p>
+              Зависимость количества кликов от времени, проведённом на сайте
+            </p>
           </div>
-          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+          <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
             <VictoryBar
+              barWidth={20}
               style={{
                 data: { fill: "gold" },
-                width: "20px",
               }}
               data={dataForTime}
               events={[
@@ -217,26 +278,30 @@ const App = function (props) {
             />
             <VictoryScatter data={dataForTime} />
           </VictoryChart>
-          <div className="graph-description">
-            <p>
-              Зависимость количества кликов от времени, проведённом на сайте
-            </p>
-          </div>
         </div>
         <div class="heatmap-display">
           <div class="graphs-buttons">
-            <button class="graphs-button" onClick={viewHeatMap}>
-              Включить Heatmap
-            </button>
-            <button class="graphs-button" onClick={viewHomePage}>
-              Home Page
-            </button>
-            <button class="graphs-button" onClick={viewGridPage}>
-              Grid Page
-            </button>
-            <button class="graphs-button" onClick={viewProductPage}>
-              Product Page
-            </button>
+            <div class="pages-buttons">
+              <button class="graphs-button" onClick={viewHomePage}>
+                Home Page
+              </button>
+              <button class="graphs-button" onClick={viewGridPage}>
+                Grid Page
+              </button>
+              <button class="graphs-button" onClick={viewProductPage}>
+                Product Page
+              </button>
+            </div>
+            <div className="classic-buttons">
+              <button class="graphs-button" onClick={viewHeatMap}>
+                Heatmap
+              </button>
+            </div>
+            <div className="browser-buttons">
+              <button class="graphs-button" onClick={viewBrowser}>
+                Google Chrome
+              </button>
+            </div>
           </div>
           <div class="heatmap-pic">
             <iframe
