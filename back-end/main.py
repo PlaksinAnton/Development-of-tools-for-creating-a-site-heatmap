@@ -3,8 +3,8 @@ import flask
 from flask import request, render_template
 from flask_cors import CORS, cross_origin
 import json
-import time
-import os
+import threading
+lock = threading.Lock()
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -155,44 +155,52 @@ def send_data():
 @app.route('/get_heatmap')
 @cross_origin()
 def get_heatmap():
-    select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
-    data_sample = '''{"data": ['''
-    str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
-    sql.execute(select)
-    result = sql.fetchall()
-    for st in result:
-        s = str_sample % st
-        data_sample = data_sample + s
-    data_sample = data_sample[:-1] + "]}"
-    data = json.loads(data_sample)
-    return json.dumps(data)
+    try:
+        lock.acquire(True)
+        select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
+        data_sample = '''{"data": ['''
+        str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
+        sql.execute(select)
+        result = sql.fetchall()
+        for st in result:
+            s = str_sample % st
+            data_sample = data_sample + s
+        data_sample = data_sample[:-1] + "]}"
+        data = json.loads(data_sample)
+        return json.dumps(data)
+    finally:
+        lock.release()
 
 
 @app.route('/get_gist/<string:address>')
 @cross_origin()
 def get_gist(address):
+    try:
+        lock.acquire(True)
 
-    if address == 'browser':
-        select = '''SELECT b.browser, SUM(a.value) 
-                    FROM tb_clicks AS a INNER JOIN tb_browser AS b 
-                    ON a.browser_id = b.rowid GROUP BY browser_id'''
-        str_sample = ''' {"browser":"%s", "value": %s},'''
+        if address == 'browser':
+            select = '''SELECT b.browser, SUM(a.value) 
+                        FROM tb_clicks AS a INNER JOIN tb_browser AS b 
+                        ON a.browser_id = b.rowid GROUP BY browser_id'''
+            str_sample = ''' {"browser":"%s", "value": %s},'''
 
-    elif address == 'gadget':
-        select = '''SELECT b.gadget_type, SUM(a.value) 
-                    FROM tb_clicks AS a INNER JOIN tb_gadget_type AS b 
-                    ON a.type_id = b.rowid GROUP BY type_id'''
-        str_sample = ''' {"gadgetType":"%s", "value": %s},'''
+        elif address == 'gadget':
+            select = '''SELECT b.gadget_type, SUM(a.value) 
+                        FROM tb_clicks AS a INNER JOIN tb_gadget_type AS b 
+                        ON a.type_id = b.rowid GROUP BY type_id'''
+            str_sample = ''' {"gadgetType":"%s", "value": %s},'''
 
-    sql.execute(select)
-    result = sql.fetchall()
-    data_sample = '''{"data": ['''
-    for st in result:
-        s = str_sample % st
-        data_sample = data_sample + s
-    data_sample = data_sample[:-1] + "]}"
-    data = json.loads(data_sample)
-    return json.dumps(data)
+        sql.execute(select)
+        result = sql.fetchall()
+        data_sample = '''{"data": ['''
+        for st in result:
+            s = str_sample % st
+            data_sample = data_sample + s
+        data_sample = data_sample[:-1] + "]}"
+        data = json.loads(data_sample)
+        return json.dumps(data)
+    finally:
+        lock.release()
 
 
 @app.route('/get_heatmap/<string:address>')
@@ -231,21 +239,25 @@ def get_heatmap_(address):
 @app.route('/get_graph/time')
 @cross_origin()
 def get_graph():
-    select = '''SELECT time, SUM(value) 
-                FROM tb_clicks GROUP BY time'''
-    str_sample = ''' {"time":%s, "value": %s},'''
-    sql.execute(select)
-    result = sql.fetchall()
-    data_sample = '''{"data": ['''
-    sum = 0
-    for st in result:
-        tup = (st[0], st[1]+sum)
-        sum = tup[1]
-        s = str_sample % tup
-        data_sample = data_sample + s
-    data_sample = data_sample[:-1] + "]}"
-    data = json.loads(data_sample)
-    return json.dumps(data)
+    try:
+        lock.acquire(True)
+        select = '''SELECT time, SUM(value) 
+                    FROM tb_clicks GROUP BY time'''
+        str_sample = ''' {"time":%s, "value": %s},'''
+        sql.execute(select)
+        result = sql.fetchall()
+        data_sample = '''{"data": ['''
+        sum = 0
+        for st in result:
+            tup = (st[0], st[1]+sum)
+            sum = tup[1]
+            s = str_sample % tup
+            data_sample = data_sample + s
+        data_sample = data_sample[:-1] + "]}"
+        data = json.loads(data_sample)
+        return json.dumps(data)
+    finally:
+        lock.release()
 
 
 @app.route('/send_data2', methods=['post'])

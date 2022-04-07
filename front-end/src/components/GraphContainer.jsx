@@ -10,30 +10,66 @@ import {
 import axios from "axios";
 import h337 from "heatmap.js";
 
-// window.onload = () => {
-// let homeIframe = document.getElementById('heatmap-home');
-// console.log(homeIframe)
-// if (homeIframe != null) {
-//   let homeContent = homeIframe.contentDocument;
-//   homeContent.body.innerHTML = homeContent.body.innerHTML + '<style>.footer-heatmapButton{visibility: visible}</style>';
-// }
-// let gridIframe = document.getElementById('heatmap-grid');
-// let productIframe = document.getElementById('heatmap-product');
-
-// let homeContent = homeIframe.contentDocument;
-// console.log(homeContent)
-// let gridContent = gridIframe.contentDocument;
-// let productContent = productIframe.contentDocument;
-
-// homeContent.body.innerHTML = homeContent.body.innerHTML + '<style>.footer-heatmapButton{visibility: visible}</style>';
-// gridContent.body.innerHTML = gridContent.body.innerHTML + '<style>.footer-heatmapButton{visibility: visible}</style>';
-// productContent.body.innerHTML = productContent.body.innerHTML + '<style>.footer-heatmapButton{visibility: visible}</style>';
-// }
 
 const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
   const [dataForHeatmap, setDataForHeatmap] = useState("");
   const [dataForTime, setDataForTime] = useState("");
+  const [dataForDevices, setDataForDevices] = useState("");
+  useEffect(async () => {
+    !dataForGraph && !dataForDevices && !dataForTime &&
+      axios.all(
+        [
+          axios.get("http://127.0.0.1:5000/get_gist/browser"),
+          axios.get("http://127.0.0.1:5000/get_gist/gadget"),
+          axios.get("http://127.0.0.1:5000/get_graph/time")
+        ])
+        .then(
+          axios.spread((firstResponse, secondResponse, thirdResponse) => {
+            let firstData = [];
+            for (let i = 0; i < firstResponse.data.data.length; i++) {
+              firstData.push({
+                x: i + 1,
+                y: firstResponse.data.data[i].value,
+                label: firstResponse.data.data[i].browser,
+              });
+            }
+            setDataForGraph(firstData);
+            let secondData = [];
+            for (let i = 0; i < secondResponse.data.data.length; i++) {
+              secondData.push({
+                x: i + 1,
+                y: secondResponse.data.data[i].value,
+                label: secondResponse.data.data[i].gadgetType,
+              });
+            }
+            setDataForDevices(secondData);
+            let thirdData = [];
+            for (let i = 0; i < thirdResponse.data.data.length; i++) {
+              thirdData.push({
+                x: i + 1,
+                y: thirdResponse.data.data[i].value,
+                label: thirdResponse.data.data[i].time,
+              });
+            }
+            setDataForTime(thirdData);
+          }))
+        .catch(error => console.log(error));
+  });
+
+  const getData = () => {
+    !dataForHeatmap &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap`)
+        .then((response) => {
+          let dataPoints = response.data.data;
+          setDataForHeatmap(dataPoints);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
   function viewHeatMap() {
     getData();
     var data = {
@@ -79,91 +115,6 @@ const App = function (props) {
     myFrame.setAttribute("src", "http://localhost:3000/product");
   }
 
-  const getData = () => {
-    !dataForHeatmap &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap`)
-        .then((response) => {
-          let dataPoints = response.data.data;
-          setDataForHeatmap(dataPoints);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  const [dateForDevices, setDataForDevices] = useState("");
-  const [dataArr, setDataArr] = useState("");
-
-  useEffect(async () => {
-    !dataForGraph &&
-      axios("http://127.0.0.1:5000//get_gist/browser")
-        .then((response) => {
-          let data = [];
-          for (let i = 0; i < response.data.data.length; i++) {
-            data.push({
-              x: i + 1,
-              y: response.data.data[i].value,
-              label: response.data.data[i].browser,
-            });
-          }
-          setDataForGraph(data);
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  });
-  useEffect(async () => {
-    !dateForDevices &&
-      axios("http://127.0.0.1:5000/get_gist/gadget ")
-        .then((response) => {
-          let data = [];
-          for (let i = 0; i < response.data.data.length; i++) {
-            data.push({
-              x: i + 1,
-              y: response.data.data[i].value,
-              label: response.data.data[i].gadgetType,
-            });
-          }
-          setDataForDevices(data);
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  });
-  useEffect(async () => {
-    !dataForTime &&
-      axios("http://127.0.0.1:5000/get_graph/time")
-        .then((response) => {
-          let data = [];
-          for (let i = 0; i < response.data.data.length; i++) {
-            data.push({
-              x: i + 1,
-              y: response.data.data[i].value,
-              label: response.data.data[i].time,
-            });
-          }
-          setDataForTime(data);
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  });
-  useEffect(async () => {
-    !dataForHeatmap &&
-      axios("http://127.0.0.1:5000/get_heatmap ")
-        .then((response) => {
-          let dataPoints = response.data.data;
-          console.log(dataPoints);
-          setDataForHeatmap(dataPoints);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  });
   return (
     <section class="graphs">
       <div class="graphs-container">
@@ -211,7 +162,7 @@ const App = function (props) {
                 data: { fill: "gold" },
                 width: "20px",
               }}
-              data={dateForDevices}
+              data={dataForDevices}
               events={[
                 {
                   target: "data",
@@ -232,7 +183,7 @@ const App = function (props) {
                 },
               ]}
             />
-            <VictoryScatter data={dateForDevices} />
+            <VictoryScatter data={dataForDevices} />
           </VictoryChart>
           <div className="graph-description">
             <p>Зависимость количества кликов от устройства</p>
