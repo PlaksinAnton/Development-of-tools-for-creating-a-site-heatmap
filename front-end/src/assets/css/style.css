@@ -2149,17 +2149,23 @@ template {
 
 /*# sourceMappingURL=style.css.map */
 
-.victorypie {
-  height: 600px;
-  display: flex;
-}
-
 .graphs-container {
   max-width: 1177px;
   flex-direction: column;
   display: flex;
   margin: 20px auto auto;
+  align-items: center;
+}
 
+.graph-description {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #007aff;
+}
+
+.graphs {
+  max-height: 900px;
 }
 
 .graphs-buttons {

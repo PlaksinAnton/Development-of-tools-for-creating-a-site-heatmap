@@ -5,6 +5,7 @@ import {
   VictoryBar,
   VictoryTheme,
   VictoryLine,
+  VictoryScatter,
 } from "victory";
 import axios from "axios";
 import h337 from "heatmap.js";
@@ -83,15 +84,42 @@ const App = function (props) {
       });
   }
 
+  const [dateForDevices, setDataForDevices] = useState("");
+  const [dataArr, setDataArr] = useState("");
+
   useEffect(async () => {
     !dataForGraph &&
       axios("http://127.0.0.1:5000/get_gist/browser ")
         .then((response) => {
-          let data = []
+          let data = [];
           for (let i = 0; i < response.data.data.length; i++) {
-            data.push({ x: i + 1, y: response.data.data[i].value, label: response.data.data[i].browser })
+            data.push({
+              x: i + 1,
+              y: response.data.data[i].value,
+              label: response.data.data[i].browser,
+            });
           }
           setDataForGraph(data);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  });
+  useEffect(async () => {
+    !dateForDevices &&
+      axios("http://127.0.0.1:5000/get_gist/gadget ")
+        .then((response) => {
+          let data = [];
+          for (let i = 0; i < response.data.data.length; i++) {
+            data.push({
+              x: i + 1,
+              y: response.data.data[i].value,
+              label: response.data.data[i].browser,
+            });
+          }
+          setDataForDevices(data);
+          console.log(data);
         })
         .catch((error) => {
           console.log(error);
@@ -112,11 +140,11 @@ const App = function (props) {
   return (
     <section class="graphs">
       <div class="graphs-container">
-        <div className="button-container">
-          <button className="data-button">
-            Получить данные из базы данных!
-          </button>
-        </div>
+        {/*<div className="button-container">*/}
+        {/*  <button className="data-button">*/}
+        {/*    Получить данные из базы данных!*/}
+        {/*  </button>*/}
+        {/*</div>*/}
         <div class="victorypie">
           <VictoryBar
             data={dataForGraph}
@@ -137,6 +165,110 @@ const App = function (props) {
               }
             ]}
           />
+          {/* <VictoryPie colorScale={["tomato", "orange", "gold"]} />
+          <VictoryChart theme={VictoryTheme.material} domainPadding={10}>
+            <VictoryBar
+              style={{ data: { fill: "#c43a31" } }}
+              data={Object.values(dataForGraph)}
+            />
+          </VictoryChart>
+          <VictoryChart theme={VictoryTheme.material}>
+            <VictoryLine
+              style={{
+                data: { stroke: "#c43a31" },
+                parent: { border: "1px solid #ccc" },
+              }}
+              data={Object.values(dataForGraph)}
+            />
+          </VictoryChart> */}
+          <VictoryChart
+            horizontal
+            domainPadding={{ x: 8 }}
+          // style={{
+          //   width: "100px",
+          // }}
+          >
+            <VictoryBar
+              style={{
+                data: { fill: "#DCE775" },
+                width: "40px",
+              }}
+              // data={
+              //   [
+              //     { x: 1, y: 2, label: "A" },
+              //     { x: 2, y: 4, label: "B" },
+              //     { x: 3, y: 7, label: "C" },
+              //     { x: 4, y: 3, label: "D" },
+              //     { x: 5, y: 5, label: "E" },
+              //   ]
+              // }
+              data={dataForGraph}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: "labels",
+                          mutation: (props) => {
+                            return props.text === "clicked"
+                              ? null
+                              : { text: "clicked" };
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
+            />
+            <VictoryScatter data={dataForGraph} />
+          </VictoryChart>
+          <div class="graph-description">
+            <p>Зависимость количества кликов от типа браузера</p>
+          </div>
+          <VictoryChart horizontal domainPadding={{ x: 8 }}>
+            <VictoryBar
+              style={{
+                data: { fill: "gold" },
+                width: "20px",
+              }}
+              // data={
+              //   [
+              //     { x: 1, y: 2, label: "A" },
+              //     { x: 2, y: 4, label: "B" },
+              //     { x: 3, y: 7, label: "C" },
+              //     { x: 4, y: 3, label: "D" },
+              //     { x: 5, y: 5, label: "E" },
+              //   ]
+              // }
+              data={dateForDevices}
+              events={[
+                {
+                  target: "data",
+                  eventHandlers: {
+                    onClick: () => {
+                      return [
+                        {
+                          target: "labels",
+                          mutation: (props) => {
+                            return props.text === "clicked"
+                              ? null
+                              : { text: "clicked" };
+                          },
+                        },
+                      ];
+                    },
+                  },
+                },
+              ]}
+            />
+            <VictoryScatter data={dateForDevices} />
+          </VictoryChart>
+          <div className="graph-description">
+            <p>Зависимость количества кликов от устройства</p>
+          </div>
         </div>
       </div>
       <div class="heatmap-display">
