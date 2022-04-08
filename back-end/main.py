@@ -4,7 +4,7 @@ from flask import request, render_template
 from flask_cors import CORS, cross_origin
 import json
 import threading
-lock = threading.Lock()
+lock = threading.RLock()
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -155,8 +155,10 @@ def send_data():
 @app.route('/get_heatmap/<string:page>')
 @cross_origin()
 def get_heatmap(page):
-    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
+    lock.acquire()
+    a = sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
     result = sql.fetchall()
+    lock.release()
     if not result:  # вывод в случае ошибки
         print('Неверный запрос страницы в URL')
         ans = json.loads('{"data": []}')
@@ -166,8 +168,10 @@ def get_heatmap(page):
     select = '''SELECT x, y, SUM(value) FROM tb_clicks WHERE page_id = %s GROUP BY x, y'''
     data_sample = '''{"data": ['''
     str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
+    lock.acquire()
     sql.execute(select % page_id)
     result = sql.fetchall()
+    lock.release()
     if not result:  # вывод в случае ошибки
         print('Пустая бд')
         ans = json.loads('{"data": []}')
@@ -201,8 +205,10 @@ def get_gist(theme):
         ans = json.loads('{"data": []}')
         return json.dumps(ans)
 
+    lock.acquire()
     sql.execute(select)
     result = sql.fetchall()
+    lock.release()
     if not result:  # вывод в случае ошибки
         print('Запрос в БД не дал результатов')
         ans = json.loads('{"data": []}')
@@ -219,8 +225,10 @@ def get_gist(theme):
 @app.route('/get_heatmap/<string:theme>/<string:page>')
 @cross_origin()
 def get_heatmap_(theme, page):
+    lock.acquire()
     sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
     result = sql.fetchall()
+    lock.release()
     if not result:  # вывод в случае ошибки
         print('Неверный запрос страницы в URL')
         ans = json.loads('{"data": []}')
@@ -247,8 +255,10 @@ def get_heatmap_(theme, page):
         return json.dumps(ans)
 
     str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
+    lock.acquire()
     sql.execute(select1)
     result = sql.fetchall()
+    lock.release()
     if not result:  # вывод в случае ошибки
         print('Пустая БД')
         ans = json.loads('{"data": []}')
@@ -256,8 +266,10 @@ def get_heatmap_(theme, page):
     data_sample = '''{"data": ['''
     for i in result:
         data_sample = data_sample + '{"' + i[1] + '": ['
+        lock.acquire()
         sql.execute(select2 % (i[0], page_id))
         result = sql.fetchall()
+        lock.release()
         if not result:  # вывод в случае ошибки
             print('Запрос в БД ничего не вернул')
             ans = json.loads('{"data": []}')
@@ -277,8 +289,10 @@ def get_graph():
     select = '''SELECT time, SUM(value) 
                 FROM tb_clicks GROUP BY time'''
     str_sample = ''' {"time":%s, "value": %s},'''
+    lock.acquire()
     sql.execute(select)
     result = sql.fetchall()
+    lock.release()
     if not result:  # вывод в случае ошибки
         print('Пустая БД')
         ans = json.loads('{"data": []}')
