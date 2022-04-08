@@ -269,7 +269,7 @@ def get_heatmap_(theme, page):
     data_sample = data_sample[:-2] + "]}"
     data = json.loads(data_sample)
     return json.dumps(data)
-
+#тест коммита
 
 @app.route('/get_graph/time')
 @cross_origin()
