@@ -152,82 +152,116 @@ def send_data():
     return "OK"
 
 
-@app.route('/get_heatmap')
+@app.route('/get_heatmap/<string:page>')
 @cross_origin()
-def get_heatmap():
-    try:
-        lock.acquire(True)
-        select = '''SELECT x, y, SUM(value) FROM tb_clicks GROUP BY x, y'''
-        data_sample = '''{"data": ['''
-        str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
-        sql.execute(select)
-        result = sql.fetchall()
-        for st in result:
-            s = str_sample % st
-            data_sample = data_sample + s
-        data_sample = data_sample[:-1] + "]}"
-        data = json.loads(data_sample)
-        return json.dumps(data)
-    finally:
-        lock.release()
+def get_heatmap(page):
+    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
+    result = sql.fetchall()
+    if not result:  # вывод в случае ошибки
+        print('Неверный запрос страницы в URL')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    page_id = result[0][0]
+
+    select = '''SELECT x, y, SUM(value) FROM tb_clicks WHERE page_id = %s GROUP BY x, y'''
+    data_sample = '''{"data": ['''
+    str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
+    sql.execute(select % page_id)
+    result = sql.fetchall()
+    if not result:  # вывод в случае ошибки
+        print('Пустая бд')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    for st in result:
+        s = str_sample % st
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + "]}"
+    data = json.loads(data_sample)
+    return json.dumps(data)
 
 
-@app.route('/get_gist/<string:address>')
+@app.route('/get_gist/<string:theme>')
 @cross_origin()
-def get_gist(address):
-    try:
-        lock.acquire(True)
+def get_gist(theme):
 
-        if address == 'browser':
-            select = '''SELECT b.browser, SUM(a.value) 
-                        FROM tb_clicks AS a INNER JOIN tb_browser AS b 
-                        ON a.browser_id = b.rowid GROUP BY browser_id'''
-            str_sample = ''' {"browser":"%s", "value": %s},'''
+    if theme == 'browser':
+        select = '''SELECT b.browser, SUM(a.value) 
+                    FROM tb_clicks AS a INNER JOIN tb_browser AS b 
+                    ON a.browser_id = b.rowid GROUP BY browser_id'''
+        str_sample = ''' {"browser":"%s", "value": %s},'''
 
-        elif address == 'gadget':
-            select = '''SELECT b.gadget_type, SUM(a.value) 
-                        FROM tb_clicks AS a INNER JOIN tb_gadget_type AS b 
-                        ON a.type_id = b.rowid GROUP BY type_id'''
-            str_sample = ''' {"gadgetType":"%s", "value": %s},'''
+    elif theme == 'gadget':
+        select = '''SELECT b.gadget_type, SUM(a.value) 
+                    FROM tb_clicks AS a INNER JOIN tb_gadget_type AS b 
+                    ON a.type_id = b.rowid GROUP BY type_id'''
+        str_sample = ''' {"gadgetType":"%s", "value": %s},'''
 
-        sql.execute(select)
-        result = sql.fetchall()
-        data_sample = '''{"data": ['''
-        for st in result:
-            s = str_sample % st
-            data_sample = data_sample + s
-        data_sample = data_sample[:-1] + "]}"
-        data = json.loads(data_sample)
-        return json.dumps(data)
-    finally:
-        lock.release()
+    else:
+        print("URL с ошибкой")
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+
+    sql.execute(select)
+    result = sql.fetchall()
+    if not result:  # вывод в случае ошибки
+        print('Запрос в БД не дал результатов')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    data_sample = '''{"data": ['''
+    for st in result:
+        s = str_sample % st
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + "]}"
+    data = json.loads(data_sample)
+    return json.dumps(data)
 
 
-@app.route('/get_heatmap/<string:address>')
+@app.route('/get_heatmap/<string:theme>/<string:page>')
 @cross_origin()
-def get_heatmap_(address):
-    if address == 'browser':
+def get_heatmap_(theme, page):
+    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
+    result = sql.fetchall()
+    if not result:  # вывод в случае ошибки
+        print('Неверный запрос страницы в URL')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    page_id = result[0][0]
+
+    if theme == 'browser':
         select1 = 'SELECT rowid, browser FROM tb_browser'
         select2 = '''SELECT x, y, SUM(value) 
                     FROM tb_clicks
-                    WHERE browser_id = %s
+                    WHERE browser_id = %s AND page_id = %s
                     GROUP BY x, y, browser_id'''
 
-    elif address == 'gadget_type':
+    elif theme == 'gadget_type':
         select1 = 'SELECT rowid, gadget_type FROM tb_gadget_type'
         select2 = '''SELECT x, y, SUM(value) 
                             FROM tb_clicks
-                            WHERE type_id = %s
+                            WHERE type_id = %s AND page_id = %s
                             GROUP BY x, y, type_id'''
+
+    else:
+        print("URL с ошибкой")
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
 
     str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
     sql.execute(select1)
     result = sql.fetchall()
+    if not result:  # вывод в случае ошибки
+        print('Пустая БД')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
     data_sample = '''{"data": ['''
     for i in result:
         data_sample = data_sample + '{"' + i[1] + '": ['
-        sql.execute(select2 % i[0])
+        sql.execute(select2 % (i[0], page_id))
         result = sql.fetchall()
+        if not result:  # вывод в случае ошибки
+            print('Запрос в БД ничего не вернул')
+            ans = json.loads('{"data": []}')
+            return json.dumps(ans)
         for st in result:
             s = str_sample % st
             data_sample += s
@@ -236,28 +270,29 @@ def get_heatmap_(address):
     data = json.loads(data_sample)
     return json.dumps(data)
 
+
 @app.route('/get_graph/time')
 @cross_origin()
 def get_graph():
-    try:
-        lock.acquire(True)
-        select = '''SELECT time, SUM(value) 
-                    FROM tb_clicks GROUP BY time'''
-        str_sample = ''' {"time":%s, "value": %s},'''
-        sql.execute(select)
-        result = sql.fetchall()
-        data_sample = '''{"data": ['''
-        sum = 0
-        for st in result:
-            tup = (st[0], st[1]+sum)
-            sum = tup[1]
-            s = str_sample % tup
-            data_sample = data_sample + s
-        data_sample = data_sample[:-1] + "]}"
-        data = json.loads(data_sample)
-        return json.dumps(data)
-    finally:
-        lock.release()
+    select = '''SELECT time, SUM(value) 
+                FROM tb_clicks GROUP BY time'''
+    str_sample = ''' {"time":%s, "value": %s},'''
+    sql.execute(select)
+    result = sql.fetchall()
+    if not result:  # вывод в случае ошибки
+        print('Пустая БД')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    data_sample = '''{"data": ['''
+    sum = 0
+    for st in result:
+        tup = (st[0], st[1]+sum)
+        sum = tup[1]
+        s = str_sample % tup
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + "]}"
+    data = json.loads(data_sample)
+    return json.dumps(data)
 
 
 @app.route('/send_data2', methods=['post'])
