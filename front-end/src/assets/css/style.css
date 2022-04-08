@@ -2319,3 +2319,6 @@ template {
   margin-top: -80px;
   margin-bottom: -150px;
 }
+.victorypie {
+  overflow: visible;
+}

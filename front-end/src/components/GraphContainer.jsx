@@ -6,6 +6,8 @@ import {
   VictoryTheme,
   VictoryLine,
   VictoryScatter,
+  VictoryLabel,
+  VictoryTooltip,
 } from "victory";
 import axios from "axios";
 import h337 from "heatmap.js";
@@ -20,6 +22,12 @@ const App = function (props) {
   const [dataForHomeСhromeBrowser, setDataForHomeChromeBrowser] = useState("");
   const [dataForGridСhromeBrowser, setDataForGridChromeBrowser] = useState("");
   const [dataForProductСhromeBrowser, setDataForProductChromeBrowser] =
+    useState("");
+  const [dataForHomeFirefoxBrowser, setDataForHomeFirefoxBrowser] =
+    useState("");
+  const [dataForGridFirefoxBrowser, setDataForGridFirefoxBrowser] =
+    useState("");
+  const [dataForProductFirefoxBrowser, setDataForProductFirefoxBrowser] =
     useState("");
 
   useEffect(async () => {
@@ -248,7 +256,7 @@ const App = function (props) {
       heatmapInstance = h337.create({
         container: document
           .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".HomePage"),
+          .contentDocument.querySelector(".grid-page"),
       });
       heatmapInstance.setData(data);
     }
@@ -292,7 +300,142 @@ const App = function (props) {
       heatmapInstance = h337.create({
         container: document
           .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".productPage"),
+      });
+      heatmapInstance.setData(data);
+    }
+  }
+
+  const getHomeFirefoxDataBrowser = () => {
+    !dataForHomeFirefoxBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForHomeFirefoxBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  function viewHomeFirefoxBrowser() {
+    getHomeFirefoxDataBrowser();
+    let dataBrowser = [];
+    for (let i = 0; i < dataForHomeFirefoxBrowser.length; i++) {
+      for (let key in dataForHomeFirefoxBrowser[i]) {
+        if (key.indexOf("Firefox") + 1) {
+          dataBrowser = dataBrowser.concat(
+            dataBrowser,
+            dataForHomeFirefoxBrowser[i][key]
+          );
+        }
+      }
+    }
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForHomeFirefoxBrowser,
+    };
+    console.log(dataForHomeFirefoxBrowser);
+    let myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
           .contentDocument.querySelector(".HomePage"),
+      });
+      heatmapInstance.setData(data);
+    }
+  }
+
+  const getGridFirefoxDataBrowser = () => {
+    !dataForGridFirefoxBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForGridFirefoxBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  function viewGridFirefoxBrowser() {
+    getGridFirefoxDataBrowser();
+    let dataBrowser = [];
+    for (let i = 0; i < dataForGridFirefoxBrowser.length; i++) {
+      for (let key in dataForGridFirefoxBrowser[i]) {
+        if (key.indexOf("Firefox") + 1) {
+          dataBrowser = dataBrowser.concat(
+            dataBrowser,
+            dataForGridFirefoxBrowser[i][key]
+          );
+        }
+      }
+    }
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForGridFirefoxBrowser,
+    };
+    console.log(dataForGridFirefoxBrowser);
+    let myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/grid") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".grid-page"),
+      });
+      heatmapInstance.setData(data);
+    }
+  }
+
+  const getProductFirefoxDataBrowser = () => {
+    !dataForProductFirefoxBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForProductFirefoxBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  function viewProductFirefoxBrowser() {
+    getProductFirefoxDataBrowser();
+    let dataBrowser = [];
+    for (let i = 0; i < dataForProductFirefoxBrowser.length; i++) {
+      for (let key in dataForProductFirefoxBrowser[i]) {
+        if (key.indexOf("Firefox") + 1) {
+          dataBrowser = dataBrowser.concat(
+            dataBrowser,
+            dataForProductFirefoxBrowser[i][key]
+          );
+        }
+      }
+    }
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForProductFirefoxBrowser,
+    };
+    console.log(dataForProductFirefoxBrowser);
+    let myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/product") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".productPage"),
       });
       heatmapInstance.setData(data);
     }
@@ -314,21 +457,20 @@ const App = function (props) {
   return (
     <section class="graphs">
       <div class="graphs-container">
-        {/*<div className="button-container">*/}
-        {/*  <button className="data-button">*/}
-        {/*    Получить данные из базы данных!*/}
-        {/*  </button>*/}
-        {/*</div>*/}
         <div class="victorypie">
           <div class="graph-description">
             <p>Зависимость количества кликов от типа браузера</p>
           </div>
           <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
             <VictoryBar
+              labelComponent={<VictoryTooltip constrainToVisibleArea />}
+              horizontal
               barWidth={20}
               style={{
                 data: { fill: "#DCE775", width: 15 },
+                parent: { overflow: "visible" },
               }}
+              standalone={false}
               data={dataForGraph}
               events={[
                 {
@@ -441,6 +583,26 @@ const App = function (props) {
               </button>
               <button class="graphs-button" onClick={viewHeatMaProduct}>
                 Heatmap for ProductPage
+              </button>
+            </div>
+            <div className="browser-buttons">
+              <button
+                className="graphs-button"
+                onClick={viewHomeFirefoxBrowser}
+              >
+                Firefox Heatmap for HomePage
+              </button>
+              <button
+                className="graphs-button"
+                onClick={viewGridFirefoxBrowser}
+              >
+                Firefox Heatmap for GridPage
+              </button>
+              <button
+                className="graphs-button"
+                onClick={viewProductFirefoxBrowser}
+              >
+                Firefox Heatmap for ProductPage
               </button>
             </div>
             <div className="browser-buttons">
