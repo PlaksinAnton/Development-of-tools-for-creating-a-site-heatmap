@@ -152,11 +152,40 @@ def send_data():
     return "OK"
 
 
+@app.route('/get_list_of/<string:item>')
+@cross_origin()
+def get_list(item):
+    if item == 'browser':
+        select = 'SELECT rowid, browser FROM tb_browser'
+    elif item == 'gadget_type':
+        select = 'SELECT rowid, gadget_type FROM tb_gadget_type'
+    else:
+        print("URL с ошибкой")
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    lock.acquire()
+    sql.execute(select)
+    result = sql.fetchall()
+    lock.release()
+    if not result:  # вывод в случае ошибки
+        print('Пустая БД')
+        ans = json.loads('{"data": []}')
+        return json.dumps(ans)
+    str_sample = ''' {"%s":"%s"},'''
+    data_sample = '''{"data": ['''
+    for st in result:
+        s = str_sample % st
+        data_sample = data_sample + s
+    data_sample = data_sample[:-1] + "]}"
+    data = json.loads(data_sample)
+    return json.dumps(data)
+
+
 @app.route('/get_heatmap/<string:page>')
 @cross_origin()
 def get_heatmap(page):
     lock.acquire()
-    a = sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
+    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
     result = sql.fetchall()
     lock.release()
     if not result:  # вывод в случае ошибки
@@ -281,7 +310,7 @@ def get_heatmap_(theme, page):
     data_sample = data_sample[:-2] + "]}"
     data = json.loads(data_sample)
     return json.dumps(data)
-#тест коммита
+
 
 @app.route('/get_graph/time')
 @cross_origin()
@@ -309,46 +338,5 @@ def get_graph():
     return json.dumps(data)
 
 
-@app.route('/send_data2', methods=['post'])
-@cross_origin()
-def send_data2():
-    data = request.get_json(force=True)
-    print(data)
-    return "OK"
-
-
 if __name__ == "__main__":
     app.run()
-
-# for value in sql.execute("SELECT * FROM'tb_clicks'"):
-#   print(value)
-
-
-# @app.route('/send_data', methods=['post'])
-# @cross_origin()
-# def send_data():
-#     data = request.get_json(force=True)
-#     new_data = []
-#     for str in data['data']:
-#         x = str['x']
-#         y = str['y']
-#         v = str['value']
-#         select = '''
-#                     SELECT value FROM tb_clicks
-#                     WHERE x = "%s" and y = "%s"'''
-#         sql.execute(select % (x, y)) # проверяем существует ли запись об пиксиле x y
-#         result = sql.fetchone()
-#         if result: # если да,
-#             update = '''
-#                         UPDATE tb_clicks SET value = "%s"
-#                         WHERE x = "%s" AND y = "%s"'''
-#             sql.execute(update % (result[0] + v, x, y)) # то обновляем количество кликов
-#             db.commit()
-#         else: # если нет,
-#             ins = (x, y, v)
-#             new_data.append(ins) # то сохраняем данные в массив
-#     if new_data:
-#         insert = 'INSERT INTO tb_clicks (x,y,value) VALUES (?,?,?)'
-#         sql.executemany(insert, new_data) # добавляем данные
-#         db.commit()
-#     return "OK"
