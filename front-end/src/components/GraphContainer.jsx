@@ -17,7 +17,10 @@ const App = function (props) {
   const [dataForHeatmapGrid, setDataForHeatmapGrid] = useState("");
   const [dataForTime, setDataForTime] = useState("");
   const [dataForDevices, setDataForDevices] = useState("");
-  const [dataForBrowser, setDataForBrowser] = useState("");
+  const [dataForHomeСhromeBrowser, setDataForHomeChromeBrowser] = useState("");
+  const [dataForGridСhromeBrowser, setDataForGridChromeBrowser] = useState("");
+  const [dataForProductСhromeBrowser, setDataForProductChromeBrowser] =
+    useState("");
 
   useEffect(async () => {
     !dataForGraph &&
@@ -101,19 +104,6 @@ const App = function (props) {
         });
   };
 
-  const getDataBrowser = () => {
-    !dataForBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
   function viewHeatMapHome() {
     getDataHome();
     let data = {
@@ -174,23 +164,39 @@ const App = function (props) {
     heatmapInstance.setData(data);
   }
 
-  function viewBrowser() {
-    getDataBrowser();
+  const getHomeDataBrowser = () => {
+    !dataForHomeСhromeBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForHomeChromeBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  function viewHomeChromeBrowser() {
+    getHomeDataBrowser();
     let dataBrowser = [];
-    for (let i = 0; i < dataForBrowser.length; i++) {
-      for (let key in dataForBrowser[i]) {
+    for (let i = 0; i < dataForHomeСhromeBrowser.length; i++) {
+      for (let key in dataForHomeСhromeBrowser[i]) {
         if (key.indexOf("Chrome") + 1) {
-          dataBrowser = dataBrowser.concat(dataBrowser, dataForBrowser[i][key]);
+          dataBrowser = dataBrowser.concat(
+            dataBrowser,
+            dataForHomeСhromeBrowser[i][key]
+          );
         }
       }
     }
     let data = {
       max: 15,
       min: 0,
-      data: dataBrowser,
+      data: dataForHomeСhromeBrowser,
     };
-    console.log(dataBrowser);
-    var myFrame = document.getElementById("heatmap-home");
+    console.log(dataForHomeСhromeBrowser);
+    let myFrame = document.getElementById("heatmap-home");
     let name = myFrame.getAttribute("src");
     let heatmapInstance;
     if (name == "http://localhost:3000/") {
@@ -199,20 +205,97 @@ const App = function (props) {
           .querySelector(".heatmap-home")
           .contentDocument.querySelector(".HomePage"),
       });
-    } else if (name == "http://localhost:3000/grid") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".grid-page"),
-      });
-    } else if (name == "http://localhost:3000/product") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".productPage"),
-      });
+      heatmapInstance.setData(data);
     }
-    heatmapInstance.setData(data);
+  }
+
+  const getGridDataBrowser = () => {
+    !dataForGridСhromeBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser/grid`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForGridChromeBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  function viewGridChromeBrowser() {
+    getGridDataBrowser();
+    let dataBrowser = [];
+    for (let i = 0; i < dataForGridСhromeBrowser.length; i++) {
+      for (let key in dataForGridСhromeBrowser[i]) {
+        if (key.indexOf("Chrome") + 1) {
+          dataBrowser = dataBrowser.concat(
+            dataBrowser,
+            dataForGridСhromeBrowser[i][key]
+          );
+        }
+      }
+    }
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForGridСhromeBrowser,
+    };
+    console.log(dataForGridСhromeBrowser);
+    let myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/grid") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".HomePage"),
+      });
+      heatmapInstance.setData(data);
+    }
+  }
+
+  const getProductDataBrowser = () => {
+    !dataForProductСhromeBrowser &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/browser/product`)
+        .then((response) => {
+          let data = response.data.data;
+          setDataForProductChromeBrowser(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  function viewProductChromeBrowser() {
+    getProductDataBrowser();
+    let dataBrowser = [];
+    for (let i = 0; i < dataForProductСhromeBrowser.length; i++) {
+      for (let key in dataForProductСhromeBrowser[i]) {
+        if (key.indexOf("Chrome") + 1) {
+          dataBrowser = dataBrowser.concat(
+            dataBrowser,
+            dataForProductСhromeBrowser[i][key]
+          );
+        }
+      }
+    }
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForProductСhromeBrowser,
+    };
+    let myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/product") {
+      heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector(".HomePage"),
+      });
+      heatmapInstance.setData(data);
+    }
   }
 
   function viewGridPage() {
@@ -361,8 +444,17 @@ const App = function (props) {
               </button>
             </div>
             <div className="browser-buttons">
-              <button class="graphs-button" onClick={viewBrowser}>
-                Google Chrome
+              <button class="graphs-button" onClick={viewHomeChromeBrowser}>
+                Google Chrome Heatmap for HomePage
+              </button>
+              <button className="graphs-button" onClick={viewGridChromeBrowser}>
+                Google Chrome Heatmap for GridPage
+              </button>
+              <button
+                className="graphs-button"
+                onClick={viewProductChromeBrowser}
+              >
+                Google Chrome Heatmap for ProductPage
               </button>
             </div>
           </div>
