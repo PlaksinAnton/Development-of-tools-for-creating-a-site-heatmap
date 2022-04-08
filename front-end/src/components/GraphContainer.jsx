@@ -12,7 +12,9 @@ import h337 from "heatmap.js";
 
 const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
-  const [dataForHeatmap, setDataForHeatmap] = useState("");
+  const [dataForHeatmapHome, setDataForHeatmapHome] = useState("");
+  const [dataForHeatmapProduct, setDataForHeatmapProduct] = useState("");
+  const [dataForHeatmapGrid, setDataForHeatmapGrid] = useState("");
   const [dataForTime, setDataForTime] = useState("");
   const [dataForDevices, setDataForDevices] = useState("");
   const [dataForBrowser, setDataForBrowser] = useState("");
@@ -61,13 +63,38 @@ const App = function (props) {
         .catch((error) => console.log(error));
   });
 
-  const getData = () => {
-    !dataForHeatmap &&
+  const getDataHome = () => {
+    !dataForHeatmapHome &&
       axios
-        .get(`http://127.0.0.1:5000/get_heatmap`)
+        .get(`http://127.0.0.1:5000/get_heatmap/home`)
         .then((response) => {
           let dataPoints = response.data.data;
-          setDataForHeatmap(dataPoints);
+          setDataForHeatmapHome(dataPoints);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+
+  const getDataGrid = () => {
+    !dataForHeatmapGrid &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/grid`)
+        .then((response) => {
+          let dataPoints = response.data.data;
+          setDataForHeatmapGrid(dataPoints);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  };
+  const getDataProduct = () => {
+    !dataForHeatmapProduct &&
+      axios
+        .get(`http://127.0.0.1:5000/get_heatmap/product`)
+        .then((response) => {
+          let dataPoints = response.data.data;
+          setDataForHeatmapProduct(dataPoints);
         })
         .catch((error) => {
           console.log(error);
@@ -87,12 +114,12 @@ const App = function (props) {
         });
   };
 
-  function viewHeatMap() {
-    getData();
+  function viewHeatMapHome() {
+    getDataHome();
     let data = {
       max: 15,
       min: 0,
-      data: dataForHeatmap,
+      data: dataForHeatmapHome,
     };
     var myFrame = document.getElementById("heatmap-home");
     let name = myFrame.getAttribute("src");
@@ -103,14 +130,41 @@ const App = function (props) {
           .querySelector(".heatmap-home")
           .contentDocument.querySelector(".HomePage"),
       });
-      console.log(document.querySelector(".heatmap-home"));
-    } else if (name == "http://localhost:3000/grid") {
+    }
+    heatmapInstance.setData(data);
+  }
+
+  function viewHeatMapGrid() {
+    getDataGrid();
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForHeatmapGrid,
+    };
+    var myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/grid") {
       heatmapInstance = h337.create({
         container: document
           .querySelector(".heatmap-home")
           .contentDocument.querySelector(".grid-page"),
       });
-    } else if (name == "http://localhost:3000/product") {
+    }
+    heatmapInstance.setData(data);
+  }
+
+  function viewHeatMaProduct() {
+    getDataProduct();
+    let data = {
+      max: 15,
+      min: 0,
+      data: dataForHeatmapProduct,
+    };
+    let myFrame = document.getElementById("heatmap-home");
+    let name = myFrame.getAttribute("src");
+    let heatmapInstance;
+    if (name == "http://localhost:3000/product") {
       heatmapInstance = h337.create({
         container: document
           .querySelector(".heatmap-home")
@@ -162,15 +216,15 @@ const App = function (props) {
   }
 
   function viewGridPage() {
-    var myFrame = document.getElementById("heatmap-home");
+    let myFrame = document.getElementById("heatmap-home");
     myFrame.setAttribute("src", "http://localhost:3000/grid");
   }
   function viewHomePage() {
-    var myFrame = document.getElementById("heatmap-home");
+    let myFrame = document.getElementById("heatmap-home");
     myFrame.setAttribute("src", "http://localhost:3000/");
   }
   function viewProductPage() {
-    var myFrame = document.getElementById("heatmap-home");
+    let myFrame = document.getElementById("heatmap-home");
     myFrame.setAttribute("src", "http://localhost:3000/product");
   }
 
@@ -296,8 +350,14 @@ const App = function (props) {
               </button>
             </div>
             <div className="classic-buttons">
-              <button class="graphs-button" onClick={viewHeatMap}>
-                Heatmap
+              <button class="graphs-button" onClick={viewHeatMapHome}>
+                Heatmap for HomePage
+              </button>
+              <button class="graphs-button" onClick={viewHeatMapGrid}>
+                Heatmap for GridPage
+              </button>
+              <button class="graphs-button" onClick={viewHeatMaProduct}>
+                Heatmap for ProductPage
               </button>
             </div>
             <div className="browser-buttons">
@@ -307,12 +367,14 @@ const App = function (props) {
             </div>
           </div>
           <div class="heatmap-pic">
-            <iframe
-              class="heatmap-home"
-              id="heatmap-home"
-              src="http://localhost:3000/"
-              height="1000px"
-            ></iframe>
+            <div className="heatmap-iframe">
+              <iframe
+                class="heatmap-home"
+                id="heatmap-home"
+                src="http://localhost:3000/"
+                height="1000px"
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>
