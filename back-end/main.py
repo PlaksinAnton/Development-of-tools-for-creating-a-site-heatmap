@@ -3,8 +3,8 @@ import flask
 from flask import request, render_template
 from flask_cors import CORS, cross_origin
 import json
-import time
-import os
+import threading
+lock = threading.Lock()
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
