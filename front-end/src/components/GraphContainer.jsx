@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import h337 from "heatmap.js";
 
-
 const App = function (props) {
   const [dataForGraph, setDataForGraph] = useState("");
   const [dataForHeatmap, setDataForHeatmap] = useState("");
@@ -19,12 +18,14 @@ const App = function (props) {
   const [dataForBrowser, setDataForBrowser] = useState("");
 
   useEffect(async () => {
-    !dataForGraph && !dataForDevices && !dataForTime &&
-      axios.all(
-        [
+    !dataForGraph &&
+      !dataForDevices &&
+      !dataForTime &&
+      axios
+        .all([
           axios.get("http://127.0.0.1:5000/get_gist/browser"),
           axios.get("http://127.0.0.1:5000/get_gist/gadget"),
-          axios.get("http://127.0.0.1:5000/get_graph/time")
+          axios.get("http://127.0.0.1:5000/get_graph/time"),
         ])
         .then(
           axios.spread((firstResponse, secondResponse, thirdResponse) => {
@@ -55,8 +56,9 @@ const App = function (props) {
               });
             }
             setDataForTime(thirdData);
-          }))
-        .catch(error => console.log(error));
+          })
+        )
+        .catch((error) => console.log(error));
   });
 
   const getData = () => {
@@ -101,6 +103,7 @@ const App = function (props) {
           .querySelector(".heatmap-home")
           .contentDocument.querySelector(".HomePage"),
       });
+      console.log(document.querySelector(".heatmap-home"));
     } else if (name == "http://localhost:3000/grid") {
       heatmapInstance = h337.create({
         container: document
@@ -123,7 +126,7 @@ const App = function (props) {
     for (let i = 0; i < dataForBrowser.length; i++) {
       for (let key in dataForBrowser[i]) {
         if (key.indexOf("Chrome") + 1) {
-          dataBrowser = dataBrowser.concat(dataBrowser, dataForBrowser[i][key])
+          dataBrowser = dataBrowser.concat(dataBrowser, dataForBrowser[i][key]);
         }
       }
     }
@@ -132,7 +135,7 @@ const App = function (props) {
       min: 0,
       data: dataBrowser,
     };
-    console.log(dataBrowser)
+    console.log(dataBrowser);
     var myFrame = document.getElementById("heatmap-home");
     let name = myFrame.getAttribute("src");
     let heatmapInstance;
@@ -187,7 +190,7 @@ const App = function (props) {
             <VictoryBar
               barWidth={20}
               style={{
-                data: { fill: "#DCE775" },
+                data: { fill: "#DCE775", width: 15 },
               }}
               data={dataForGraph}
               events={[
@@ -253,7 +256,7 @@ const App = function (props) {
             <VictoryBar
               barWidth={20}
               style={{
-                data: { fill: "gold" },
+                data: { fill: "blue" },
               }}
               data={dataForTime}
               events={[
