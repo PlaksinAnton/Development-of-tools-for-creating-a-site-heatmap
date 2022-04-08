@@ -74,17 +74,21 @@ def send_data():
     select_br = '''
             SELECT rowid FROM tb_browser
             WHERE browser = "%s"'''
+    lock.acquire()
     sql.execute(select_br % browser)  # смотрю есть ли в tb_browser браузер, который пришел
     browser_id = sql.fetchone()
+    lock.release()
     if browser_id is None:
         i = False  # значит, новая запись будет уникальной
         insert_br = 'INSERT INTO tb_browser VALUES (?)'
         l = browser,
+        lock.acquire()
         sql.execute(insert_br, l)  # добавляем данные
         db.commit()
 
         sql.execute('SELECT last_insert_rowid()')
         browser_id = sql.fetchone()[0]
+        lock.release()
     else:
         browser_id = browser_id[0]
 
@@ -93,17 +97,21 @@ def send_data():
     select_gt = '''
             SELECT rowid FROM tb_gadget_type
             WHERE gadget_type = "%s"'''
+    lock.acquire()
     sql.execute(select_gt % gadget_type)  # смотрю есть ли в tb_gadget_type тип, который пришел
     type_id = sql.fetchone()
+    lock.release()
     if type_id is None:
         i = False  # новая запись будет уникальной
         insert_gt = 'INSERT INTO tb_gadget_type VALUES (?)'
         l = gadget_type,
+        lock.acquire()
         sql.execute(insert_gt, l)  # добавляем данные
         db.commit()
 
         sql.execute('SELECT last_insert_rowid()')
         type_id = sql.fetchone()[0]
+        lock.release()
     else:
         type_id = type_id[0]
 
@@ -111,41 +119,50 @@ def send_data():
     select_pg = '''
                 SELECT rowid FROM tb_page
                 WHERE page = "%s"'''
+    lock.acquire()
     sql.execute(select_pg % page)  # смотрю есть ли в tb_page страница, которая пришла
     page_id = sql.fetchone()
+    lock.release()
     if page_id is None:
         i = False  # новая запись будет уникальной
         insert_pg = 'INSERT INTO tb_page VALUES (?)'
         l = page,
+        lock.acquire()
         sql.execute(insert_pg, l)  # добавляем данные
         db.commit()
 
         sql.execute('SELECT last_insert_rowid()')
         page_id = sql.fetchone()[0]
+        lock.release()
     else:
         page_id = page_id[0]
-
 
     if i:
         select = '''
                 SELECT rowid, value FROM tb_clicks
                 WHERE x = "%s" AND y = "%s" AND time = "%s" AND browser_id = "%s" AND type_id = "%s" AND page_id = "%s"'''
+        lock.acquire()
         sql.execute(select % (x, y, time, browser_id, type_id, page_id))  # смотрю есть ли совпадающая запись в tb_clicks
         result = sql.fetchone()
+        lock.release()
         if result:  # если да,
             update = '''
                     UPDATE tb_clicks SET value = "%s"
                     WHERE rowid = "%s"'''
+            lock.acquire()
             sql.execute(update % (result[1] + 1, result[0]))  # то обновляем количество кликов
             db.commit()
+            lock.release()
 
             # for value in sql.execute("SELECT * FROM 'tb_clicks'"):
             #     print(value)
             return "OK"
 
     insert = '''INSERT INTO tb_clicks (x,y,value,time,browser_id,type_id,page_id) VALUES (?,?,?,?,?,?,?)'''
+    lock.acquire()
     sql.execute(insert, (x, y, 1, time, browser_id, type_id, page_id))  # добавляем новые данные
     db.commit()
+    lock.release()
 
     #  for value in sql.execute("SELECT * FROM 'tb_clicks'"):
     #      print(value)
