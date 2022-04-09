@@ -279,16 +279,12 @@ def get_heatmap_(theme, page):
         sql.execute(select2 % (i[0], page_id))
         result = sql.fetchall()
         lock.release()
-        if not result:  # вывод в случае ошибки
-            print('Запрос в БД ничего не вернул')
-            print(i)
-            print(data_sample)
-            print(select2 % (i[0], page_id))
-            ans = json.loads('{"data": []}')
-            return json.dumps(ans)
-        for st in result:
-            s = str_sample % st
-            data_sample += s
+        if not result:
+            data_sample += ' '
+        else:
+            for st in result:
+                s = str_sample % st
+                data_sample += s
         data_sample = data_sample[:-1] + "]}, "
     data_sample = data_sample[:-2] + "]}"
     data = json.loads(data_sample)
