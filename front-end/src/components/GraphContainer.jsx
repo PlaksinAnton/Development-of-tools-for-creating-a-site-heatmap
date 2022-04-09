@@ -461,105 +461,118 @@ const App = function (props) {
           <div class="graph-description">
             <p>Зависимость количества кликов от типа браузера</p>
           </div>
-          <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
-            <VictoryBar
-              labelComponent={<VictoryTooltip constrainToVisibleArea />}
-              horizontal
-              barWidth={20}
-              style={{
-                data: { fill: "#DCE775", width: 15 },
-                parent: { overflow: "visible" },
-              }}
-              standalone={false}
-              data={dataForGraph}
-              events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "labels",
-                          mutation: (props) => {
-                            return props.text === "clicked"
-                              ? null
-                              : { text: "clicked" };
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <VictoryChart
+              domainPadding={{ x: 50 }}
+              theme={VictoryTheme.material}
+              padding={{ left: 120, bottom: 50 }}
+            >
+              <VictoryBar
+                horizontal
+                barWidth={20}
+                style={{
+                  data: { fill: "#DCE775", width: 15 },
+                }}
+                data={dataForGraph}
+                events={[
+                  {
+                    target: "data",
+                    eventHandlers: {
+                      onClick: () => {
+                        return [
+                          {
+                            target: "labels",
+                            mutation: (props) => {
+                              return props.text === "clicked"
+                                ? null
+                                : { text: "clicked" };
+                            },
                           },
-                        },
-                      ];
+                        ];
+                      },
                     },
                   },
-                },
-              ]}
-            />
-            <VictoryScatter data={dataForGraph} />
-          </VictoryChart>
+                ]}
+              />
+              <VictoryScatter data={dataForGraph} />
+            </VictoryChart>
+          </div>
           <div className="graph-description">
             <p>Зависимость количества кликов от типа устройства</p>
           </div>
-          <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
-            <VictoryBar
-              barWidth={20}
-              style={{
-                data: { fill: "gold" },
-              }}
-              data={dataForDevices}
-              events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "labels",
-                          mutation: (props) => {
-                            return props.text === "clicked"
-                              ? null
-                              : { text: "clicked" };
+          <div>
+            <VictoryChart
+              domainPadding={{ x: 50 }}
+              theme={VictoryTheme.material}
+            >
+              <VictoryBar
+                barWidth={20}
+                style={{
+                  data: { fill: "gold" },
+                }}
+                data={dataForDevices}
+                events={[
+                  {
+                    target: "data",
+                    eventHandlers: {
+                      onClick: () => {
+                        return [
+                          {
+                            target: "labels",
+                            mutation: (props) => {
+                              return props.text === "clicked"
+                                ? null
+                                : { text: "clicked" };
+                            },
                           },
-                        },
-                      ];
+                        ];
+                      },
                     },
                   },
-                },
-              ]}
-            />
-            <VictoryScatter data={dataForDevices} />
-          </VictoryChart>
+                ]}
+              />
+              <VictoryScatter data={dataForDevices} />
+            </VictoryChart>
+          </div>
           <div className="graph-description">
             <p>
               Зависимость количества кликов от времени, проведённом на сайте
             </p>
           </div>
-          <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
-            <VictoryBar
-              barWidth={20}
-              style={{
-                data: { fill: "blue" },
-              }}
-              data={dataForTime}
-              events={[
-                {
-                  target: "data",
-                  eventHandlers: {
-                    onClick: () => {
-                      return [
-                        {
-                          target: "labels",
-                          mutation: (props) => {
-                            return props.text === "clicked"
-                              ? null
-                              : { text: "clicked" };
+          <div>
+            <VictoryChart
+              domainPadding={{ x: 50 }}
+              theme={VictoryTheme.material}
+            >
+              <VictoryBar
+                barWidth={20}
+                style={{
+                  data: { fill: "blue" },
+                }}
+                data={dataForTime}
+                events={[
+                  {
+                    target: "data",
+                    eventHandlers: {
+                      onClick: () => {
+                        return [
+                          {
+                            target: "labels",
+                            mutation: (props) => {
+                              return props.text === "clicked"
+                                ? null
+                                : { text: "clicked" };
+                            },
                           },
-                        },
-                      ];
+                        ];
+                      },
                     },
                   },
-                },
-              ]}
-            />
-            <VictoryScatter data={dataForTime} />
-          </VictoryChart>
+                ]}
+              />
+              <VictoryScatter data={dataForTime} />
+            </VictoryChart>
+          </div>
         </div>
         <div class="heatmap-display">
           <div class="graphs-buttons">
