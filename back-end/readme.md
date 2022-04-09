@@ -27,10 +27,15 @@ http://127.0.0.1:5000/get_gist/browser         -кол-во кликов в за
 http://127.0.0.1:5000/get_gist/gadget          -кол-во кликов в зависимости от устройства
 http://127.0.0.1:5000/get_graph/time           -кол-во кликов в зависимости от времени (клики за первые 2,5,10,15,20(+inf) минут)
 
-http://127.0.0.1:5000/get_heatmap/<page>                  -хитмеп без фильтров
-http://127.0.0.1:5000/get_heatmap/browser/<page>          -хитмепы в зависимости от браузера
-http://127.0.0.1:5000/get_heatmap/gadget_type/<page>      -хитмепы в зависимости от типа устройства
+http://127.0.0.1:5000/get_heatmap/<string:page>                  -хитмеп без фильтров
+http://127.0.0.1:5000/get_heatmap/browser/<string:page>          -хитмепы в зависимости от браузера
+http://127.0.0.1:5000/get_heatmap/gadget_type/<string:page>      -хитмепы в зависимости от типа устройства
+
+НОВЫЙ КРУТОЙ БЭК:
 
 http://127.0.0.1:5000/get_list_of/browser                -список id-браузер
 http://127.0.0.1:5000/get_list_of/gadget_type            -список id-тип
 http://127.0.0.1:5000/get_list_of/page                   -список id-страница
+
+http://127.0.0.1:5000/get_smart_heatmap/page/<string:page>/browser/<string:browser>/gadget_type/<string:gadget_type>
+http://127.0.0.1:5000/get_smart_heatmap/page/home/browser/Chrome/gadget_type/Mobile
