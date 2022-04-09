@@ -33,3 +33,4 @@ http://127.0.0.1:5000/get_heatmap/gadget_type/<page>      -хитмепы в з�
 
 http://127.0.0.1:5000/get_list_of/browser                -список id-браузер
 http://127.0.0.1:5000/get_list_of/gadget_type            -список id-тип
+http://127.0.0.1:5000/get_list_of/page                   -список id-страница
