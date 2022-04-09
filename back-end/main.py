@@ -250,16 +250,14 @@ def get_heatmap_(theme, page):
 
     if theme == 'browser':
         select1 = 'SELECT rowid, browser FROM tb_browser'
-        select2 = '''SELECT x, y, SUM(value) 
-                    FROM tb_clicks
-                    WHERE browser_id = %s AND page_id = %s
-                    GROUP BY x, y'''
+        select2 = '''SELECT x, y, SUM(value) FROM tb_clicks
+                     WHERE browser_id = %s AND page_id = %s
+                     GROUP BY x, y'''
     elif theme == 'gadget_type':
         select1 = 'SELECT rowid, gadget_type FROM tb_gadget_type'
-        select2 = '''SELECT x, y, SUM(value) 
-                            FROM tb_clicks
-                            WHERE type_id = %s AND page_id = %s
-                            GROUP BY x, y'''
+        select2 = '''SELECT x, y, SUM(value) FROM tb_clicks
+                     WHERE type_id = %s AND page_id = %s
+                     GROUP BY x, y'''
     else:
         print("URL с ошибкой")
         ans = json.loads('{"data": []}')
