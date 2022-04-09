@@ -310,7 +310,7 @@ def get_heatmap_(theme, page):
     result = sql.fetchall()
     lock.release()
     if not result:  # вывод в случае ошибки
-        print('Пустая БД')
+        print('Пустая БД c браузерами')
         ans = json.loads('{"data": []}')
         return json.dumps(ans)
     data_sample = '''{"data": ['''
@@ -322,6 +322,8 @@ def get_heatmap_(theme, page):
         lock.release()
         if not result:  # вывод в случае ошибки
             print('Запрос в БД ничего не вернул')
+            print(i)
+            print(data_sample)
             ans = json.loads('{"data": []}')
             return json.dumps(ans)
         for st in result:
