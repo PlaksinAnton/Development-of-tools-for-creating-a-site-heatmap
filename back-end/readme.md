@@ -38,4 +38,5 @@ http://127.0.0.1:5000/get_list_of/gadget_type            -список id-тип
 http://127.0.0.1:5000/get_list_of/page                   -список id-страница
 
 http://127.0.0.1:5000/get_smart_heatmap/page/<string:page>/browser/<string:browser>/gadget_type/<string:gadget_type>
+Пример:
 http://127.0.0.1:5000/get_smart_heatmap/page/home/browser/Chrome/gadget_type/Mobile

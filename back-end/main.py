@@ -21,6 +21,11 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `type_id` TINYINT  UNSIGNED NOT NULL,
     `page_id` TINYINT UNSIGNED NOT NULL
     )''')
+#     `OS_id` TINYINT UNSIGNED NOT NULL
+
+sql.execute('''CREATE TABLE IF NOT EXISTS `tb_page` (
+    `page` CHARACTER NOT NULL
+    )''')
 
 sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
     `browser` CHARACTER NOT NULL
@@ -30,9 +35,9 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_gadget_type` (
     `gadget_type` CHARACTER NOT NULL
     )''')
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_page` (
-    `page` CHARACTER NOT NULL
-    )''')
+# sql.execute('''CREATE TABLE IF NOT EXISTS `tb_OS` (
+#     `OS` CHARACTER NOT NULL
+#     )''')
 db.commit()
 
 
@@ -354,35 +359,56 @@ def get_list_of(item):
 @app.route('/get_smart_heatmap/page/<string:page>/browser/<string:browser>/gadget_type/<string:gadget_type>')
 @cross_origin()
 def get_smart_heatmap(page, browser, gadget_type):
-    select_pg = 'SELECT rowid FROM tb_page WHERE page = "%s"' % page
-    select_br = 'SELECT rowid FROM tb_browser WHERE browser = "%s"' % browser
-    select_gt = 'SELECT rowid FROM tb_gadget_type WHERE gadget_type = "%s"' % gadget_type
-    lock.acquire()
-    sql.execute(select_pg)
-    page_id = sql.fetchall()[0][0]
-    sql.execute(select_br)
-    browser_id = sql.fetchall()[0][0]
-    sql.execute(select_gt)
-    type_id = sql.fetchall()[0][0]
-    lock.release()
-
     select = '''SELECT x, y, SUM(value) 
                 FROM tb_clicks
-                WHERE browser_id = %s AND type_id = %s AND page_id = %s
-                GROUP BY x, y'''
+                WHERE page_id = %s'''
     lock.acquire()
-    sql.execute(select % (browser_id, type_id, page_id))
+    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
+    page_id = sql.fetchall()   # находим индекс страницы и добавляем в условие
+    lock.release()
+    if not page_id:  # вывод в случае ошибки
+        print('Неверно указана страница в URL')
+        return json.dumps(json.loads('{"data": []}'))
+    select = select % page_id[0][0]
+
+    if browser == 'None':
+        a = 1
+    else:  # находим индекс браузера и добавляем в условие
+        lock.acquire()
+        sql.execute('SELECT rowid FROM tb_browser WHERE browser = "%s"' % browser)
+        browser_id = sql.fetchall()
+        lock.release()
+        if not browser_id:  # вывод в случае ошибки
+            print('Неверно указано имя браузера в URL')
+            return json.dumps(json.loads('{"data": []}'))
+        select += ' AND browser_id = %s' % browser_id[0][0]
+
+    if gadget_type == 'None':
+        a = 1
+    else:  # находим индекс типа устройства и добавляем в условие
+        lock.acquire()
+        sql.execute('SELECT rowid FROM tb_gadget_type WHERE gadget_type = "%s"' % gadget_type)
+        type_id = sql.fetchall()
+        lock.release()
+        if not type_id:  # вывод в случае ошибки
+            print('Неверно указан тип устройства в URL')
+            return json.dumps(json.loads('{"data": []}'))
+        select += ' AND type_id = %s' % type_id[0][0]
+
+    select += ' GROUP BY x, y'
+
+    lock.acquire()
+    sql.execute(select)
     result = sql.fetchall()
     lock.release()
     if not result:  # вывод в случае ошибки
-        print('Запрос не прошел')
+        print('Итоговый запрос ничего не дал')
         ans = json.loads('{"data": []}')
         return json.dumps(ans)
     data_sample = '''{"data": ['''
     str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
     for st in result:
-        s = str_sample % st
-        data_sample = data_sample + s
+        data_sample = data_sample + str_sample % st
     data_sample = data_sample[:-1] + "]}"
     data = json.loads(data_sample)
     return json.dumps(data)
