@@ -35,10 +35,6 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_page` (
     )''')
 db.commit()
 
-# Посмотреть содержимое бд:
-# for value in sql.execute("SELECT rowid, x, y, value FROM 'tb_clicks'"):
-#    print(value)
-
 
 @app.route('/')
 def home():
@@ -176,6 +172,8 @@ def get_list(item):
         select = 'SELECT rowid, browser FROM tb_browser'
     elif item == 'gadget_type':
         select = 'SELECT rowid, gadget_type FROM tb_gadget_type'
+    if item == 'page':
+        select = 'SELECT rowid, page FROM tb_page'
     else:
         print("URL с ошибкой")
         ans = json.loads('{"data": []}')
@@ -229,6 +227,12 @@ def get_heatmap(page):
     data = json.loads(data_sample)
     return json.dumps(data)
 
+
+# @app.route('/get_smart_heatmap/browser/<string:browser>/gadget_type/<string:gadget_type>')
+# @cross_origin()
+# def get_smart_heatmap(browser, gadget_type):
+#
+#     return 'OK'
 
 @app.route('/get_gist/<string:theme>')
 @cross_origin()
