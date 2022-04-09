@@ -283,6 +283,7 @@ def get_heatmap_(theme, page):
             print('Запрос в БД ничего не вернул')
             print(i)
             print(data_sample)
+            print(select2 % (i[0], page_id))
             ans = json.loads('{"data": []}')
             return json.dumps(ans)
         for st in result:
