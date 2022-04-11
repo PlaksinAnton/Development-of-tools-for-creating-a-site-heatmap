@@ -21,13 +21,15 @@ function GraphicPage() {
       let currentTime = Date.now();
       let spentTime = (currentTime - enterTime) / 1000;
       let coordinats = getPosition(ev);
+      let br = new String(computerInfo.browser.name)
+      let browser = br.split(" ")[0]
+      let os
       let user = {
         date: date.toLocaleString(),
-        browser: computerInfo.browser.name,
+        browser: browser,
         gadget: computerInfo.device.name,
         gadgetType: computerInfo.device.type,
         os: computerInfo.os.name,
-        // computerInfo: navigator.userAgent,
         minutes: Math.floor(spentTime / 60),
         seconds: Math.floor(spentTime % 60),
         coordinats: getPosition(ev),

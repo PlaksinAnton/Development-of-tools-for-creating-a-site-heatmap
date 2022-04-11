@@ -2160,27 +2160,31 @@ template {
 .graph-description {
   text-align: center;
   font-weight: bold;
-  font-size: 20px;
-  color: #007aff;
+  font-size: 25px;
+  color: #0d0e43;
+  margin-bottom: 70px;
 }
 
 .graphs-buttons {
   display: flex;
   align-items: center;
-  flex-direction: column;
-  width: 100%;
-  background-color: #3b3b9d53;
-  z-index: 99;
+  justify-content: center;
 }
 
 .graphs-button {
-  margin-top: 50px;
-  margin-right: 5px;
-  margin-left: 5px;
-  margin-bottom: 20px;
-  padding: 7px;
-  font-size: 30px;
-  color: #3b3b9d53;
+  margin: 50px 5px 20px;
+  padding: 10px;
+  font-size: 18px;
+  background-color: aquamarine;
+  color: darkturquoise;
+}
+
+.pages-buttons,
+.classic-buttons,
+.browser-buttons,
+.filter-buttons {
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-heatmapButton {
@@ -2222,13 +2226,6 @@ template {
   margin-bottom: 20px;
 }
 
-.admin-header,
-.admin-footer {
-  background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 400% 400%;
-  animation: gradient 10s ease infinite;
-  transform: translate3d(0, 0, 0);
-}
 
 @keyframes gradient {
   0% {
@@ -2260,9 +2257,9 @@ template {
 }
 
 .main-text {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
-  color: #2b2bf5;
+  color: #ee7752;
 }
 
 .admin-text__about {
@@ -2302,12 +2299,15 @@ template {
 }
 
 .heatmap-display {
-  border-top: 1px solid grey;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 100px;
-  width: 100vw;
+}
+
+.heatmap-description {
+  font-size: x-large;
+  color: #1A0B5B;
 }
 
 .heatmap-home {
@@ -2316,6 +2316,11 @@ template {
 }
 
 .heatmap-pic {
-  margin-top: -80px;
+  /* margin-top: -80px; */
   margin-bottom: -150px;
+}
+
+.graphs-main-content {
+  display: flex;
+  flex-direction: column;
 }

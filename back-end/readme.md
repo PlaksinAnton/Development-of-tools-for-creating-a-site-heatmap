@@ -12,6 +12,8 @@
 Джейсон файл уже составлен - new_data.json, там лежит три точки для примера.
 Следующая команда отправит джейсон файл бэку и он заполнит БД (нужно установить curl, если нет):
 `curl -X POST --data @new_json.json http://127.0.0.1:5000/send_data`
+Комманда для отправки инфы о сайтах:
+`curl -X POST --data @data_site.json http://127.0.0.1:5000/send_site`
 
 Все, теперь в БД есть инфа. Получить ее можно по URL http://127.0.0.1:5000/get_data.
 Можно снова вызывать команду curl и БД будет обновляться. Как в БД можно запихнуть свою инфу? - Редачить джейсон.
@@ -22,20 +24,36 @@ P.S. После остановки бэка БД не удаляется, вся
 http://127.0.0.1:5000/                   -шрек без звука
 http://127.0.0.1:5000/show               -текушая БД
 http://127.0.0.1:5000/send_data          -отправить инфу
+http://127.0.0.1:5000/send_site          -отправить инфу о страницах c которых перешел пользователь
 
+http://127.0.0.1:5000/get_gist/site            -кол-во кликов в зависимости от страницы c которой перешел пользователь
+http://127.0.0.1:5000/get_gist/page            -кол-во кликов в зависимости от страницы
 http://127.0.0.1:5000/get_gist/browser         -кол-во кликов в зависимости от браузерв
 http://127.0.0.1:5000/get_gist/gadget          -кол-во кликов в зависимости от устройства
+                   -кол-во кликов в зависимости от операционной системы
 http://127.0.0.1:5000/get_graph/time           -кол-во кликов в зависимости от времени (клики за первые 2,5,10,15,20(+inf) минут)
 
+НОВЫЙ КРУТОЙ БЭК:
+http://127.0.0.1:5000/get_smart_heatmap/page/<string:page>/browser/<string:browser>/gadget_type/<string:gadget_type>/OS/<string:OS>
+Пример:
+http://127.0.0.1:5000/get_smart_heatmap/page/home/browser/Chrome/gadget_type/Mobile/OS/Android 6
+
+http://127.0.0.1:5000/get_list_of/site                   -список id-сайт, откуда пришел пользователь
+http://127.0.0.1:5000/get_list_of/page                   -список id-страница
+http://127.0.0.1:5000/get_list_of/browser                -список id-браузер
+http://127.0.0.1:5000/get_list_of/gadget_type            -список id-тип
+http://127.0.0.1:5000/get_list_of/OS                     -список id-ОС
+
+
+
+
+
+
+
+
+
+
+Устаревшие:
 http://127.0.0.1:5000/get_heatmap/<string:page>                  -хитмеп без фильтров
 http://127.0.0.1:5000/get_heatmap/browser/<string:page>          -хитмепы в зависимости от браузера
 http://127.0.0.1:5000/get_heatmap/gadget_type/<string:page>      -хитмепы в зависимости от типа устройства
-
-НОВЫЙ КРУТОЙ БЭК:
-
-http://127.0.0.1:5000/get_list_of/browser                -список id-браузер
-http://127.0.0.1:5000/get_list_of/gadget_type            -список id-тип
-http://127.0.0.1:5000/get_list_of/page                   -список id-страница
-
-http://127.0.0.1:5000/get_smart_heatmap/page/<string:page>/browser/<string:browser>/gadget_type/<string:gadget_type>
-http://127.0.0.1:5000/get_smart_heatmap/page/home/browser/Chrome/gadget_type/Mobile

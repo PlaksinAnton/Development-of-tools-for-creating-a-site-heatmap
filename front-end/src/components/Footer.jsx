@@ -40,9 +40,6 @@ const Footer = (props) => {
           </form>
           <span className="footer-contact">Contact Info</span>
           <span className="footer-adress">17 Princess Road, London, Greater London NW1 8JR, UK</span>
-          <span className="footer-adress">
-            17 Princess Road, London, Greater London NW1 8JR, UK
-          </span>
           {/* <button
             className="footer-button footer-heatmapButton"
             onClick={viewHeatMap}
