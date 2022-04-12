@@ -432,7 +432,7 @@ class GraphContainer extends React.Component {
               class="graphs-button__first graphs-button__first--anim"
               onClick={this.onHeatMap}
             >
-              <span>Теловая карта</span>
+              <span>Тепловая карта</span>
             </button>
             <button
               class="graphs-button__first graphs-button__first--anim"
