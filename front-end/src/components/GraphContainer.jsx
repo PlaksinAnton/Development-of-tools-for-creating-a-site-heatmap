@@ -4,10 +4,7 @@ import {
   VictoryChart,
   VictoryBar,
   VictoryTheme,
-  VictoryLine,
   VictoryScatter,
-  VictoryLabel,
-  VictoryTooltip,
 } from "victory";
 import axios from "axios";
 import h337 from "heatmap.js";
@@ -60,7 +57,7 @@ function Graph(props) {
 function WindowGraphs(props) {
   return (
     <div class="victorypie">
-      <h1>Graphs</h1>
+      <h1>Аналитика сайта</h1>
       <Graph descr="Зависимость количества кликов от типа браузера" graphData={props.graphBr} />
       <Graph descr="Зависимость количества кликов от типа устройства" graphData={props.graphGg} />
       <Graph descr="Зависимость количества кликов от времени, проведённом на сайте" graphData={props.graphTime} />
@@ -300,7 +297,7 @@ class GraphContainer extends React.Component {
         axios.get("http://127.0.0.1:5000/get_graph/time"),
         axios.get("http://127.0.0.1:5000/get_gist/page"),
         axios.get("http://127.0.0.1:5000/get_gist/site"),
-        // axios.get("http://127.0.0.1:5000/get_gist/site")
+        axios.get("http://127.0.0.1:5000/get_gist/OS")
       ])
       .then((response) => {
         // for browsers
@@ -363,7 +360,6 @@ class GraphContainer extends React.Component {
         // for graph url
         let graphUrl = [];
         for (let i = 0; i < response[7].data.data.length; i++) {
-          console.log(response[7].data.data)
           if (response[7].data.data[i].site != "") {
             graphUrl.push({
               x: response[7].data.data[i].site,
@@ -373,15 +369,12 @@ class GraphContainer extends React.Component {
         }
         // get graph os
         let graphOs = [];
-        // for (let i = 0; i < response[7].data.data.length; i++) {
-        //   console.log(response[7].data.data)
-        //   if (response[7].data.data[i].site != "") {
-        //     graphUrl.push({
-        //       x: response[7].data.data[i].site,
-        //       y: response[7].data.data[i].value,
-        //     });
-        //   }
-        // }
+        for (let i = 0; i < response[8].data.data.length; i++) {
+          graphOs.push({
+            x: response[8].data.data[i]["OS"],
+            y: response[8].data.data[i].value,
+          });
+        }
 
         this.setState({
           browsers: browsersItems,
@@ -427,6 +420,7 @@ class GraphContainer extends React.Component {
         graphTime={this.state.graphTime}
         graphPage={this.state.graphPage}
         graphUrl={this.state.graphUrl}
+        graphOs={this.state.graphOs}
       />;
     }
 
