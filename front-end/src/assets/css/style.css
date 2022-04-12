@@ -2166,7 +2166,6 @@ template {
   font-weight: bold;
   font-size: 25px;
   color: #0d0e43;
-  margin-bottom: 70px;
 }
 
 .graphs-buttons {
@@ -2175,6 +2174,7 @@ template {
   justify-content: space-between;
   width: 500px;
 }
+
 .graphs-button__first {
   color: #1A0B5B;
   border-radius: 5px;
@@ -2186,17 +2186,17 @@ template {
   transition: all 0.3s ease;
   position: relative;
   display: inline-block;
-  box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-  7px 7px 20px 0px rgba(0,0,0,.1),
-  4px 4px 5px 0px rgba(0,0,0,.1);
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+    7px 7px 20px 0px rgba(0, 0, 0, .1),
+    4px 4px 5px 0px rgba(0, 0, 0, .1);
   outline: none;
   width: 180px;
   height: 40px;
 }
 
 .graphs-button__first--anim {
-  background: rgb(247,150,192);
-  background: radial-gradient(circle, rgba(247,150,192,1) 0%, rgba(118,174,241,1) 100%);
+  background: rgb(247, 150, 192);
+  background: radial-gradient(circle, rgba(247, 150, 192, 1) 0%, rgba(118, 174, 241, 1) 100%);
   line-height: 42px;
   padding: 0;
   border: none;
@@ -2216,44 +2216,51 @@ template {
   height: 0%;
   width: 1px;
   box-shadow:
-          -1px -1px 20px 0px rgba(255,255,255,1),
-          -4px -4px 5px 0px rgba(255,255,255,1),
-          7px 7px 20px 0px rgba(0,0,0,.4),
-          4px 4px 5px 0px rgba(0,0,0,.3);
+    -1px -1px 20px 0px rgba(255, 255, 255, 1),
+    -4px -4px 5px 0px rgba(255, 255, 255, 1),
+    7px 7px 20px 0px rgba(0, 0, 0, .4),
+    4px 4px 5px 0px rgba(0, 0, 0, .3);
 }
+
 .graphs-button__first--anim:before {
   right: 0;
   top: 0;
   transition: all 500ms ease;
 }
+
 .graphs-button__first--anim:after {
   left: 0;
   bottom: 0;
   transition: all 500ms ease;
 }
-.graphs-button__first--anim:hover{
+
+.graphs-button__first--anim:hover {
   background: transparent;
   color: #76aef1;
   box-shadow: none;
 }
+
 .graphs-button__first--anim:hover:before {
   transition: all 500ms ease;
   height: 100%;
 }
+
 .graphs-button__first--anim:hover:after {
   transition: all 500ms ease;
   height: 100%;
 }
+
 .graphs-button__first--anim span:before,
 .graphs-button__first--anim span:after {
   position: absolute;
   content: "";
   box-shadow:
-          -1px -1px 20px 0px rgba(255,255,255,1),
-          -4px -4px 5px 0px rgba(255,255,255,1),
-          7px 7px 20px 0px rgba(0,0,0,.4),
-          4px 4px 5px 0px rgba(0,0,0,.3);
+    -1px -1px 20px 0px rgba(255, 255, 255, 1),
+    -4px -4px 5px 0px rgba(255, 255, 255, 1),
+    7px 7px 20px 0px rgba(0, 0, 0, .4),
+    4px 4px 5px 0px rgba(0, 0, 0, .3);
 }
+
 .graphs-button__first--anim span:before {
   left: 0;
   top: 0;
@@ -2261,6 +2268,7 @@ template {
   height: .5px;
   transition: all 500ms ease;
 }
+
 .graphs-button__first--anim span:after {
   right: 0;
   bottom: 0;
@@ -2268,9 +2276,11 @@ template {
   height: .5px;
   transition: all 500ms ease;
 }
+
 .graphs-button__first--anim span:hover:before {
   width: 100%;
 }
+
 .graphs-button__first--anim span:hover:after {
   width: 100%;
 }
@@ -2413,23 +2423,27 @@ template {
   font-size: 32px;
   color: #1A0B5B
 }
+
 .filter-label {
   display: flex;
   width: 1000px;
   justify-content: space-between;
 }
+
 .filter-label__first {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .filter-label__second {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .filter-label__third {
   display: flex;
   flex-direction: column;
@@ -2450,9 +2464,11 @@ template {
   color: #1A0B5B;
   font-weight: bold;
 }
+
 .filter-button {
   margin-bottom: 30px;
 }
+
 .choose {
   width: 145px;
   display: flex;
@@ -2461,6 +2477,7 @@ template {
   color: #1A0B5B;
   font-size: 18px;
 }
+
 .small {
   width: 100px;
   background-color: #8A8FB9;
@@ -2468,4 +2485,10 @@ template {
   padding: 10px 15px;
   border-radius: 5px;
   font-weight: bold;
+}
+
+.victorypie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

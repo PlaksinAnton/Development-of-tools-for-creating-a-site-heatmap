@@ -28,13 +28,45 @@ function WindowHeatMap(props) {
   );
 }
 
+function Graph(props) {
+  return (
+    <div>
+      <div style={{ width: "70vw" }} class="graph-description">
+        <p>{props.descr}</p>
+      </div>
+      <div style={{ display: "flex" }}>
+        <VictoryChart
+          domainPadding={{ x: 50 }}
+          theme={VictoryTheme.material}
+        >
+          <VictoryBar
+            barWidth={20}
+            style={{
+              data: { fill: "#DCE775", width: 15 },
+            }}
+            data={props.graphData}
+          />
+          <VictoryScatter data={props.graphData} />
+        </VictoryChart>
+        <VictoryPie
+          colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+          data={props.graphData}
+        />
+      </div>
+    </div>
+  )
+}
+
 function WindowGraphs(props) {
   return (
     <div class="victorypie">
-      <div class="graph-description">
-        <p>Зависимость количества кликов от типа браузера</p>
-      </div>
-      <div style={{ display: "flex", flexWrap: "wrap" }}></div>
+      <h1>Graphs</h1>
+      <Graph descr="Зависимость количества кликов от типа браузера" graphData={props.graphBr} />
+      <Graph descr="Зависимость количества кликов от типа устройства" graphData={props.graphGg} />
+      <Graph descr="Зависимость количества кликов от времени, проведённом на сайте" graphData={props.graphTime} />
+      <Graph descr="Зависимость количества кликов от страницы сайта" graphData={props.graphPage} />
+      <Graph descr="Зависимость количества кликов от страницы, с которой перешел пользователь" graphData={props.graphUrl} />
+      <Graph descr="Зависимость количества кликов от операционной системы" graphData={props.graphOs} />
     </div>
   );
 }
@@ -220,10 +252,6 @@ function ViewHeatMap() {
     });
 }
 
-function FiltersGraphs(props) {
-  return <h1>Graphs</h1>;
-}
-
 function ChoosePage() {
   let select = document.querySelector(".choosePage");
   let myFrame = document.getElementById("heatmap-home");
@@ -253,6 +281,12 @@ class GraphContainer extends React.Component {
       browsers: undefined,
       gadgets: undefined,
       os: undefined,
+      graphBr: undefined,
+      graphGg: undefined,
+      graphTime: undefined,
+      graphPage: undefined,
+      graphUrl: undefined,
+      graphOs: undefined
     };
   }
   componentDidMount() {
@@ -261,6 +295,12 @@ class GraphContainer extends React.Component {
         axios.get(`http://127.0.0.1:5000/get_list_of/browser`),
         axios.get(`http://127.0.0.1:5000/get_list_of/gadget_type`),
         axios.get(`http://127.0.0.1:5000/get_list_of/OS`),
+        axios.get(`http://127.0.0.1:5000/get_gist/browser`),
+        axios.get("http://127.0.0.1:5000/get_gist/gadget"),
+        axios.get("http://127.0.0.1:5000/get_graph/time"),
+        axios.get("http://127.0.0.1:5000/get_gist/page"),
+        axios.get("http://127.0.0.1:5000/get_gist/site"),
+        // axios.get("http://127.0.0.1:5000/get_gist/site")
       ])
       .then((response) => {
         // for browsers
@@ -288,10 +328,71 @@ class GraphContainer extends React.Component {
           os.push(dataOs[i][i + 1]);
         }
         const osItems = os.map((o) => <option value={o}>{o}</option>);
+        // for graph browser
+        let graphBr = [];
+        for (let i = 0; i < response[3].data.data.length; i++) {
+          graphBr.push({
+            x: response[3].data.data[i].browser,
+            y: response[3].data.data[i].value,
+          });
+        }
+        // for graph gadgets
+        let graphGg = [];
+        for (let i = 0; i < response[4].data.data.length; i++) {
+          graphGg.push({
+            x: response[4].data.data[i].gadgetType,
+            y: response[4].data.data[i].value,
+          });
+        }
+        // for graph time
+        let graphTime = [];
+        for (let i = 0; i < response[5].data.data.length; i++) {
+          graphTime.push({
+            x: response[5].data.data[i].time + " мин",
+            y: response[5].data.data[i].value,
+          });
+        }
+        // for page graph
+        let graphPage = [];
+        for (let i = 0; i < response[6].data.data.length; i++) {
+          graphPage.push({
+            x: response[6].data.data[i].page,
+            y: response[6].data.data[i].value,
+          });
+        }
+        // for graph url
+        let graphUrl = [];
+        for (let i = 0; i < response[7].data.data.length; i++) {
+          console.log(response[7].data.data)
+          if (response[7].data.data[i].site != "") {
+            graphUrl.push({
+              x: response[7].data.data[i].site,
+              y: response[7].data.data[i].value,
+            });
+          }
+        }
+        // get graph os
+        let graphOs = [];
+        // for (let i = 0; i < response[7].data.data.length; i++) {
+        //   console.log(response[7].data.data)
+        //   if (response[7].data.data[i].site != "") {
+        //     graphUrl.push({
+        //       x: response[7].data.data[i].site,
+        //       y: response[7].data.data[i].value,
+        //     });
+        //   }
+        // }
+
         this.setState({
           browsers: browsersItems,
           gadgets: gadgetsItems,
           os: osItems,
+          graphBr: graphBr,
+          graphGg: graphGg,
+          graphTime: graphTime,
+          graphPage: graphPage,
+          graphUrl: graphUrl,
+          graphOs: graphOs
         });
       })
       .catch((error) => {
@@ -320,7 +421,13 @@ class GraphContainer extends React.Component {
       );
       window = <WindowHeatMap />;
     } else {
-      window = <WindowGraphs />;
+      window = <WindowGraphs
+        graphBr={this.state.graphBr}
+        graphGg={this.state.graphGg}
+        graphTime={this.state.graphTime}
+        graphPage={this.state.graphPage}
+        graphUrl={this.state.graphUrl}
+      />;
     }
 
     return (
