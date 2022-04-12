@@ -21,9 +21,9 @@ function GraphicPage() {
       let currentTime = Date.now();
       let spentTime = (currentTime - enterTime) / 1000;
       let coordinats = getPosition(ev);
-      let br = new String(computerInfo.browser.name)
-      let browser = br.split(" ")[0]
-      let os
+      let br = new String(computerInfo.browser.name);
+      let browser = br.split(" ")[0];
+      let os;
       let user = {
         date: date.toLocaleString(),
         browser: browser,
@@ -33,7 +33,7 @@ function GraphicPage() {
         minutes: Math.floor(spentTime / 60),
         seconds: Math.floor(spentTime % 60),
         coordinats: getPosition(ev),
-        page: "admin"
+        page: "admin",
       };
       console.log(user);
       sendData(user);
@@ -52,11 +52,10 @@ function GraphicPage() {
     };
   });
   return (
-    <>
+    <section className="heatmap-container">
       <AdminHeader />
       <GraphContainer />
-      <AdminFooter />
-    </>
+    </section>
   );
 }
 export { GraphicPage };

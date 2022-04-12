@@ -9,16 +9,12 @@ const AdminHeader = (props) => {
           <p class="admin-text__first">
             Добро пожаловать на страницу администратора вашего сайта!
           </p>
-          <p class="admin-text__second">
-            На ней Вы сможете увидеть различные графики, основанные на множестве
-            параметров
-          </p>
         </div>
         {/*<img src={projectMIEM} alt="Miem picture" className="admin-image" />*/}
         <div class="admin-button">
           <form action="/">
-            <button class="admin-button__main">
-              Назад на главную страницу сайта!
+            <button class="small">
+              <span>Назад</span>
             </button>
           </form>
         </div>
