@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.4225e235.css",
-    "main.js": "/static/js/main.153d5e47.js",
+    "main.css": "/static/css/main.5da50355.css",
+    "main.js": "/static/js/main.e34989d1.js",
     "static/media/subscribe-bg.png": "/static/media/subscribe-bg.a16bb825b4dffd5c1692.png",
     "static/media/sofa-header.png": "/static/media/sofa-header.f20914c1ec674f4c9faa.png",
     "static/media/sofa-1.svg": "/static/media/sofa-1.1082e1c26bd815b755f0840ed68f5d33.svg",
@@ -22,6 +22,7 @@
     "static/media/sofa-5.svg": "/static/media/sofa-5.6daba37b612e63053f736a0128d6ff6d.svg",
     "static/media/home-1.png": "/static/media/home-1.01632181bed2e0dbdf28.png",
     "static/media/lamp.svg": "/static/media/lamp.3c08659a56f6ccea4daa76fb9e923c92.svg",
+    "static/media/background-heatmap.png": "/static/media/background-heatmap.d67413731b8c202a6294.png",
     "static/media/related-woman-third.png": "/static/media/related-woman-third.3a7378eaacb0dbcb165f.png",
     "static/media/related-woman-second.png": "/static/media/related-woman-second.acf5db4eb566f489e4d7.png",
     "static/media/product-third.png": "/static/media/product-third.80f3205e7fcea57846e0.png",
@@ -79,11 +80,11 @@
     "static/media/arrow.svg": "/static/media/arrow.049837b82fa8fe0fb052b36292a10688.svg",
     "static/media/mark.svg": "/static/media/mark.52875b9a05c467d9098b.svg",
     "static/media/arrow-red.svg": "/static/media/arrow-red.7bcbc59ca4d861bbbb128944872a4daf.svg",
-    "main.4225e235.css.map": "/static/css/main.4225e235.css.map",
-    "main.153d5e47.js.map": "/static/js/main.153d5e47.js.map"
+    "main.5da50355.css.map": "/static/css/main.5da50355.css.map",
+    "main.e34989d1.js.map": "/static/js/main.e34989d1.js.map"
   },
   "entrypoints": [
-    "static/css/main.4225e235.css",
-    "static/js/main.153d5e47.js"
+    "static/css/main.5da50355.css",
+    "static/js/main.e34989d1.js"
   ]
 }
