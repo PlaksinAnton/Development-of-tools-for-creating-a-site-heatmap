@@ -5,6 +5,7 @@ import {
   VictoryBar,
   VictoryTheme,
   VictoryScatter,
+  VictoryLabel,
 } from "victory";
 import axios from "axios";
 import h337 from "heatmap.js";
@@ -32,10 +33,7 @@ function Graph(props) {
         <p>{props.descr}</p>
       </div>
       <div style={{ display: "flex" }}>
-        <VictoryChart
-          domainPadding={{ x: 50 }}
-          theme={VictoryTheme.material}
-        >
+        <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
           <VictoryBar
             barWidth={20}
             style={{
@@ -46,24 +44,43 @@ function Graph(props) {
           <VictoryScatter data={props.graphData} />
         </VictoryChart>
         <VictoryPie
-          colorScale={["tomato", "orange", "gold", "cyan", "navy"]}
+          colorScale={["tomato", "orange", "gold", "cyan", "blue"]}
           data={props.graphData}
+          labelRadius={({ innerRadius }) => innerRadius + 50}
         />
       </div>
     </div>
-  )
+  );
 }
 
 function WindowGraphs(props) {
   return (
     <div class="victorypie">
       <h1>Аналитика сайта</h1>
-      <Graph descr="Зависимость количества кликов от типа браузера" graphData={props.graphBr} />
-      <Graph descr="Зависимость количества кликов от типа устройства" graphData={props.graphGg} />
-      <Graph descr="Зависимость количества кликов от времени, проведённом на сайте" graphData={props.graphTime} />
-      <Graph descr="Зависимость количества кликов от страницы сайта" graphData={props.graphPage} />
-      <Graph descr="Зависимость количества кликов от страницы, с которой перешел пользователь" graphData={props.graphUrl} />
-      <Graph descr="Зависимость количества кликов от операционной системы" graphData={props.graphOs} />
+      <Graph
+        descr="Зависимость количества кликов от типа браузера"
+        graphData={props.graphBr}
+      />
+      <Graph
+        descr="Зависимость количества кликов от типа устройства"
+        graphData={props.graphGg}
+      />
+      <Graph
+        descr="Зависимость количества кликов от времени, проведённом на сайте"
+        graphData={props.graphTime}
+      />
+      <Graph
+        descr="Зависимость количества кликов от страницы сайта"
+        graphData={props.graphPage}
+      />
+      <Graph
+        descr="Зависимость количества кликов от страницы, с которой перешел пользователь"
+        graphData={props.graphUrl}
+      />
+      <Graph
+        descr="Зависимость количества кликов от операционной системы"
+        graphData={props.graphOs}
+      />
     </div>
   );
 }
@@ -283,7 +300,7 @@ class GraphContainer extends React.Component {
       graphTime: undefined,
       graphPage: undefined,
       graphUrl: undefined,
-      graphOs: undefined
+      graphOs: undefined,
     };
   }
   componentDidMount() {
@@ -297,7 +314,7 @@ class GraphContainer extends React.Component {
         axios.get("http://127.0.0.1:5000/get_graph/time"),
         axios.get("http://127.0.0.1:5000/get_gist/page"),
         axios.get("http://127.0.0.1:5000/get_gist/site"),
-        axios.get("http://127.0.0.1:5000/get_gist/OS")
+        axios.get("http://127.0.0.1:5000/get_gist/OS"),
       ])
       .then((response) => {
         // for browsers
@@ -385,7 +402,7 @@ class GraphContainer extends React.Component {
           graphTime: graphTime,
           graphPage: graphPage,
           graphUrl: graphUrl,
-          graphOs: graphOs
+          graphOs: graphOs,
         });
       })
       .catch((error) => {
@@ -414,14 +431,16 @@ class GraphContainer extends React.Component {
       );
       window = <WindowHeatMap />;
     } else {
-      window = <WindowGraphs
-        graphBr={this.state.graphBr}
-        graphGg={this.state.graphGg}
-        graphTime={this.state.graphTime}
-        graphPage={this.state.graphPage}
-        graphUrl={this.state.graphUrl}
-        graphOs={this.state.graphOs}
-      />;
+      window = (
+        <WindowGraphs
+          graphBr={this.state.graphBr}
+          graphGg={this.state.graphGg}
+          graphTime={this.state.graphTime}
+          graphPage={this.state.graphPage}
+          graphUrl={this.state.graphUrl}
+          graphOs={this.state.graphOs}
+        />
+      );
     }
 
     return (
