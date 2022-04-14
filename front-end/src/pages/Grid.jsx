@@ -10,21 +10,42 @@ import { getPosition } from "../Clicks";
 
 function Grid() {
   React.useEffect(() => {
+    let url = document.referrer
+    let urlJSON = {
+      URL: url
+    }
+    console.log(urlJSON);
+    const sendUrl = (data) => {
+      return fetch("http://127.0.0.1:5000/send_site", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+      })
+        .then((response) => response.json())
+        .catch((error) => console.log(error));
+    };
+    sendUrl(urlJSON)
     if (!sessionStorage.getItem("startTime")) {
       sessionStorage.setItem("startTime", Date.now());
     }
     let computerInfo = detect.parse(navigator.userAgent);
     const enterTime = sessionStorage.getItem("startTime");
-    document.querySelector(".grid-page").addEventListener("click", (ev) => {
+    document.querySelector(".grid").addEventListener("click", (ev) => {
       const date = new Date();
       let currentTime = Date.now();
       let spentTime = (currentTime - enterTime) / 1000;
+      let br = new String(computerInfo.browser.name)
+      let browser = br.split(" ")[0]
+      let o = new String(computerInfo.os.name)
+      let os = o.split(" ")[0]
       let user = {
         date: date.toLocaleString(),
-        browser: computerInfo.browser.name,
+        browser: browser,
         gadget: computerInfo.device.name,
         gadgetType: computerInfo.device.type,
-        os: computerInfo.os.name,
+        os: os,
         minutes: Math.floor(spentTime / 60),
         seconds: Math.floor(spentTime % 60),
         coordinats: getPosition(ev),
@@ -46,7 +67,7 @@ function Grid() {
     };
   })
   return (
-    <section class="grid-page">
+    <section class="grid">
       <Header />
       <GridDefault name="Shop Grid Default" />
       <MainItems />

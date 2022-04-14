@@ -4,648 +4,469 @@ import {
   VictoryChart,
   VictoryBar,
   VictoryTheme,
-  VictoryLine,
   VictoryScatter,
   VictoryLabel,
-  VictoryTooltip,
 } from "victory";
 import axios from "axios";
 import h337 from "heatmap.js";
 
-const App = function (props) {
-  const [dataForGraph, setDataForGraph] = useState("");
-  const [dataForHeatmapHome, setDataForHeatmapHome] = useState("");
-  const [dataForHeatmapProduct, setDataForHeatmapProduct] = useState("");
-  const [dataForHeatmapGrid, setDataForHeatmapGrid] = useState("");
-  const [dataForTime, setDataForTime] = useState("");
-  const [dataForDevices, setDataForDevices] = useState("");
-  const [dataForHomeСhromeBrowser, setDataForHomeChromeBrowser] = useState("");
-  const [dataForGridСhromeBrowser, setDataForGridChromeBrowser] = useState("");
-  const [dataForProductСhromeBrowser, setDataForProductChromeBrowser] =
-    useState("");
-  const [dataForHomeFirefoxBrowser, setDataForHomeFirefoxBrowser] =
-    useState("");
-  const [dataForGridFirefoxBrowser, setDataForGridFirefoxBrowser] =
-    useState("");
-  const [dataForProductFirefoxBrowser, setDataForProductFirefoxBrowser] =
-    useState("");
-
-  useEffect(async () => {
-    !dataForGraph &&
-      !dataForDevices &&
-      !dataForTime &&
-      axios
-        .all([
-          axios.get("http://127.0.0.1:5000/get_gist/browser"),
-          axios.get("http://127.0.0.1:5000/get_gist/gadget"),
-          axios.get("http://127.0.0.1:5000/get_graph/time"),
-        ])
-        .then(
-          axios.spread((firstResponse, secondResponse, thirdResponse) => {
-            let firstData = [];
-            for (let i = 0; i < firstResponse.data.data.length; i++) {
-              firstData.push({
-                x: firstResponse.data.data[i].browser,
-                y: firstResponse.data.data[i].value,
-                // label: firstResponse.data.data[i].browser,
-              });
-            }
-            setDataForGraph(firstData);
-            let secondData = [];
-            for (let i = 0; i < secondResponse.data.data.length; i++) {
-              secondData.push({
-                x: secondResponse.data.data[i].gadgetType,
-                y: secondResponse.data.data[i].value,
-                // label: secondResponse.data.data[i].gadgetType,
-              });
-            }
-            setDataForDevices(secondData);
-            let thirdData = [];
-            for (let i = 0; i < thirdResponse.data.data.length; i++) {
-              thirdData.push({
-                x: thirdResponse.data.data[i].time + " мин",
-                y: thirdResponse.data.data[i].value,
-                // label: thirdResponse.data.data[i].time + "мин",
-              });
-            }
-            setDataForTime(thirdData);
-          })
-        )
-        .catch((error) => console.log(error));
-  });
-
-  const getDataHome = () => {
-    !dataForHeatmapHome &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/home`)
-        .then((response) => {
-          let dataPoints = response.data.data;
-          setDataForHeatmapHome(dataPoints);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  const getDataGrid = () => {
-    !dataForHeatmapGrid &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/grid`)
-        .then((response) => {
-          let dataPoints = response.data.data;
-          setDataForHeatmapGrid(dataPoints);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-  const getDataProduct = () => {
-    !dataForHeatmapProduct &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/product`)
-        .then((response) => {
-          let dataPoints = response.data.data;
-          setDataForHeatmapProduct(dataPoints);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewHeatMapHome() {
-    getDataHome();
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForHeatmapHome,
-    };
-    var myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".HomePage"),
-      });
-    }
-    heatmapInstance.setData(data);
-  }
-
-  function viewHeatMapGrid() {
-    getDataGrid();
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForHeatmapGrid,
-    };
-    var myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/grid") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".grid-page"),
-      });
-    }
-    heatmapInstance.setData(data);
-  }
-
-  function viewHeatMaProduct() {
-    getDataProduct();
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForHeatmapProduct,
-    };
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/product") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".productPage"),
-      });
-    }
-    heatmapInstance.setData(data);
-  }
-
-  const getHomeDataBrowser = () => {
-    !dataForHomeСhromeBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForHomeChromeBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewHomeChromeBrowser() {
-    getHomeDataBrowser();
-    let dataBrowser = [];
-    for (let i = 0; i < dataForHomeСhromeBrowser.length; i++) {
-      for (let key in dataForHomeСhromeBrowser[i]) {
-        if (key.indexOf("Chrome") + 1) {
-          dataBrowser = dataBrowser.concat(
-            dataBrowser,
-            dataForHomeСhromeBrowser[i][key]
-          );
-        }
-      }
-    }
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForHomeСhromeBrowser,
-    };
-    console.log(dataForHomeСhromeBrowser);
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".HomePage"),
-      });
-      heatmapInstance.setData(data);
-    }
-  }
-
-  const getGridDataBrowser = () => {
-    !dataForGridСhromeBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser/grid`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForGridChromeBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewGridChromeBrowser() {
-    getGridDataBrowser();
-    let dataBrowser = [];
-    for (let i = 0; i < dataForGridСhromeBrowser.length; i++) {
-      for (let key in dataForGridСhromeBrowser[i]) {
-        if (key.indexOf("Chrome") + 1) {
-          dataBrowser = dataBrowser.concat(
-            dataBrowser,
-            dataForGridСhromeBrowser[i][key]
-          );
-        }
-      }
-    }
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForGridСhromeBrowser,
-    };
-    console.log(dataForGridСhromeBrowser);
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/grid") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".grid-page"),
-      });
-      heatmapInstance.setData(data);
-    }
-  }
-
-  const getProductDataBrowser = () => {
-    !dataForProductСhromeBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser/product`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForProductChromeBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewProductChromeBrowser() {
-    getProductDataBrowser();
-    let dataBrowser = [];
-    for (let i = 0; i < dataForProductСhromeBrowser.length; i++) {
-      for (let key in dataForProductСhromeBrowser[i]) {
-        if (key.indexOf("Chrome") + 1) {
-          dataBrowser = dataBrowser.concat(
-            dataBrowser,
-            dataForProductСhromeBrowser[i][key]
-          );
-        }
-      }
-    }
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForProductСhromeBrowser,
-    };
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/product") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".productPage"),
-      });
-      heatmapInstance.setData(data);
-    }
-  }
-
-  const getHomeFirefoxDataBrowser = () => {
-    !dataForHomeFirefoxBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForHomeFirefoxBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewHomeFirefoxBrowser() {
-    getHomeFirefoxDataBrowser();
-    let dataBrowser = [];
-    for (let i = 0; i < dataForHomeFirefoxBrowser.length; i++) {
-      for (let key in dataForHomeFirefoxBrowser[i]) {
-        if (key.indexOf("Firefox") + 1) {
-          dataBrowser = dataBrowser.concat(
-            dataBrowser,
-            dataForHomeFirefoxBrowser[i][key]
-          );
-        }
-      }
-    }
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForHomeFirefoxBrowser,
-    };
-    console.log(dataForHomeFirefoxBrowser);
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".HomePage"),
-      });
-      heatmapInstance.setData(data);
-    }
-  }
-
-  const getGridFirefoxDataBrowser = () => {
-    !dataForGridFirefoxBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForGridFirefoxBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewGridFirefoxBrowser() {
-    getGridFirefoxDataBrowser();
-    let dataBrowser = [];
-    for (let i = 0; i < dataForGridFirefoxBrowser.length; i++) {
-      for (let key in dataForGridFirefoxBrowser[i]) {
-        if (key.indexOf("Firefox") + 1) {
-          dataBrowser = dataBrowser.concat(
-            dataBrowser,
-            dataForGridFirefoxBrowser[i][key]
-          );
-        }
-      }
-    }
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForGridFirefoxBrowser,
-    };
-    console.log(dataForGridFirefoxBrowser);
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/grid") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".grid-page"),
-      });
-      heatmapInstance.setData(data);
-    }
-  }
-
-  const getProductFirefoxDataBrowser = () => {
-    !dataForProductFirefoxBrowser &&
-      axios
-        .get(`http://127.0.0.1:5000/get_heatmap/browser/home`)
-        .then((response) => {
-          let data = response.data.data;
-          setDataForProductFirefoxBrowser(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-  };
-
-  function viewProductFirefoxBrowser() {
-    getProductFirefoxDataBrowser();
-    let dataBrowser = [];
-    for (let i = 0; i < dataForProductFirefoxBrowser.length; i++) {
-      for (let key in dataForProductFirefoxBrowser[i]) {
-        if (key.indexOf("Firefox") + 1) {
-          dataBrowser = dataBrowser.concat(
-            dataBrowser,
-            dataForProductFirefoxBrowser[i][key]
-          );
-        }
-      }
-    }
-    let data = {
-      max: 15,
-      min: 0,
-      data: dataForProductFirefoxBrowser,
-    };
-    console.log(dataForProductFirefoxBrowser);
-    let myFrame = document.getElementById("heatmap-home");
-    let name = myFrame.getAttribute("src");
-    let heatmapInstance;
-    if (name == "http://localhost:3000/product") {
-      heatmapInstance = h337.create({
-        container: document
-          .querySelector(".heatmap-home")
-          .contentDocument.querySelector(".productPage"),
-      });
-      heatmapInstance.setData(data);
-    }
-  }
-
-  function viewGridPage() {
-    let myFrame = document.getElementById("heatmap-home");
-    myFrame.setAttribute("src", "http://localhost:3000/grid");
-  }
-  function viewHomePage() {
-    let myFrame = document.getElementById("heatmap-home");
-    myFrame.setAttribute("src", "http://localhost:3000/");
-  }
-  function viewProductPage() {
-    let myFrame = document.getElementById("heatmap-home");
-    myFrame.setAttribute("src", "http://localhost:3000/product");
-  }
-
+function WindowHeatMap(props) {
   return (
-    <section class="graphs">
-      <div class="graphs-container">
-        <div class="victorypie">
-          <div class="graph-description">
-            <p>Зависимость количества кликов от типа браузера</p>
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
-            <VictoryChart
-              domainPadding={{ x: 50 }}
-              theme={VictoryTheme.material}
-              padding={{ left: 120, bottom: 50 }}
-            >
-              <VictoryBar
-                horizontal
-                barWidth={20}
-                style={{
-                  data: { fill: "#DCE775", width: 15 },
-                }}
-                data={dataForGraph}
-                events={[
-                  {
-                    target: "data",
-                    eventHandlers: {
-                      onClick: () => {
-                        return [
-                          {
-                            target: "labels",
-                            mutation: (props) => {
-                              return props.text === "clicked"
-                                ? null
-                                : { text: "clicked" };
-                            },
-                          },
-                        ];
-                      },
-                    },
-                  },
-                ]}
-              />
-              <VictoryScatter data={dataForGraph} />
-            </VictoryChart>
-          </div>
-          <div className="graph-description">
-            <p>Зависимость количества кликов от типа устройства</p>
-          </div>
-          <div>
-            <VictoryChart
-              domainPadding={{ x: 50 }}
-              theme={VictoryTheme.material}
-            >
-              <VictoryBar
-                barWidth={20}
-                style={{
-                  data: { fill: "gold" },
-                }}
-                data={dataForDevices}
-                events={[
-                  {
-                    target: "data",
-                    eventHandlers: {
-                      onClick: () => {
-                        return [
-                          {
-                            target: "labels",
-                            mutation: (props) => {
-                              return props.text === "clicked"
-                                ? null
-                                : { text: "clicked" };
-                            },
-                          },
-                        ];
-                      },
-                    },
-                  },
-                ]}
-              />
-              <VictoryScatter data={dataForDevices} />
-            </VictoryChart>
-          </div>
-          <div className="graph-description">
-            <p>
-              Зависимость количества кликов от времени, проведённом на сайте
-            </p>
-          </div>
-          <div>
-            <VictoryChart
-              domainPadding={{ x: 50 }}
-              theme={VictoryTheme.material}
-            >
-              <VictoryBar
-                barWidth={20}
-                style={{
-                  data: { fill: "blue" },
-                }}
-                data={dataForTime}
-                events={[
-                  {
-                    target: "data",
-                    eventHandlers: {
-                      onClick: () => {
-                        return [
-                          {
-                            target: "labels",
-                            mutation: (props) => {
-                              return props.text === "clicked"
-                                ? null
-                                : { text: "clicked" };
-                            },
-                          },
-                        ];
-                      },
-                    },
-                  },
-                ]}
-              />
-              <VictoryScatter data={dataForTime} />
-            </VictoryChart>
-          </div>
+    <div class="heatmap-pic">
+      <div className="heatmap-iframe">
+        <iframe
+          allowTransparency
+          class="heatmap-home"
+          id="heatmap-home"
+          src="http://localhost:3000/"
+          height="1000px"
+        ></iframe>
+      </div>
+    </div>
+  );
+}
+
+function Graph(props) {
+  return (
+    <div>
+      <div style={{ width: "70vw" }} class="graph-description">
+        <p>{props.descr}</p>
+      </div>
+      <div style={{ display: "flex" }}>
+        <VictoryChart domainPadding={{ x: 50 }} theme={VictoryTheme.material}>
+          <VictoryBar
+            barWidth={20}
+            style={{
+              data: { fill: "#DCE775", width: 15 },
+            }}
+            data={props.graphData}
+          />
+          <VictoryScatter data={props.graphData} />
+        </VictoryChart>
+        <VictoryPie
+          colorScale={["tomato", "orange", "gold", "cyan", "blue"]}
+          data={props.graphData}
+          labelRadius={({ innerRadius }) => innerRadius + 50}
+        />
+      </div>
+    </div>
+  );
+}
+
+function WindowGraphs(props) {
+  return (
+    <div class="victorypie">
+      <h1>Аналитика сайта</h1>
+      <Graph
+        descr="Зависимость количества кликов от типа браузера"
+        graphData={props.graphBr}
+      />
+      <Graph
+        descr="Зависимость количества кликов от типа устройства"
+        graphData={props.graphGg}
+      />
+      <Graph
+        descr="Зависимость количества кликов от времени, проведённом на сайте"
+        graphData={props.graphTime}
+      />
+      <Graph
+        descr="Зависимость количества кликов от страницы сайта"
+        graphData={props.graphPage}
+      />
+      <Graph
+        descr="Зависимость количества кликов от страницы, с которой перешел пользователь"
+        graphData={props.graphUrl}
+      />
+      <Graph
+        descr="Зависимость количества кликов от операционной системы"
+        graphData={props.graphOs}
+      />
+    </div>
+  );
+}
+
+function FiltersHeatMap(props) {
+  return (
+    <div className="filter">
+      <h1 class="filter-text">Тепловая карта сайта</h1>
+      <button
+        className="filter-button graphs-button__first graphs-button__first--anim"
+        onClick={ViewHeatMap}
+      >
+        Фильтр по кликам
+      </button>
+      <div className="filter-label">
+        <div className="filter-label__first">
+          <label class="filter-label__style" for="page">
+            Выберите страницу
+          </label>
+          <select id="page" className="choose choosePage" onChange={ChoosePage}>
+            <option value="home" selected>
+              Home
+            </option>
+            <option value="grid">Grid</option>
+            <option value="product">Product</option>
+          </select>
         </div>
-        <div class="heatmap-display">
-          <div class="graphs-buttons">
-            <div class="pages-buttons">
-              <button class="graphs-button" onClick={viewHomePage}>
-                Home Page
-              </button>
-              <button class="graphs-button" onClick={viewGridPage}>
-                Grid Page
-              </button>
-              <button class="graphs-button" onClick={viewProductPage}>
-                Product Page
-              </button>
-            </div>
-            <div className="classic-buttons">
-              <button class="graphs-button" onClick={viewHeatMapHome}>
-                Heatmap for HomePage
-              </button>
-              <button class="graphs-button" onClick={viewHeatMapGrid}>
-                Heatmap for GridPage
-              </button>
-              <button class="graphs-button" onClick={viewHeatMaProduct}>
-                Heatmap for ProductPage
-              </button>
-            </div>
-            <div className="browser-buttons">
-              <button
-                className="graphs-button"
-                onClick={viewHomeFirefoxBrowser}
-              >
-                Firefox Heatmap for HomePage
-              </button>
-              <button
-                className="graphs-button"
-                onClick={viewGridFirefoxBrowser}
-              >
-                Firefox Heatmap for GridPage
-              </button>
-              <button
-                className="graphs-button"
-                onClick={viewProductFirefoxBrowser}
-              >
-                Firefox Heatmap for ProductPage
-              </button>
-            </div>
-            <div className="browser-buttons">
-              <button class="graphs-button" onClick={viewHomeChromeBrowser}>
-                Google Chrome Heatmap for HomePage
-              </button>
-              <button className="graphs-button" onClick={viewGridChromeBrowser}>
-                Google Chrome Heatmap for GridPage
-              </button>
-              <button
-                className="graphs-button"
-                onClick={viewProductChromeBrowser}
-              >
-                Google Chrome Heatmap for ProductPage
-              </button>
-            </div>
-          </div>
-          <div class="heatmap-pic">
-            <div className="heatmap-iframe">
-              <iframe
-                class="heatmap-home"
-                id="heatmap-home"
-                src="http://localhost:3000/"
-                height="1000px"
-              ></iframe>
-            </div>
-          </div>
+        <div className="filter-label__second">
+          <label class="filter-label__style" for="browser">
+            Фильтр по браузеру
+          </label>
+          <select
+            id="browser"
+            className="choose chooseBrowser"
+            onChange={Change}
+          >
+            <option value="">Сделайте выбор</option>
+            {props.browsers}
+          </select>
+        </div>
+        <div className="filter-label__third">
+          <label class="filter-label__style" for="browser">
+            Фильтр по гаджету
+          </label>
+          <select
+            id="browser"
+            className="choose chooseGadget"
+            onChange={Change}
+          >
+            <option value="">Сделайте выбор</option>
+            {props.gadgets}
+          </select>
+        </div>
+        <div className="filter-label__fourth">
+          <label class="filter-label__style" for="browser">
+            Фильтр по ОС
+          </label>
+          <select id="browser" className="choose chooseOS" onChange={Change}>
+            <option value="">Сделайте выбор</option>
+            {props.os}
+          </select>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
-export default App;
+}
+
+function ViewFilterHeatmap(dataForHeatMap, page) {
+  let data = {
+    max: 15,
+    min: 0,
+    data: dataForHeatMap,
+  };
+
+  let heatmap = document
+    .querySelector(".heatmap-home")
+    .contentDocument.querySelector("canvas");
+  if (heatmap != null) {
+    heatmap.remove();
+  }
+  let heatmapInstance = h337.create({
+    container: document
+      .querySelector(".heatmap-home")
+      .contentDocument.querySelector("." + page),
+  });
+  heatmapInstance.setData(data);
+}
+
+function ViewManyFilters(choiceBr, choiceGg, choiceOs, page) {
+  axios
+    .get(
+      `http://127.0.0.1:5000/get_smart_heatmap/page/${page}/browser/${choiceBr}/gadget_type/${choiceGg}/OS/${choiceOs}`
+    )
+    .then((response) => {
+      let data = response.data.data;
+      ViewFilterHeatmap(data, page);
+      return;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function Change() {
+  let choiceBr = document.querySelector(".chooseBrowser").value;
+  let choiceGg = document.querySelector(".chooseGadget").value;
+  let choiceOs = document.querySelector(".chooseOS").value;
+
+  if (choiceBr == "" && choiceGg == "" && choiceOs == "") {
+    if (
+      document
+        .querySelector(".heatmap-home")
+        .contentDocument.querySelector("canvas") != null
+    ) {
+      document
+        .querySelector(".heatmap-home")
+        .contentDocument.querySelector("canvas")
+        .remove();
+    }
+    return;
+  }
+
+  let myFrame = document.getElementById("heatmap-home");
+  let name = myFrame.getAttribute("src");
+  let page = "";
+  if (name == "http://localhost:3000/") {
+    page = "home";
+  } else if (name == "http://localhost:3000/grid") {
+    page = "grid";
+  } else {
+    page = "product";
+  }
+
+  if (choiceBr == "") {
+    choiceBr = "None";
+  }
+  if (choiceGg == "") {
+    choiceGg = "None";
+  }
+  if (choiceOs == "") {
+    choiceOs = "None";
+  }
+  ViewManyFilters(choiceBr, choiceGg, choiceOs, page);
+}
+
+function ViewHeatMap() {
+  let myFrame = document.getElementById("heatmap-home");
+  let name = myFrame.getAttribute("src");
+  let page = "";
+  if (name == "http://localhost:3000/") {
+    page = "home";
+  } else if (name == "http://localhost:3000/grid") {
+    page = "grid";
+  } else {
+    page = "product";
+  }
+  axios
+    .get(
+      `http://127.0.0.1:5000/get_smart_heatmap/page/${page}/browser/None/gadget_type/None/OS/None`
+    )
+    .then((response) => {
+      let dataPoints = response.data.data;
+      let data = {
+        max: 15,
+        min: 0,
+        data: dataPoints,
+      };
+      let heatmap = document
+        .querySelector(".heatmap-home")
+        .contentDocument.querySelector("canvas");
+      if (heatmap != null) {
+        heatmap.remove();
+      }
+      let heatmapInstance = h337.create({
+        container: document
+          .querySelector(".heatmap-home")
+          .contentDocument.querySelector("." + page),
+      });
+      heatmapInstance.setData(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function ChoosePage() {
+  let select = document.querySelector(".choosePage");
+  let myFrame = document.getElementById("heatmap-home");
+  let choice = select.value;
+
+  switch (choice) {
+    case "home":
+      myFrame.setAttribute("src", "http://localhost:3000/");
+      break;
+    case "grid":
+      myFrame.setAttribute("src", "http://localhost:3000/grid");
+      break;
+    case "product":
+      myFrame.setAttribute("src", "http://localhost:3000/product");
+      break;
+    default:
+  }
+}
+
+class GraphContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onHeatMap = this.onHeatMap.bind(this);
+    this.onGraphs = this.onGraphs.bind(this);
+    this.state = {
+      isHeatMap: true,
+      browsers: undefined,
+      gadgets: undefined,
+      os: undefined,
+      graphBr: undefined,
+      graphGg: undefined,
+      graphTime: undefined,
+      graphPage: undefined,
+      graphUrl: undefined,
+      graphOs: undefined,
+    };
+  }
+  componentDidMount() {
+    axios
+      .all([
+        axios.get(`http://127.0.0.1:5000/get_list_of/browser`),
+        axios.get(`http://127.0.0.1:5000/get_list_of/gadget_type`),
+        axios.get(`http://127.0.0.1:5000/get_list_of/OS`),
+        axios.get(`http://127.0.0.1:5000/get_gist/browser`),
+        axios.get("http://127.0.0.1:5000/get_gist/gadget"),
+        axios.get("http://127.0.0.1:5000/get_graph/time"),
+        axios.get("http://127.0.0.1:5000/get_gist/page"),
+        axios.get("http://127.0.0.1:5000/get_gist/site"),
+        axios.get("http://127.0.0.1:5000/get_gist/OS"),
+      ])
+      .then((response) => {
+        // for browsers
+        let browsers = [];
+        let dataBr = response[0].data.data;
+        for (let i = 0; i < dataBr.length; i++) {
+          browsers.push(dataBr[i][i + 1]);
+        }
+        const browsersItems = browsers.map((browser) => (
+          <option value={browser}>{browser}</option>
+        ));
+        // for gadgets
+        let gadgets = [];
+        let dataGg = response[1].data.data;
+        for (let i = 0; i < dataGg.length; i++) {
+          gadgets.push(dataGg[i][i + 1]);
+        }
+        const gadgetsItems = gadgets.map((gadget) => (
+          <option value={gadget}>{gadget}</option>
+        ));
+        // for os
+        let os = [];
+        let dataOs = response[2].data.data;
+        for (let i = 0; i < dataOs.length; i++) {
+          os.push(dataOs[i][i + 1]);
+        }
+        const osItems = os.map((o) => <option value={o}>{o}</option>);
+        // for graph browser
+        let graphBr = [];
+        for (let i = 0; i < response[3].data.data.length; i++) {
+          graphBr.push({
+            x: response[3].data.data[i].browser,
+            y: response[3].data.data[i].value,
+          });
+        }
+        // for graph gadgets
+        let graphGg = [];
+        for (let i = 0; i < response[4].data.data.length; i++) {
+          graphGg.push({
+            x: response[4].data.data[i].gadgetType,
+            y: response[4].data.data[i].value,
+          });
+        }
+        // for graph time
+        let graphTime = [];
+        for (let i = 0; i < response[5].data.data.length; i++) {
+          graphTime.push({
+            x: response[5].data.data[i].time + " мин",
+            y: response[5].data.data[i].value,
+          });
+        }
+        // for page graph
+        let graphPage = [];
+        for (let i = 0; i < response[6].data.data.length; i++) {
+          graphPage.push({
+            x: response[6].data.data[i].page,
+            y: response[6].data.data[i].value,
+          });
+        }
+        // for graph url
+        let graphUrl = [];
+        for (let i = 0; i < response[7].data.data.length; i++) {
+          if (response[7].data.data[i].site != "") {
+            graphUrl.push({
+              x: response[7].data.data[i].site,
+              y: response[7].data.data[i].value,
+            });
+          }
+        }
+        // get graph os
+        let graphOs = [];
+        for (let i = 0; i < response[8].data.data.length; i++) {
+          graphOs.push({
+            x: response[8].data.data[i]["OS"],
+            y: response[8].data.data[i].value,
+          });
+        }
+
+        this.setState({
+          browsers: browsersItems,
+          gadgets: gadgetsItems,
+          os: osItems,
+          graphBr: graphBr,
+          graphGg: graphGg,
+          graphTime: graphTime,
+          graphPage: graphPage,
+          graphUrl: graphUrl,
+          graphOs: graphOs,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+  onHeatMap() {
+    this.setState({ isHeatMap: true });
+  }
+  onGraphs() {
+    this.setState({ isHeatMap: false });
+  }
+
+  render() {
+    // choose graphs or heatmap logic
+    const isHeatMap = this.state.isHeatMap;
+    let window = null;
+    let filters = null;
+    if (isHeatMap) {
+      filters = (
+        <FiltersHeatMap
+          browsers={this.state.browsers}
+          gadgets={this.state.gadgets}
+          os={this.state.os}
+        />
+      );
+      window = <WindowHeatMap />;
+    } else {
+      window = (
+        <WindowGraphs
+          graphBr={this.state.graphBr}
+          graphGg={this.state.graphGg}
+          graphTime={this.state.graphTime}
+          graphPage={this.state.graphPage}
+          graphUrl={this.state.graphUrl}
+          graphOs={this.state.graphOs}
+        />
+      );
+    }
+
+    return (
+      <section className="graphs">
+        <div className="graphs-container">
+          <div className="graphs-buttons">
+            <button
+              class="graphs-button__first graphs-button__first--anim"
+              onClick={this.onHeatMap}
+            >
+              <span>Тепловая карта</span>
+            </button>
+            <button
+              class="graphs-button__first graphs-button__first--anim"
+              onClick={this.onGraphs}
+            >
+              <span>Графики</span>
+            </button>
+          </div>
+          <div className="graphs-main-content">
+            <div className="graphs-filters">{filters}</div>
+            <div className="graphs-window">{window}</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+}
+export default GraphContainer;
