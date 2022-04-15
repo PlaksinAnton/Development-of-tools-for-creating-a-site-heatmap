@@ -11,6 +11,8 @@ import axios from "axios";
 import h337 from "heatmap.js";
 
 function WindowHeatMap(props) {
+  let len = String(document.location.href).length
+  let src = String(document.location.href).slice(0, len - 5)
   return (
     <div class="heatmap-pic">
       <div className="heatmap-iframe">
@@ -18,7 +20,7 @@ function WindowHeatMap(props) {
           allowTransparency
           class="heatmap-home"
           id="heatmap-home"
-          src="http://localhost:3000/"
+          src={src}
           height="1000px"
         ></iframe>
       </div>
@@ -205,10 +207,12 @@ function Change() {
 
   let myFrame = document.getElementById("heatmap-home");
   let name = myFrame.getAttribute("src");
+  let len = String(document.location.href).length
+  let src = String(document.location.href).slice(0, len - 5)
   let page = "";
-  if (name == "http://localhost:3000/") {
+  if (name == src) {
     page = "home";
-  } else if (name == "http://localhost:3000/grid") {
+  } else if (name == (src + "grid")) {
     page = "grid";
   } else {
     page = "product";
@@ -230,9 +234,11 @@ function ViewHeatMap() {
   let myFrame = document.getElementById("heatmap-home");
   let name = myFrame.getAttribute("src");
   let page = "";
-  if (name == "http://localhost:3000/") {
+  let len = String(document.location.href).length
+  let src = String(document.location.href).slice(0, len - 5)
+  if (name == src) {
     page = "home";
-  } else if (name == "http://localhost:3000/grid") {
+  } else if (name == (src + "grid")) {
     page = "grid";
   } else {
     page = "product";
@@ -268,18 +274,20 @@ function ViewHeatMap() {
 
 function ChoosePage() {
   let select = document.querySelector(".choosePage");
+  let len = String(document.location.href).length
   let myFrame = document.getElementById("heatmap-home");
   let choice = select.value;
+  let src = String(document.location.href).slice(0, len - 5)
 
   switch (choice) {
     case "home":
-      myFrame.setAttribute("src", "http://localhost:3000/");
+      myFrame.setAttribute("src", src);
       break;
     case "grid":
-      myFrame.setAttribute("src", "http://localhost:3000/grid");
+      myFrame.setAttribute("src", src + "grid");
       break;
     case "product":
-      myFrame.setAttribute("src", "http://localhost:3000/product");
+      myFrame.setAttribute("src", src + "product");
       break;
     default:
   }
