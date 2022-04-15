@@ -1,7 +1,7 @@
 import sqlite3
 import flask
 from flask import request, render_template
-from flask_cors import CORS, cross_origin
+from flask_cors import cross_origin
 import json
 import threading
 lock = threading.RLock()
@@ -12,7 +12,8 @@ app.config["DEBUG"] = True
 with sqlite3.connect('HeatMap.db', check_same_thread=False) as db:
     sql = db.cursor()
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
+sql.execute('''
+    CREATE TABLE IF NOT EXISTS `tb_clicks` (
     `x` INTEGER UNSIGNED NOT NULL,
     `y` INTEGER UNSIGNED NOT NULL,
     `value` INTEGER UNSIGNED NOT NULL,
@@ -24,23 +25,28 @@ sql.execute('''CREATE TABLE IF NOT EXISTS `tb_clicks` (
     )''')
 
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_page` (
+sql.execute('''
+    CREATE TABLE IF NOT EXISTS `tb_page` (
     `page` CHARACTER NOT NULL
     )''')
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_browser` (
+sql.execute('''
+    CREATE TABLE IF NOT EXISTS `tb_browser` (
     `browser` CHARACTER NOT NULL
     )''')
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_gadget_type` (
+sql.execute('''
+    CREATE TABLE IF NOT EXISTS `tb_gadget_type` (
     `gadget_type` CHARACTER NOT NULL
     )''')
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_OS` (
+sql.execute('''
+    CREATE TABLE IF NOT EXISTS `tb_OS` (
     `OS` CHARACTER NOT NULL
     )''')
 
-sql.execute('''CREATE TABLE IF NOT EXISTS `tb_sites` (
+sql.execute('''
+    CREATE TABLE IF NOT EXISTS `tb_sites` (
     `site` CHARACTER NOT NULL,
     `value` INTEGER UNSIGNED NOT NULL
     )''')
@@ -51,7 +57,7 @@ db.commit()
 def home():
     return render_template("StartPage.html")
 
-
+# показать содержимое tb_clicks
 @app.route('/show')
 @cross_origin()
 def show():
@@ -61,7 +67,7 @@ def show():
         res = res + value
     return json.dumps(res)
 
-
+# функция записи сайта в таблицу
 @app.route('/send_site', methods=['post'])
 @cross_origin()
 def send_site():
@@ -91,13 +97,7 @@ def send_site():
         lock.release()
     return "OK"
 
-
-@app.route('/get_graph/site')
-@cross_origin()
-def get_gr_site():
-    return 'OK'
-
-
+# функция записи клика в таблицу
 @app.route('/send_data', methods=['post'])
 @cross_origin()
 def send_data():
@@ -166,7 +166,7 @@ def send_data():
     lock.release()
     return "OK"
 
-
+# получение статистики для графиков
 @app.route('/get_gist/<string:theme>')
 @cross_origin()
 def get_gist(theme):
@@ -220,7 +220,7 @@ def get_gist(theme):
     data = json.loads(data_sample)
     return json.dumps(data)
 
-
+# получение информации для графика от времени
 @app.route('/get_graph/time')
 @cross_origin()
 def get_graph():
@@ -246,7 +246,6 @@ def get_graph():
     data = json.loads(data_sample)
     return json.dumps(data)
 
-# НОВЫЙ БЭК
 # получение доступных параметров фильтрации:
 @app.route('/get_list_of/<string:item>')
 @cross_origin()
@@ -282,8 +281,7 @@ def get_list_of(item):
     data = json.loads(data_sample)
     return json.dumps(data)
 
-
-# новый фильтр:
+# фильтр для тепловой карты
 @app.route('/get_smart_heatmap/page/<string:page>/browser/<string:browser>/gadget_type/<string:gadget_type>/OS/<string:OS>')
 @cross_origin()
 def get_smart_heatmap(page, browser, gadget_type, OS):
@@ -350,96 +348,6 @@ def get_smart_heatmap(page, browser, gadget_type, OS):
     for st in result:
         data_sample = data_sample + str_sample % st
     data_sample = data_sample[:-1] + "]}"
-    data = json.loads(data_sample)
-    return json.dumps(data)
-
-
-# Устаревшая
-@app.route('/get_heatmap/<string:page>')
-@cross_origin()
-def get_heatmap(page):
-    lock.acquire()
-    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
-    result = sql.fetchall()
-    lock.release()
-    if not result:  # вывод в случае ошибки
-        print('Неверный запрос страницы в URL')
-        ans = json.loads('{"data": []}')
-        return json.dumps(ans)
-    page_id = result[0][0]
-
-    select = '''SELECT x, y, SUM(value) FROM tb_clicks WHERE page_id = %s GROUP BY x, y'''
-    data_sample = '''{"data": ['''
-    str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
-    lock.acquire()
-    sql.execute(select % page_id)
-    result = sql.fetchall()
-    lock.release()
-    if not result:  # вывод в случае ошибки
-        print('Пустая бд')
-        ans = json.loads('{"data": []}')
-        return json.dumps(ans)
-    for st in result:
-        s = str_sample % st
-        data_sample = data_sample + s
-    data_sample = data_sample[:-1] + "]}"
-    data = json.loads(data_sample)
-    return json.dumps(data)
-
-
-# Устаревшая
-@app.route('/get_heatmap/<string:theme>/<string:page>')
-@cross_origin()
-def get_heatmap_(theme, page):
-    lock.acquire()
-    sql.execute('SELECT rowid FROM tb_page WHERE page = "%s"' % page)
-    result = sql.fetchall()
-    lock.release()
-    if not result:  # вывод в случае ошибки
-        print('Неверный запрос страницы в URL')
-        ans = json.loads('{"data": []}')
-        return json.dumps(ans)
-    page_id = result[0][0]
-
-    if theme == 'browser':
-        select1 = 'SELECT rowid, browser FROM tb_browser'
-        select2 = '''SELECT x, y, SUM(value) FROM tb_clicks
-                     WHERE browser_id = %s AND page_id = %s
-                     GROUP BY x, y'''
-    elif theme == 'gadget_type':
-        select1 = 'SELECT rowid, gadget_type FROM tb_gadget_type'
-        select2 = '''SELECT x, y, SUM(value) FROM tb_clicks
-                     WHERE type_id = %s AND page_id = %s
-                     GROUP BY x, y'''
-    else:
-        print("URL с ошибкой")
-        ans = json.loads('{"data": []}')
-        return json.dumps(ans)
-
-    str_sample = ''' {"x":%s, "y": %s, "value":%s},'''
-    lock.acquire()
-    sql.execute(select1)
-    result = sql.fetchall()
-    lock.release()
-    if not result:  # вывод в случае ошибки
-        print('Пустая БД c браузерами')
-        ans = json.loads('{"data": []}')
-        return json.dumps(ans)
-    data_sample = '''{"data": ['''
-    for i in result:
-        data_sample = data_sample + '{"' + i[1] + '": ['
-        lock.acquire()
-        sql.execute(select2 % (i[0], page_id))
-        result = sql.fetchall()
-        lock.release()
-        if not result:
-            data_sample += ' '
-        else:
-            for st in result:
-                s = str_sample % st
-                data_sample += s
-        data_sample = data_sample[:-1] + "]}, "
-    data_sample = data_sample[:-2] + "]}"
     data = json.loads(data_sample)
     return json.dumps(data)
 
