@@ -172,7 +172,7 @@ function ViewFilterHeatmap(dataForHeatMap, page) {
 function ViewManyFilters(choiceBr, choiceGg, choiceOs, page) {
   axios
     .get(
-      `http://127.0.0.1:5000/get_smart_heatmap/page/${page}/browser/${choiceBr}/gadget_type/${choiceGg}/OS/${choiceOs}`
+      `http://3.120.98.12/map/get_smart_heatmap/page/${page}/browser/${choiceBr}/gadget_type/${choiceGg}/OS/${choiceOs}`
     )
     .then((response) => {
       let data = response.data.data;
@@ -239,7 +239,7 @@ function ViewHeatMap() {
   }
   axios
     .get(
-      `http://127.0.0.1:5000/get_smart_heatmap/page/${page}/browser/None/gadget_type/None/OS/None`
+      `http://3.120.98.12/map/get_smart_heatmap/page/${page}/browser/None/gadget_type/None/OS/None`
     )
     .then((response) => {
       let dataPoints = response.data.data;
@@ -306,15 +306,15 @@ class GraphContainer extends React.Component {
   componentDidMount() {
     axios
       .all([
-        axios.get(`http://127.0.0.1:5000/get_list_of/browser`),
-        axios.get(`http://127.0.0.1:5000/get_list_of/gadget_type`),
-        axios.get(`http://127.0.0.1:5000/get_list_of/OS`),
-        axios.get(`http://127.0.0.1:5000/get_gist/browser`),
-        axios.get("http://127.0.0.1:5000/get_gist/gadget"),
-        axios.get("http://127.0.0.1:5000/get_graph/time"),
-        axios.get("http://127.0.0.1:5000/get_gist/page"),
-        axios.get("http://127.0.0.1:5000/get_gist/site"),
-        axios.get("http://127.0.0.1:5000/get_gist/OS"),
+        axios.get(`http://3.120.98.12/map/get_list_of/browser`),
+        axios.get(`http://3.120.98.12/map/get_list_of/gadget_type`),
+        axios.get(`http://3.120.98.12/map/get_list_of/OS`),
+        axios.get(`http://3.120.98.12/map/get_gist/browser`),
+        axios.get("http://3.120.98.12/map/get_gist/gadget"),
+        axios.get("http://3.120.98.12/map/get_graph/time"),
+        axios.get("http://3.120.98.12/map/get_gist/page"),
+        axios.get("http://3.120.98.12/map/get_gist/site"),
+        axios.get("http://3.120.98.12/map/get_gist/OS"),
       ])
       .then((response) => {
         // for browsers
