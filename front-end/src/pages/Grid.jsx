@@ -16,7 +16,7 @@ function Grid() {
     }
     console.log(urlJSON);
     const sendUrl = (data) => {
-      return fetch("http://3.120.98.12/send_site", {
+      return fetch("http://3.120.98.12/map/send_site", {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
