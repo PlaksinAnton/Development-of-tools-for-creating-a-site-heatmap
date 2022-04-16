@@ -65,7 +65,7 @@ const Table = (props) => {
       </div>
       <div style={{ display: "flex", height: '500px', background: "#fff" }}>
         <DataGrid
-          columns={[{ field: 'x', headerName: 'Site', width: 500 }, { field: 'y', headerName: 'Value', width: 500 }]}
+          columns={[{ field: 'x', headerName: 'Сайт', width: 500 }, { field: 'y', headerName: 'Количество переходов', width: 500 }]}
           rows={props.graphData}
         />
       </div>
