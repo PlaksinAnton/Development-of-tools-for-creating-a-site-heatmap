@@ -393,7 +393,7 @@ class GraphContainer extends React.Component {
           });
         }
         graphTime.push({
-          x: "больше 15 мин",
+          x: "> 15 мин",
           y: response[5].data.data[response[5].data.data.length - 1].value,
         });
         // for page graph
