@@ -7,6 +7,7 @@ import {
   VictoryScatter,
   VictoryLabel,
 } from "victory";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import axios from "axios";
 import h337 from "heatmap.js";
 
@@ -55,6 +56,23 @@ function Graph(props) {
   );
 }
 
+const Table = (props) => {
+  console.log(props.graphData)
+  return (
+    <div>
+      <div style={{ width: "70vw" }} class="graph-description">
+        <p>{props.descr}</p>
+      </div>
+      <div style={{ display: "flex", height: '500px', background: "#fff" }}>
+        <DataGrid
+          columns={[{ field: 'x', headerName: 'Site', width: 500 }, { field: 'y', headerName: 'Value', width: 500 }]}
+          rows={props.graphData}
+        />
+      </div>
+    </div>
+  );
+}
+
 function WindowGraphs(props) {
   return (
     <div class="victorypie">
@@ -75,7 +93,7 @@ function WindowGraphs(props) {
         descr="Зависимость количества кликов от страницы сайта"
         graphData={props.graphPage}
       />
-      <Graph
+      <Table
         descr="Зависимость количества кликов от страницы, с которой перешел пользователь"
         graphData={props.graphUrl}
       />
@@ -384,12 +402,15 @@ class GraphContainer extends React.Component {
         }
         // for graph url
         let graphUrl = [];
+        let counter = 0;
         for (let i = 0; i < response[7].data.data.length; i++) {
           if (response[7].data.data[i].site != "") {
             graphUrl.push({
+              id: counter,
               x: response[7].data.data[i].site,
               y: response[7].data.data[i].value,
             });
+            counter++
           }
         }
         // get graph os
