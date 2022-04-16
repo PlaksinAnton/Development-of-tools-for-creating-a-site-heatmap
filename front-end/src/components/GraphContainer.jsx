@@ -386,12 +386,16 @@ class GraphContainer extends React.Component {
         }
         // for graph time
         let graphTime = [];
-        for (let i = 0; i < response[5].data.data.length; i++) {
+        for (let i = 0; i < response[5].data.data.length - 1; i++) {
           graphTime.push({
             x: response[5].data.data[i].time + " мин",
             y: response[5].data.data[i].value,
           });
         }
+        graphTime.push({
+          x: "больше 15 мин",
+          y: response[5].data.data[response[5].data.data.length - 1].value,
+        });
         // for page graph
         let graphPage = [];
         for (let i = 0; i < response[6].data.data.length; i++) {
