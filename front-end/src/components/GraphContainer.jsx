@@ -7,7 +7,7 @@ import {
   VictoryScatter,
   VictoryLabel,
 } from "victory";
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios";
 import h337 from "heatmap.js";
 
